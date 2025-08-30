@@ -1,0 +1,366 @@
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Users, Award, Shield, Clock, CheckCircle, Star, Heart, Target, Zap, Phone, Calendar } from "lucide-react"
+
+const teamMembers = [
+  {
+    name: "Nguyễn Văn A",
+    role: "Founder & CEO",
+    experience: "8 năm kinh nghiệm",
+    description: "Chuyên gia sửa chữa iPhone với hơn 8 năm kinh nghiệm trong ngành",
+    image: "/placeholder.svg?height=300&width=300&text=CEO",
+  },
+  {
+    name: "Trần Thị B",
+    role: "Kỹ thuật viên trưởng",
+    experience: "6 năm kinh nghiệm",
+    description: "Chuyên về thay pin và sửa chữa bo mạch iPhone các dòng mới nhất",
+    image: "/placeholder.svg?height=300&width=300&text=Tech+Lead",
+  },
+  {
+    name: "Lê Văn C",
+    role: "Kỹ thuật viên",
+    experience: "4 năm kinh nghiệm",
+    description: "Chuyên gia kiểm tra và chẩn đoán lỗi pin iPhone",
+    image: "/placeholder.svg?height=300&width=300&text=Technician",
+  },
+]
+
+const achievements = [
+  {
+    icon: Users,
+    number: "10,000+",
+    label: "Khách hàng tin tưởng",
+    description: "Đã phục vụ hơn 10,000 khách hàng trên toàn TP.HCM",
+  },
+  {
+    icon: Clock,
+    number: "30",
+    label: "Phút thay pin",
+    description: "Cam kết thay pin nhanh chóng chỉ trong 30 phút",
+  },
+  {
+    icon: Award,
+    number: "99%",
+    label: "Khách hàng hài lòng",
+    description: "Tỷ lệ khách hàng hài lòng và quay lại sử dụng dịch vụ",
+  },
+  {
+    icon: Shield,
+    number: "12",
+    label: "Tháng bảo hành",
+    description: "Bảo hành dài hạn cho tất cả dịch vụ thay pin",
+  },
+]
+
+const values = [
+  {
+    icon: Heart,
+    title: "Tận tâm",
+    description: "Chúng tôi luôn đặt khách hàng lên hàng đầu và phục vụ với tất cả tấm lòng",
+  },
+  {
+    icon: Shield,
+    title: "Uy tín",
+    description: "Cam kết chỉ sử dụng linh kiện chính hãng và dịch vụ chất lượng cao",
+  },
+  {
+    icon: Zap,
+    title: "Nhanh chóng",
+    description: "Thời gian thay pin nhanh nhất thị trường với quy trình tối ưu",
+  },
+  {
+    icon: Target,
+    title: "Chuyên nghiệp",
+    description: "Đội ngũ kỹ thuật viên được đào tạo bài bản và có chứng chỉ",
+  },
+]
+
+const certifications = [
+  "Chứng chỉ sửa chữa thiết bị di động",
+  "Đào tạo chuyên sâu về pin Lithium-ion",
+  "Chứng nhận an toàn lao động",
+  "Giấy phép kinh doanh hợp pháp",
+]
+
+export default function AboutPage() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main>
+        {/* Hero Section */}
+        <section className="bg-gradient-to-br from-background to-muted py-16">
+          <div className="container mx-auto px-4">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <div className="flex items-center space-x-2">
+                  <Users className="w-8 h-8 text-primary" />
+                  <Badge className="bg-primary text-primary-foreground">Về Thaypin.vn</Badge>
+                </div>
+                <h1 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground leading-tight">
+                  Chuyên Gia
+                  <span className="text-primary block">Pin iPhone Hàng Đầu</span>
+                </h1>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Với hơn 8 năm kinh nghiệm trong ngành sửa chữa iPhone, Thaypin.vn tự hào là địa chỉ tin cậy hàng đầu
+                  cho dịch vụ thay pin iPhone tại Việt Nam.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                    <Phone className="w-4 h-4 mr-2" />
+                    Liên hệ ngay
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
+                  >
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Đặt lịch hẹn
+                  </Button>
+                </div>
+              </div>
+
+              <div className="relative">
+                <Card className="p-6 bg-card border-border">
+                  <img
+                    src="/placeholder.svg?height=400&width=600&text=Thaypin.vn+Team"
+                    alt="Đội ngũ Thaypin.vn"
+                    className="w-full h-auto rounded-lg"
+                  />
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Achievements */}
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center space-y-4 mb-16">
+              <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">
+                Thành Tựu Của Chúng Tôi
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Những con số ấn tượng chứng minh chất lượng dịch vụ và sự tin tưởng của khách hàng
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {achievements.map((achievement, index) => (
+                <Card key={index} className="bg-card border-border text-center hover:shadow-lg transition-shadow">
+                  <CardHeader className="pb-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <achievement.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <div className="text-3xl font-bold text-primary">{achievement.number}</div>
+                    <CardTitle className="text-lg font-space-grotesk">{achievement.label}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-muted-foreground">{achievement.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Our Story */}
+        <section className="py-20 bg-muted">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center space-y-4 mb-16">
+                <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">
+                  Câu Chuyện Của Chúng Tôi
+                </h2>
+              </div>
+
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="space-y-6">
+                  <Card className="bg-card border-border">
+                    <CardContent className="p-6 space-y-4">
+                      <h3 className="font-space-grotesk font-semibold text-xl text-foreground">Khởi Đầu (2016)</h3>
+                      <p className="text-muted-foreground">
+                        Thaypin.vn được thành lập từ niềm đam mê công nghệ và mong muốn mang đến dịch vụ thay pin iPhone
+                        chất lượng cao với giá cả hợp lý cho người dùng Việt Nam.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-card border-border">
+                    <CardContent className="p-6 space-y-4">
+                      <h3 className="font-space-grotesk font-semibold text-xl text-foreground">
+                        Phát Triển (2018-2022)
+                      </h3>
+                      <p className="text-muted-foreground">
+                        Chúng tôi không ngừng đầu tư vào công nghệ, đào tạo nhân viên và mở rộng dịch vụ. Từ một cửa
+                        hàng nhỏ, chúng tôi đã phục vụ hàng nghìn khách hàng trên toàn TP.HCM.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-card border-border">
+                    <CardContent className="p-6 space-y-4">
+                      <h3 className="font-space-grotesk font-semibold text-xl text-foreground">Hiện Tại (2024)</h3>
+                      <p className="text-muted-foreground">
+                        Ngày nay, Thaypin.vn là địa chỉ tin cậy hàng đầu cho dịch vụ thay pin iPhone với đội ngũ kỹ
+                        thuật viên chuyên nghiệp và quy trình chuẩn quốc tế.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <div className="space-y-6">
+                  <img
+                    src="/placeholder.svg?height=500&width=600&text=Our+Journey"
+                    alt="Hành trình phát triển"
+                    className="w-full h-auto rounded-lg"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Team */}
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center space-y-4 mb-16">
+              <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">Đội Ngũ Chuyên Gia</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Đội ngũ kỹ thuật viên giàu kinh nghiệm, được đào tạo chuyên sâu về công nghệ pin iPhone
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {teamMembers.map((member, index) => (
+                <Card key={index} className="bg-card border-border text-center hover:shadow-lg transition-shadow">
+                  <CardHeader className="pb-4">
+                    <div className="w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full">
+                      <img
+                        src={member.image || "/placeholder.svg"}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <CardTitle className="text-xl font-space-grotesk">{member.name}</CardTitle>
+                    <div className="text-primary font-medium">{member.role}</div>
+                    <Badge variant="secondary" className="text-xs">
+                      {member.experience}
+                    </Badge>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-muted-foreground">{member.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Values */}
+        <section className="py-20 bg-muted">
+          <div className="container mx-auto px-4">
+            <div className="text-center space-y-4 mb-16">
+              <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">Giá Trị Cốt Lõi</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Những giá trị định hướng mọi hoạt động của chúng tôi trong việc phục vụ khách hàng
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {values.map((value, index) => (
+                <Card key={index} className="bg-card border-border text-center hover:shadow-lg transition-shadow">
+                  <CardHeader className="pb-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <value.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <CardTitle className="text-lg font-space-grotesk">{value.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-muted-foreground">{value.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Certifications */}
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="space-y-6">
+                  <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">
+                    Chứng Chỉ & Đào Tạo
+                  </h2>
+                  <p className="text-lg text-muted-foreground">
+                    Đội ngũ của chúng tôi được đào tạo bài bản và có đầy đủ chứng chỉ chuyên môn
+                  </p>
+
+                  <div className="space-y-3">
+                    {certifications.map((cert, index) => (
+                      <div key={index} className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+                        <span className="text-muted-foreground">{cert}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center space-x-4 pt-4">
+                    <div className="flex items-center space-x-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star key={star} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
+                    <span className="text-muted-foreground">4.9/5 từ 1,200+ đánh giá</span>
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <Card className="p-6 bg-card border-border">
+                    <img
+                      src="/placeholder.svg?height=400&width=600&text=Certifications"
+                      alt="Chứng chỉ và đào tạo"
+                      className="w-full h-auto rounded-lg"
+                    />
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-16 bg-primary/5">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto text-center space-y-6">
+              <h2 className="font-space-grotesk font-bold text-3xl text-foreground">Sẵn Sàng Phục Vụ Bạn</h2>
+              <p className="text-muted-foreground">
+                Hãy để chúng tôi giúp bạn khôi phục iPhone với dịch vụ thay pin chuyên nghiệp và uy tín nhất
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                  <Phone className="w-4 h-4 mr-2" />
+                  Gọi ngay: 0123 456 789
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
+                >
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Đặt lịch hẹn
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  )
+}
