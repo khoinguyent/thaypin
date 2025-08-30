@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import Link from "next/link"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import BlogCard from "@/components/blog-card"
@@ -100,12 +101,12 @@ export default async function BlogPage({
                 <p className="text-muted-foreground mb-8 max-w-md mx-auto">
                   Thử thay đổi từ khóa tìm kiếm hoặc chọn danh mục khác để xem thêm nội dung
                 </p>
-                <a
+                <Link
                   href="/blog"
                   className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
                 >
                   Xem tất cả bài viết
-                </a>
+                </Link>
               </div>
             )}
           </div>

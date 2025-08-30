@@ -23,7 +23,7 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
   const [tags, setTags] = useState<string[]>(editingPost?.tags || [])
   const [newTag, setNewTag] = useState("")
   const [previewMode, setPreviewMode] = useState(false)
-  const [videoType, setVideoType] = useState<"none" | "url" | "upload">((editingPost as any)?.video_type || "none")
+  const [videoType, setVideoType] = useState<"none" | "url" | "upload">((editingPost as BlogPost & { video_type?: string })?.video_type || "none")
 
   const handleSubmit = async (formData: FormData) => {
     formData.set("tags", tags.join(","))
@@ -177,7 +177,7 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
                           name="video_type_radio"
                           value="none"
                           checked={videoType === "none"}
-                          onChange={(e) => setVideoType("none")}
+                          onChange={() => setVideoType("none")}
                           className="text-primary"
                         />
                         <span className="text-sm">Không có video</span>
@@ -188,7 +188,7 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
                           name="video_type_radio"
                           value="url"
                           checked={videoType === "url"}
-                          onChange={(e) => setVideoType("url")}
+                          onChange={() => setVideoType("url")}
                           className="text-primary"
                         />
                         <span className="text-sm flex items-center space-x-1">
@@ -202,7 +202,7 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
                           name="video_type_radio"
                           value="upload"
                           checked={videoType === "upload"}
-                          onChange={(e) => setVideoType("upload")}
+                          onChange={() => setVideoType("upload")}
                           className="text-primary"
                         />
                         <span className="text-sm flex items-center space-x-1">
@@ -219,7 +219,7 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
                           id="video_url"
                           name="video_url"
                           placeholder="https://youtube.com/watch?v=... hoặc https://vimeo.com/..."
-                          defaultValue={(editingPost as any)?.video_url || ""}
+                          defaultValue={(editingPost as BlogPost & { video_url?: string })?.video_url || ""}
                         />
                         <p className="text-xs text-muted-foreground">
                           Hỗ trợ YouTube, Vimeo và các nền tảng video khác
@@ -248,7 +248,7 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
                           id="video_thumbnail"
                           name="video_thumbnail"
                           placeholder="https://example.com/thumbnail.jpg"
-                          defaultValue={(editingPost as any)?.video_thumbnail || ""}
+                          defaultValue={(editingPost as BlogPost & { video_thumbnail?: string })?.video_thumbnail || ""}
                         />
                         <p className="text-xs text-muted-foreground">Ảnh hiển thị trước khi phát video</p>
                       </div>

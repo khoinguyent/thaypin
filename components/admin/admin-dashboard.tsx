@@ -228,9 +228,9 @@ export default function AdminDashboard({ initialPosts }: AdminDashboardProps) {
                 <div className="p-4 bg-blue-50 rounded-lg">
                   <h3 className="font-semibold text-blue-900 mb-2">Hướng dẫn sử dụng</h3>
                   <ul className="text-sm text-blue-800 space-y-1">
-                    <li>• Sử dụng tab "Tạo mới" để thêm bài viết</li>
-                    <li>• Tab "Bài viết" để quản lý nội dung hiện có</li>
-                    <li>• Đánh dấu "Nổi bật" để hiển thị bài viết ở trang chủ</li>
+                    <li>• Sử dụng tab &quot;Tạo mới&quot; để thêm bài viết</li>
+                    <li>• Tab &quot;Bài viết&quot; để quản lý nội dung hiện có</li>
+                    <li>• Đánh dấu &quot;Nổi bật&quot; để hiển thị bài viết ở trang chủ</li>
                     <li>• Sử dụng Markdown để định dạng nội dung</li>
                   </ul>
                 </div>

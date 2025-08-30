@@ -122,13 +122,13 @@ export default function BlogSearch({
           {currentCategory && currentCategory !== "all" && (
             <span>
               {" "}
-              trong danh mục "<span className="font-medium">{formatCategory(currentCategory)}</span>"
+              trong danh mục &quot;<span className="font-medium">{formatCategory(currentCategory)}</span>&quot;
             </span>
           )}
           {currentSearch && (
             <span>
               {" "}
-              cho từ khóa "<span className="font-medium">{currentSearch}</span>"
+              cho từ khóa &quot;<span className="font-medium">{currentSearch}</span>&quot;
             </span>
           )}
         </p>

@@ -448,7 +448,21 @@ export async function updateBlogPost(id: string, formData: FormData) {
     }
   }
 
-  const updateData: any = {
+  const updateData: {
+    title: string
+    slug: string
+    excerpt: string
+    content: string
+    category: string
+    featured: boolean
+    image_url: string | null
+    meta_description: string | null
+    tags: string[]
+    video_type: string
+    video_thumbnail: string | null
+    video_url?: string | null
+    video_file_url?: string | null
+  } = {
     title,
     slug,
     excerpt,
