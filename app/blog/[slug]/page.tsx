@@ -236,7 +236,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         <p className="text-sm text-muted-foreground line-clamp-2">{relatedPost.excerpt}</p>
                         <div className="flex items-center text-xs text-muted-foreground">
                           <Clock className="w-3 h-3 mr-1" />
-                          {relatedPost.readTime} phút đọc
+                          {Math.ceil(relatedPost.content.split(' ').length / 200)} phút đọc
                         </div>
                       </CardContent>
                     </Card>

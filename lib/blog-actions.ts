@@ -40,7 +40,7 @@ Apple khuyến nghị thay pin khi Maximum Capacity dưới 80%. Tại Thaypin.v
     tags: ["pin iPhone", "kiểm tra pin", "battery health"],
     video_type: "url",
     video_url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    video_file_url: null,
+    video_file_url: undefined,
     video_thumbnail: "/placeholder.svg?height=300&width=500",
     created_at: "2024-01-15T10:00:00Z",
     updated_at: "2024-01-15T10:00:00Z",
@@ -78,9 +78,9 @@ Vào Settings > General > Background App Refresh và tắt các ứng dụng kh�
     meta_description: "10 mẹo đơn giản giúp kéo dài tuổi thọ pin iPhone và tiết kiệm chi phí thay pin",
     tags: ["mẹo pin iPhone", "tiết kiệm pin", "chăm sóc iPhone"],
     video_type: "none",
-    video_url: null,
-    video_file_url: null,
-    video_thumbnail: null,
+    video_url: undefined,
+    video_file_url: undefined,
+    video_thumbnail: undefined,
     created_at: "2024-01-10T14:30:00Z",
     updated_at: "2024-01-10T14:30:00Z",
   },
@@ -119,9 +119,9 @@ Pin iPhone có tuổi thọ khoảng 500-1000 chu kỳ sạc (2-3 năm sử dụ
     meta_description: "Các nguyên nhân chính khiến pin iPhone chai nhanh và cách phòng tránh",
     tags: ["pin chai", "nguyên nhân", "iPhone"],
     video_type: "none",
-    video_url: null,
-    video_file_url: null,
-    video_thumbnail: null,
+    video_url: undefined,
+    video_file_url: undefined,
+    video_thumbnail: undefined,
     created_at: "2024-01-05T09:15:00Z",
     updated_at: "2024-01-05T09:15:00Z",
   },
@@ -170,9 +170,9 @@ Chúng tôi khuyên dùng pin chính hãng hoặc pin thay thế chất lượng
     meta_description: "So sánh chi tiết pin zin và pin thay thế iPhone để lựa chọn phù hợp",
     tags: ["pin zin", "pin thay thế", "so sánh"],
     video_type: "none",
-    video_url: null,
-    video_file_url: null,
-    video_thumbnail: null,
+    video_url: undefined,
+    video_file_url: undefined,
+    video_thumbnail: undefined,
     created_at: "2024-01-01T16:45:00Z",
     updated_at: "2024-01-01T16:45:00Z",
   },
@@ -220,7 +220,7 @@ function validateVideoUrl(url: string): boolean {
 
 async function isDatabaseAvailable(): Promise<boolean> {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
     const { error } = await supabase.from("blog_posts").select("id").limit(1)
     return !error || !error.message.includes("Could not find the table")
   } catch {
@@ -235,7 +235,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     return SAMPLE_BLOG_POSTS
   }
 
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .from("blog_posts")
@@ -259,7 +259,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     return SAMPLE_BLOG_POSTS.find((post) => post.slug === slug) || null
   }
 
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase.from("blog_posts").select("*").eq("slug", slug).eq("published", true).single()
 
@@ -278,7 +278,7 @@ export async function getFeaturedPosts(): Promise<BlogPost[]> {
     return SAMPLE_BLOG_POSTS.filter((post) => post.featured)
   }
 
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .from("blog_posts")
@@ -297,7 +297,7 @@ export async function getFeaturedPosts(): Promise<BlogPost[]> {
 }
 
 export async function getPostsByCategory(category: string): Promise<BlogPost[]> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .from("blog_posts")
@@ -315,7 +315,7 @@ export async function getPostsByCategory(category: string): Promise<BlogPost[]> 
 }
 
 export async function searchPosts(query: string): Promise<BlogPost[]> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .from("blog_posts")
@@ -333,7 +333,7 @@ export async function searchPosts(query: string): Promise<BlogPost[]> {
 }
 
 export async function createBlogPost(formData: FormData) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const title = formData.get("title") as string
   const slug = formData.get("slug") as string
@@ -404,7 +404,7 @@ export async function createBlogPost(formData: FormData) {
 }
 
 export async function updateBlogPost(id: string, formData: FormData) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const title = formData.get("title") as string
   const slug = formData.get("slug") as string
@@ -500,7 +500,7 @@ export async function updateBlogPost(id: string, formData: FormData) {
 }
 
 export async function deleteBlogPost(id: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { error } = await supabase.from("blog_posts").delete().eq("id", id)
 
