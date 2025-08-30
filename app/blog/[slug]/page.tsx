@@ -1,6 +1,3 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import { notFound } from "next/navigation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
@@ -12,69 +9,27 @@ import { ArrowLeft, Clock, User, Calendar, Share2, Tag, Video } from "lucide-rea
 import Link from "next/link"
 import { getBlogPostBySlug, getBlogPosts } from "@/lib/blog-actions"
 
-interface BlogPost {
-  id: string
-  title: string
-  excerpt: string
-  content: string
-  category: string
-  readTime: string
-  date: string
-  image: string
-  slug?: string
-  tags?: string[]
-  featured?: boolean
-  video_type?: "url" | "upload" | "none"
-  video_url?: string
-  video_file_url?: string
-  video_thumbnail?: string
-}
+
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const foundPost = await getBlogPostBySlug(params.slug)
-
-        if (foundPost) {
-          setPost(foundPost)
-          const allPosts = await getBlogPosts()
-          const related = allPosts
-            .filter((p) => p.category === foundPost.category && (p.slug || p.id) !== params.slug)
-            .slice(0, 3)
-          setRelatedPosts(related)
-        }
-      } catch (error) {
-        console.error("[v0] Error fetching blog post:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchPost()
-  }, [params.slug])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">Đang tải...</div>
-      </div>
-    )
-  }
-
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params
+  
+  const post = await getBlogPostBySlug(slug)
+  
   if (!post) {
     notFound()
   }
+
+  const allPosts = await getBlogPosts()
+  const relatedPosts = allPosts
+    .filter((p) => p.category === post.category && (p.slug || p.id) !== slug)
+    .slice(0, 3)
 
   return (
     <div className="min-h-screen bg-background">
