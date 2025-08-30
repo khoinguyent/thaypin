@@ -11,7 +11,7 @@ export default function HeroSection() {
             <div className="space-y-4">
               <h1 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground leading-tight">
                 Thay Pin iPhone
-                <span className="text-primary block">Chuyên Nghiệp</span>
+                <span className="text-primary block">Chuyên Nghiệpppp</span>
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Dịch vụ thay pin iPhone uy tín, chất lượng cao với bảo hành 12 tháng. Thay pin nhanh chóng trong 30 phút
