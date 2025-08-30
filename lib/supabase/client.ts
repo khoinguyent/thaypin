@@ -18,9 +18,9 @@ export type BlogPost = {
   tags: string[]
   published: boolean
   video_type?: "url" | "upload" | "none"
-  video_url?: string | null
-  video_file_url?: string | null
-  video_thumbnail?: string | null
+  video_url?: string | undefined
+  video_file_url?: string | undefined
+  video_thumbnail?: string | undefined
   created_at: string
   updated_at: string
 }
