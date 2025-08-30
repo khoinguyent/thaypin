@@ -11,18 +11,20 @@ import { BookOpen } from "lucide-react"
 export default async function BlogPage({
   searchParams,
 }: {
-  searchParams: { category?: string; search?: string }
+  searchParams: Promise<{ category?: string; search?: string }>
 }) {
+  const resolvedSearchParams = await searchParams
+  
   const [allPosts, featuredPosts] = await Promise.all([getBlogPosts(), getFeaturedPosts()])
 
   const filteredPosts = allPosts.filter((post) => {
     const matchesCategory =
-      !searchParams.category || searchParams.category === "all" || post.category === searchParams.category
+      !resolvedSearchParams.category || resolvedSearchParams.category === "all" || post.category === resolvedSearchParams.category
     const matchesSearch =
-      !searchParams.search ||
-      post.title.toLowerCase().includes(searchParams.search.toLowerCase()) ||
-      post.content.toLowerCase().includes(searchParams.search.toLowerCase()) ||
-      (post.excerpt && post.excerpt.toLowerCase().includes(searchParams.search.toLowerCase()))
+      !resolvedSearchParams.search ||
+      post.title.toLowerCase().includes(resolvedSearchParams.search.toLowerCase()) ||
+      post.content.toLowerCase().includes(resolvedSearchParams.search.toLowerCase()) ||
+      (post.excerpt && post.excerpt.toLowerCase().includes(resolvedSearchParams.search.toLowerCase()))
     return matchesCategory && matchesSearch
   })
 
@@ -76,8 +78,8 @@ export default async function BlogPage({
               <BlogSearch
                 categories={categories}
                 totalPosts={filteredPosts.length}
-                currentCategory={searchParams.category}
-                currentSearch={searchParams.search}
+                currentCategory={resolvedSearchParams.category}
+                currentSearch={resolvedSearchParams.search}
               />
             </Suspense>
           </div>
