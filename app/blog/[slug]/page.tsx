@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   )}
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Clock className="w-4 h-4 mr-1" />
-                    {post.readTime} phút đọc
+                    {Math.ceil(post.content.split(' ').length / 200)} phút đọc
                   </div>
                 </div>
 
@@ -75,7 +75,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </div>
                     <div className="flex items-center">
                       <Calendar className="w-4 h-4 mr-1" />
-                      {new Date(post.date).toLocaleDateString("vi-VN")}
+                      {new Date(post.created_at).toLocaleDateString("vi-VN")}
                     </div>
                   </div>
 
@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 />
               ) : (
                 <div className="aspect-video overflow-hidden rounded-lg">
-                  <img src={post.image || "/placeholder.svg"} alt={post.title} className="w-full h-full object-cover" />
+                  <img src={post.image_url || "/placeholder.svg"} alt={post.title} className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
