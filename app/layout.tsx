@@ -16,7 +16,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: "Thaypin.vn - Thay Pin iPhone Chuyên Nghiệp",
+  title: "Thaypin.vn - Thay Pin iPhone Chuyên Nghiệpppp",
   description:
     "Dịch vụ thay pin iPhone chuyên nghiệp tại Việt Nam. Thay pin nhanh chóng, chất lượng cao cho tất cả các dòng iPhone.",
   generator: "v0.app",
