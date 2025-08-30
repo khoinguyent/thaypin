@@ -24,6 +24,8 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
   const [newTag, setNewTag] = useState("")
   const [previewMode, setPreviewMode] = useState(false)
   const [videoType, setVideoType] = useState<"none" | "url" | "upload">((editingPost as BlogPost & { video_type?: string })?.video_type || "none")
+  const [imageUploadStatus, setImageUploadStatus] = useState<string>("")
+  const [imageUrl, setImageUrl] = useState<string>(editingPost?.image_url || "")
 
   const handleSubmit = async (formData: FormData) => {
     formData.set("tags", tags.join(","))
@@ -81,6 +83,49 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-")
       .trim()
+  }
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setImageUploadStatus('Chỉ hỗ trợ file ảnh')
+      return
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setImageUploadStatus('File ảnh quá lớn (tối đa 5MB)')
+      return
+    }
+
+    setImageUploadStatus('Đang tải lên...')
+
+    try {
+      const formData = new FormData()
+      formData.append('image', file)
+
+      const response = await fetch('/api/upload-image', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('Upload failed')
+      }
+
+      const result = await response.json()
+      setImageUrl(result.url)
+      setImageUploadStatus('Tải lên thành công!')
+      
+      // Clear the file input
+      event.target.value = ''
+    } catch (error) {
+      console.error('Image upload error:', error)
+      setImageUploadStatus('Lỗi tải lên ảnh')
+    }
   }
 
   return (
@@ -153,13 +198,42 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="image_url">URL hình ảnh</Label>
-                  <Input
-                    id="image_url"
-                    name="image_url"
-                    placeholder="https://example.com/image.jpg"
-                    defaultValue={editingPost?.image_url || ""}
-                  />
+                  <Label htmlFor="image_url">Hình ảnh bài viết</Label>
+                  <div className="space-y-3">
+                    <Input
+                      id="image_url"
+                      name="image_url"
+                      placeholder="https://example.com/image.jpg"
+                      value={imageUrl}
+                      onChange={(e) => setImageUrl(e.target.value)}
+                    />
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm text-muted-foreground">hoặc</span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => document.getElementById('image_file')?.click()}
+                        className="flex items-center space-x-2"
+                      >
+                        <Upload className="w-4 h-4" />
+                        <span>Tải lên ảnh</span>
+                      </Button>
+                      <input
+                        id="image_file"
+                        name="image_file"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleImageUpload}
+                      />
+                    </div>
+                    {imageUploadStatus && (
+                      <div className="text-sm text-muted-foreground">
+                        {imageUploadStatus}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="space-y-4">
