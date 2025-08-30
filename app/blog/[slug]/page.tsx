@@ -210,7 +210,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       <Link href={`/blog/${relatedPost.slug || relatedPost.id}`}>
                         <div className="aspect-video overflow-hidden rounded-t-lg relative">
                           <img
-                            src={relatedPost.image || "/placeholder.svg"}
+                            src={relatedPost.image_url || "/placeholder.svg"}
                             alt={relatedPost.title}
                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           />
