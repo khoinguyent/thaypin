@@ -17,6 +17,10 @@ export type BlogPost = {
   meta_description: string | null
   tags: string[]
   published: boolean
+  video_type?: "url" | "upload" | "none"
+  video_url?: string | null
+  video_file_url?: string | null
+  video_thumbnail?: string | null
   created_at: string
   updated_at: string
 }
