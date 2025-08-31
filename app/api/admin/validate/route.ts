@@ -3,6 +3,13 @@ import jwt from 'jsonwebtoken'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 
+interface JwtPayload {
+  userId: string
+  username: string
+  role: string
+  exp?: number
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { token } = await request.json()
@@ -13,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     try {
       // Verify JWT token
-      const decoded = jwt.verify(token, JWT_SECRET) as any
+      const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload
       
       // Check if token is expired
       if (decoded.exp && Date.now() >= decoded.exp * 1000) {
@@ -30,12 +37,11 @@ export async function POST(request: NextRequest) {
         }
       })
 
-    } catch (error) {
+    } catch {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
     }
 
-  } catch (error) {
-    console.error('Token validation error:', error)
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
