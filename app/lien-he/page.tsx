@@ -20,6 +20,14 @@ import {
   Calendar,
   Smartphone,
   Navigation,
+  Zap,
+  Shield,
+  Star,
+  Award,
+  Users,
+  CheckSquare,
+  Globe,
+  Truck,
 } from "lucide-react"
 
 const contactMethods = [
@@ -30,15 +38,11 @@ const contactMethods = [
     description: "Gọi trực tiếp để được tư vấn nhanh nhất",
     action: "tel:0906674679",
     available: "9:00 - 18:00 (Thứ 2 - CN)",
+    color: "from-blue-500 to-blue-600",
+    bgColor: "bg-blue-50",
+    iconColor: "text-blue-600",
+    tags: ["Hỗ trợ 24/7", "Tư vấn miễn phí", "Phản hồi nhanh"],
   },
-  // {
-  //   icon: Mail,
-  //   title: "Email",
-  //   value: "info@thaypin.vn",
-  //   description: "Gửi email để được hỗ trợ chi tiết",
-  //   action: "mailto:info@thaypin.vn",
-  //   available: "Phản hồi trong 2 giờ",
-  // },
   {
     icon: MessageCircle,
     title: "Zalo",
@@ -46,6 +50,10 @@ const contactMethods = [
     description: "Chat trực tiếp qua ứng dụng nhắn tin",
     action: "#",
     available: "8:00 - 20:00 hàng ngày",
+    color: "from-green-500 to-green-600",
+    bgColor: "bg-green-50",
+    iconColor: "text-green-600",
+    tags: ["Chat trực tiếp", "Gửi ảnh", "Phản hồi tức thì"],
   },
   {
     icon: Navigation,
@@ -54,6 +62,10 @@ const contactMethods = [
     description: "Ghé thăm cửa hàng để được kiểm tra miễn phí",
     action: "#",
     available: "9:00 - 18:00 (Thứ 2 - CN)",
+    color: "from-purple-500 to-purple-600",
+    bgColor: "bg-purple-50",
+    iconColor: "text-purple-600",
+    tags: ["Kiểm tra miễn phí", "Tư vấn trực tiếp", "Bảo hành chính hãng"],
   },
 ]
 
@@ -64,6 +76,55 @@ const serviceAreas = [
   "Quận Gò Vấp, Quận 12",
   "Thủ Đức, Quận 2, Quận 9",
   "Các quận khác (phí di chuyển)",
+]
+
+const features = [
+  {
+    icon: Zap,
+    title: "Phản hồi nhanh",
+    description: "Trả lời trong vòng 5 phút",
+    color: "from-yellow-500 to-orange-500"
+  },
+  {
+    icon: Shield,
+    title: "Bảo hành chính hãng",
+    description: "12 tháng bảo hành toàn diện",
+    color: "from-blue-500 to-indigo-500"
+  },
+  {
+    icon: Star,
+    title: "Đánh giá 5 sao",
+    description: "Hơn 1000+ khách hàng hài lòng",
+    color: "from-pink-500 to-rose-500"
+  }
+]
+
+const additionalFeatures = [
+  {
+    icon: Award,
+    title: "Chứng nhận Apple",
+    description: "Kỹ thuật viên được đào tạo chính thức"
+  },
+  {
+    icon: Users,
+    title: "Đội ngũ chuyên gia",
+    description: "Hơn 10 năm kinh nghiệm trong ngành"
+  },
+  {
+    icon: CheckSquare,
+    title: "Chất lượng đảm bảo",
+    description: "100% linh kiện chính hãng"
+  },
+  {
+    icon: Globe,
+    title: "Phục vụ toàn TP.HCM",
+    description: "Miễn phí di chuyển trong 10km"
+  },
+  {
+    icon: Truck,
+    title: "Giao hàng tận nơi",
+    description: "Hỗ trợ giao nhận linh kiện"
+  }
 ]
 
 export default function ContactPage() {
@@ -102,57 +163,128 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-background to-muted py-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center space-y-6 max-w-3xl mx-auto">
-              <div className="flex items-center justify-center space-x-2">
-                <Phone className="w-8 h-8 text-primary" />
-                <Badge className="bg-primary text-primary-foreground">Liên hệ 24/7</Badge>
+        <section className="relative bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 py-20 overflow-hidden">
+          <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10"></div>
+          <div className="container mx-auto px-4 relative">
+            <div className="text-center space-y-8 max-w-4xl mx-auto">
+              <div className="flex items-center justify-center space-x-3 mb-6">
+                <div className="p-3 bg-primary/10 rounded-full">
+                  <Phone className="w-8 h-8 text-primary" />
+                </div>
+                <Badge className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-4 py-2 text-sm font-medium">
+                  Liên hệ 24/7
+                </Badge>
               </div>
-              <h1 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground">
+              <h1 className="font-space-grotesk font-bold text-5xl lg:text-6xl text-foreground leading-tight">
                 Liên Hệ Với
-                <span className="text-primary block">thaypin.vn</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/80 block">thaypin.vn</span>
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
                 Chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7. Liên hệ ngay để được tư vấn miễn phí về tình trạng pin iPhone
                 của bạn.
               </p>
+              
+              {/* Features */}
+              <div className="grid md:grid-cols-3 gap-6 mt-12">
+                {features.map((feature, index) => (
+                  <div key={index} className="flex items-center space-x-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20">
+                    <div className={`p-2 bg-gradient-to-br ${feature.color} rounded-lg`}>
+                      <feature.icon className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-semibold text-foreground text-sm">{feature.title}</div>
+                      <div className="text-xs text-muted-foreground">{feature.description}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Additional Features Section */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center space-y-6 mb-12">
+              <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">Tại Sao Chọn Chúng Tôi?</h2>
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                Đội ngũ chuyên gia với kinh nghiệm lâu năm, cam kết mang đến dịch vụ chất lượng cao nhất
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {additionalFeatures.map((feature, index) => (
+                <div key={index} className="text-center p-6 bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl border border-slate-200/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <feature.icon className="w-8 h-8 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-foreground text-lg mb-2">{feature.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Contact Methods */}
-        <section className="py-20 bg-background">
+        <section className="py-24 bg-gradient-to-br from-slate-50 to-blue-50">
           <div className="container mx-auto px-4">
-            <div className="text-center space-y-4 mb-16">
-              <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">Nhiều Cách Liên Hệ</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-center space-y-6 mb-20">
+              <div className="inline-flex items-center space-x-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
+                <Phone className="w-4 h-4" />
+                <span>Liên hệ</span>
+              </div>
+              <h2 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground">Nhiều Cách Liên Hệ</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                 Chọn cách liên hệ phù hợp nhất với bạn. Chúng tôi cam kết phản hồi nhanh chóng và chuyên nghiệp.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {contactMethods.map((method, index) => (
-                <Card key={index} className="bg-card border-border text-center hover:shadow-lg transition-shadow flex flex-col">
-                  <CardHeader className="pb-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <method.icon className="w-6 h-6 text-primary" />
+                <Card key={index} className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-white">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${method.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                  <CardHeader className="relative pb-6 text-center">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${method.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <method.icon className="w-8 h-8 text-white" />
                     </div>
-                    <CardTitle className="text-lg font-space-grotesk">{method.title}</CardTitle>
+                    <CardTitle className="text-xl font-space-grotesk text-foreground">{method.title}</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4 flex-1 flex flex-col">
-                    <div className="space-y-2 flex-1">
-                      <div className="font-semibold text-foreground">{method.value}</div>
-                      <CardDescription className="text-muted-foreground text-sm">{method.description}</CardDescription>
-                      <div className="text-xs text-muted-foreground">{method.available}</div>
+                  <CardContent className="relative space-y-6 flex-1 flex flex-col">
+                    <div className="space-y-4 flex-1">
+                      <div className="font-semibold text-foreground text-lg leading-relaxed">{method.value}</div>
+                      <CardDescription className="text-muted-foreground text-base leading-relaxed">{method.description}</CardDescription>
+                      
+                      {/* Tags */}
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {method.tags.map((tag, tagIndex) => (
+                          <Badge key={tagIndex} variant="secondary" className="text-xs px-2 py-1 bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                      
+                      <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+                        <Clock className="w-4 h-4" />
+                        <span>{method.available}</span>
+                      </div>
                     </div>
-                    {/* <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="sm">
-                      <a href={method.action}>{method.title === "Điện thoại" ? "Gọi ngay" : "Liên hệ"}</a>
-                    </Button> */}
+                    {method.title === "Điện thoại" && (
+                      <Button 
+                        asChild 
+                        className={`w-full bg-gradient-to-r ${method.color} hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
+                        size="lg"
+                      >
+                        <a href={method.action}>
+                          <Phone className="w-4 h-4 mr-2" />
+                          Gọi ngay
+                        </a>
+                      </Button>
+                    )}
                   </CardContent>
                 </Card>
               ))}
@@ -161,74 +293,80 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Form & Info */}
-        <section className="py-20 bg-muted">
+        <section className="py-24 bg-white">
           <div className="container mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-12">
+            <div className="grid lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
               {/* Contact Form */}
               <div>
-                <div className="space-y-4 mb-8">
-                  <h2 className="font-space-grotesk font-bold text-3xl text-foreground">Gửi Tin Nhắn</h2>
-                  <p className="text-muted-foreground">
+                <div className="space-y-6 mb-10 text-center lg:text-left">
+                  <div className="inline-flex items-center space-x-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
+                    <Send className="w-4 h-4" />
+                    <span>Gửi tin nhắn</span>
+                  </div>
+                  <h2 className="font-space-grotesk font-bold text-4xl text-foreground">Gửi Tin Nhắn</h2>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
                     Điền thông tin bên dưới và chúng tôi sẽ liên hệ lại trong vòng 30 phút
                   </p>
                 </div>
 
-                <Card className="bg-card border-border">
-                  <CardContent className="p-6">
+                <Card className="bg-white border-0 shadow-xl">
+                  <CardContent className="p-8">
                     {isSubmitted ? (
-                      <div className="text-center py-8 space-y-4">
-                        <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
-                        <h3 className="font-semibold text-xl text-foreground">Gửi thành công!</h3>
-                        <p className="text-muted-foreground">
+                      <div className="text-center py-12 space-y-6">
+                        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                          <CheckCircle className="w-12 h-12 text-green-600" />
+                        </div>
+                        <h3 className="font-space-grotesk font-bold text-2xl text-foreground">Gửi thành công!</h3>
+                        <p className="text-muted-foreground text-lg">
                           Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi trong vòng 30 phút.
                         </p>
                       </div>
                     ) : (
                       <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium text-foreground">Họ và tên *</label>
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div className="space-y-3">
+                            <label className="text-sm font-semibold text-foreground">Họ và tên *</label>
                             <Input
                               name="name"
                               value={formData.name}
                               onChange={handleInputChange}
                               placeholder="Nhập họ và tên"
                               required
-                              className="bg-background border-border"
+                              className="bg-background border-border h-12 text-base focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                             />
                           </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium text-foreground">Số điện thoại *</label>
+                          <div className="space-y-3">
+                            <label className="text-sm font-semibold text-foreground">Số điện thoại *</label>
                             <Input
                               name="phone"
                               value={formData.phone}
                               onChange={handleInputChange}
                               placeholder="Nhập số điện thoại"
                               required
-                              className="bg-background border-border"
+                              className="bg-background border-border h-12 text-base focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                             />
                           </div>
                         </div>
 
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium text-foreground">Email</label>
+                        <div className="space-y-3">
+                          <label className="text-sm font-semibold text-foreground">Email</label>
                           <Input
                             name="email"
                             type="email"
                             value={formData.email}
                             onChange={handleInputChange}
                             placeholder="Nhập email (không bắt buộc)"
-                            className="bg-background border-border"
+                            className="bg-background border-border h-12 text-base focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                           />
                         </div>
 
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium text-foreground">Dịch vụ quan tâm</label>
+                        <div className="space-y-3">
+                          <label className="text-sm font-semibold text-foreground">Dịch vụ quan tâm</label>
                           <select
                             name="service"
                             value={formData.service}
                             onChange={handleInputChange}
-                            className="w-full p-3 rounded-md border border-border bg-background text-foreground"
+                            className="w-full p-4 rounded-lg border border-border bg-background text-foreground h-12 text-base focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                           >
                             <option value="">Chọn dịch vụ</option>
                             <option value="thay-pin">Thay pin iPhone</option>
@@ -239,29 +377,32 @@ export default function ContactPage() {
                           </select>
                         </div>
 
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium text-foreground">Tin nhắn</label>
+                        <div className="space-y-3">
+                          <label className="text-sm font-semibold text-foreground">Tin nhắn</label>
                           <Textarea
                             name="message"
                             value={formData.message}
                             onChange={handleInputChange}
                             placeholder="Mô tả tình trạng iPhone hoặc câu hỏi của bạn..."
-                            rows={4}
-                            className="bg-background border-border"
+                            rows={5}
+                            className="bg-background border-border text-base focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 resize-none"
                           />
                         </div>
 
                         <Button
                           type="submit"
                           disabled={isSubmitting}
-                          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                          className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                           size="lg"
                         >
                           {isSubmitting ? (
-                            "Đang gửi..."
+                            <div className="flex items-center space-x-2">
+                              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                              <span>Đang gửi...</span>
+                            </div>
                           ) : (
                             <>
-                              <Send className="w-4 h-4 mr-2" />
+                              <Send className="w-5 h-5 mr-3" />
                               Gửi tin nhắn
                             </>
                           )}
@@ -275,38 +416,38 @@ export default function ContactPage() {
               {/* Business Info */}
               <div className="space-y-8">
                 {/* Store Info */}
-                <Card className="bg-card border-border">
-                  <CardHeader>
-                    <CardTitle className="font-space-grotesk flex items-center">
-                      <MapPin className="w-5 h-5 mr-2 text-primary" />
+                <Card className="bg-white border-0 shadow-xl overflow-hidden">
+                  <div className="bg-gradient-to-r from-primary/5 to-primary/10 p-6">
+                    <CardTitle className="font-space-grotesk flex items-center text-xl">
+                      <MapPin className="w-6 h-6 mr-3 text-primary" />
                       Thông Tin Cửa Hàng
                     </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                      <div className="flex items-start space-x-3">
-                        <MapPin className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                  </div>
+                  <CardContent className="p-6 space-y-6">
+                    <div className="space-y-4">
+                      <div className="flex items-start space-x-4 p-4 bg-slate-50 rounded-lg">
+                        <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                         <div>
-                          <div className="font-medium text-foreground">Địa chỉ</div>
-                          <div className="text-muted-foreground">465/32 Đường Nguyễn Văn Công, Phường 3, Quận Gò Vấp, TP.HCM</div>
+                          <div className="font-semibold text-foreground mb-1">Địa chỉ</div>
+                          <div className="text-muted-foreground leading-relaxed">465/32 Đường Nguyễn Văn Công, Phường 3, Quận Gò Vấp, TP.HCM</div>
                         </div>
                       </div>
 
-                      <div className="flex items-start space-x-3">
-                        <Clock className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                      <div className="flex items-start space-x-4 p-4 bg-slate-50 rounded-lg">
+                        <Clock className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                         <div>
-                          <div className="font-medium text-foreground">Giờ làm việc</div>
-                          <div className="text-muted-foreground">
+                          <div className="font-semibold text-foreground mb-1">Giờ làm việc</div>
+                          <div className="text-muted-foreground space-y-1">
                             <div>Thứ 2 - Chủ nhật: 9:00 - 18:00</div>
-                            <div>Hỗ trợ khẩn cấp: 24/7</div>
+                            <div className="text-primary font-medium">Hỗ trợ khẩn cấp: 24/7</div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex items-start space-x-3">
-                        <Smartphone className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                      <div className="flex items-start space-x-4 p-4 bg-slate-50 rounded-lg">
+                        <Smartphone className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                         <div>
-                          <div className="font-medium text-foreground">Dịch vụ tận nơi</div>
+                          <div className="font-semibold text-foreground mb-1">Dịch vụ tận nơi</div>
                           <div className="text-muted-foreground">Miễn phí trong bán kính 10km</div>
                         </div>
                       </div>
@@ -314,7 +455,7 @@ export default function ContactPage() {
 
                     <Button
                       variant="outline"
-                      className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
+                      className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent h-12 text-base font-semibold transition-all duration-300 transform hover:scale-105"
                       asChild
                     >
                       <a 
@@ -322,7 +463,7 @@ export default function ContactPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Navigation className="w-4 h-4 mr-2" />
+                        <Navigation className="w-5 h-5 mr-2" />
                         Xem bản đồ
                       </a>
                     </Button>
@@ -330,20 +471,20 @@ export default function ContactPage() {
                 </Card>
 
                 {/* Service Areas */}
-                <Card className="bg-card border-border">
-                  <CardHeader>
-                    <CardTitle className="font-space-grotesk flex items-center">
-                      <Calendar className="w-5 h-5 mr-2 text-primary" />
+                <Card className="bg-white border-0 shadow-xl overflow-hidden">
+                  <div className="bg-gradient-to-r from-blue-500/5 to-blue-600/10 p-6">
+                    <CardTitle className="font-space-grotesk flex items-center text-xl">
+                      <Calendar className="w-6 h-6 mr-3 text-blue-600" />
                       Khu Vực Phục Vụ
                     </CardTitle>
-                    <CardDescription>Chúng tôi phục vụ tại các khu vực sau:</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 gap-2">
+                    <CardDescription className="text-base mt-2">Chúng tôi phục vụ tại các khu vực sau:</CardDescription>
+                  </div>
+                  <CardContent className="p-6">
+                    <div className="grid grid-cols-1 gap-3">
                       {serviceAreas.map((area, index) => (
-                        <div key={index} className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                          <span className="text-muted-foreground text-sm">{area}</span>
+                        <div key={index} className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors duration-200">
+                          <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                          <span className="text-muted-foreground text-sm font-medium">{area}</span>
                         </div>
                       ))}
                     </div>
@@ -351,15 +492,18 @@ export default function ContactPage() {
                 </Card>
 
                 {/* Emergency Contact */}
-                <Card className="bg-primary/5 border-primary/20">
-                  <CardContent className="p-6 text-center space-y-4">
-                    <Phone className="w-8 h-8 text-primary mx-auto" />
+                <Card className="bg-gradient-to-br from-red-500/5 to-red-600/10 border-red-200/50 shadow-xl overflow-hidden">
+                  <CardContent className="p-8 text-center space-y-6">
+                    <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                      <Phone className="w-10 h-10 text-red-600" />
+                    </div>
                     <div>
-                      <h3 className="font-space-grotesk font-semibold text-foreground mb-2">Hỗ Trợ Khẩn Cấp</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
+                      <h3 className="font-space-grotesk font-bold text-2xl text-foreground mb-3">Hỗ Trợ Khẩn Cấp</h3>
+                      <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
                         iPhone không bật được, pin phồng, cần hỗ trợ gấp?
                       </p>
-                      <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                      <Button className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                        <Phone className="w-5 h-5 mr-2" />
                         Gọi ngay: 0906 674 679
                       </Button>
                     </div>
