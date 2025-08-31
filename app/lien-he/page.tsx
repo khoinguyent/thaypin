@@ -12,7 +12,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import {
   Phone,
-  Mail,
   MapPin,
   Clock,
   MessageCircle,
@@ -27,34 +26,34 @@ const contactMethods = [
   {
     icon: Phone,
     title: "Điện thoại",
-    value: "0123 456 789",
+    value: "0906 674 679 (Thông) / 0908 69 31 38 (Nhật Hãn)",
     description: "Gọi trực tiếp để được tư vấn nhanh nhất",
-    action: "tel:0123456789",
-    available: "8:00 - 20:00 (Thứ 2 - CN)",
+    action: "tel:0906674679",
+    available: "9:00 - 18:00 (Thứ 2 - CN)",
   },
-  {
-    icon: Mail,
-    title: "Email",
-    value: "info@thaypin.vn",
-    description: "Gửi email để được hỗ trợ chi tiết",
-    action: "mailto:info@thaypin.vn",
-    available: "Phản hồi trong 2 giờ",
-  },
+  // {
+  //   icon: Mail,
+  //   title: "Email",
+  //   value: "info@thaypin.vn",
+  //   description: "Gửi email để được hỗ trợ chi tiết",
+  //   action: "mailto:info@thaypin.vn",
+  //   available: "Phản hồi trong 2 giờ",
+  // },
   {
     icon: MessageCircle,
-    title: "Zalo/WhatsApp",
-    value: "0123 456 789",
+    title: "Zalo",
+    value: "0906 674 679 (Thông) / 0908 69 31 38 (Nhật Hãn)",
     description: "Chat trực tiếp qua ứng dụng nhắn tin",
     action: "#",
-    available: "8:00 - 22:00 hàng ngày",
+    available: "8:00 - 20:00 hàng ngày",
   },
   {
     icon: Navigation,
     title: "Đến trực tiếp",
-    value: "123 Đường ABC, Quận 1, TP.HCM",
+    value: "465/32 Đường Nguyễn Văn Công, Phường 3, Quận Gò Vấp, TP.HCM",
     description: "Ghé thăm cửa hàng để được kiểm tra miễn phí",
     action: "#",
-    available: "8:00 - 20:00 (Thứ 2 - CN)",
+    available: "9:00 - 18:00 (Thứ 2 - CN)",
   },
 ]
 
@@ -151,9 +150,9 @@ export default function ContactPage() {
                       <CardDescription className="text-muted-foreground text-sm">{method.description}</CardDescription>
                       <div className="text-xs text-muted-foreground">{method.available}</div>
                     </div>
-                    <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="sm">
+                    {/* <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="sm">
                       <a href={method.action}>{method.title === "Điện thoại" ? "Gọi ngay" : "Liên hệ"}</a>
-                    </Button>
+                    </Button> */}
                   </CardContent>
                 </Card>
               ))}
@@ -289,7 +288,7 @@ export default function ContactPage() {
                         <MapPin className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
                         <div>
                           <div className="font-medium text-foreground">Địa chỉ</div>
-                          <div className="text-muted-foreground">123 Đường ABC, Phường XYZ, Quận 1, TP.HCM</div>
+                          <div className="text-muted-foreground">465/32 Đường Nguyễn Văn Công, Phường 3, Quận Gò Vấp, TP.HCM</div>
                         </div>
                       </div>
 
@@ -298,7 +297,7 @@ export default function ContactPage() {
                         <div>
                           <div className="font-medium text-foreground">Giờ làm việc</div>
                           <div className="text-muted-foreground">
-                            <div>Thứ 2 - Chủ nhật: 8:00 - 20:00</div>
+                            <div>Thứ 2 - Chủ nhật: 9:00 - 18:00</div>
                             <div>Hỗ trợ khẩn cấp: 24/7</div>
                           </div>
                         </div>
@@ -316,9 +315,16 @@ export default function ContactPage() {
                     <Button
                       variant="outline"
                       className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
+                      asChild
                     >
-                      <Navigation className="w-4 h-4 mr-2" />
-                      Xem bản đồ
+                      <a 
+                        href="https://maps.google.com/?q=465/32+Đường+Nguyễn+Văn+Công,+Phường+3,+Quận+Gò+Vấp,+TP.HCM"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Navigation className="w-4 h-4 mr-2" />
+                        Xem bản đồ
+                      </a>
                     </Button>
                   </CardContent>
                 </Card>
@@ -354,7 +360,7 @@ export default function ContactPage() {
                         iPhone không bật được, pin phồng, cần hỗ trợ gấp?
                       </p>
                       <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                        Gọi ngay: 0123 456 789
+                        Gọi ngay: 0906 674 679
                       </Button>
                     </div>
                   </CardContent>

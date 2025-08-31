@@ -160,7 +160,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       <h3 className="font-space-grotesk font-semibold text-foreground">Cần Hỗ Trợ?</h3>
                       <p className="text-sm text-muted-foreground">Liên hệ với chuyên gia để được tư vấn miễn phí</p>
                       <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                        Gọi ngay: 0123 456 789
+                        Gọi ngay: 0906 674 679
                       </Button>
                     </CardContent>
                   </Card>
