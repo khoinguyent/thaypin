@@ -28,11 +28,11 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center overflow-hidden">
               <img 
-                src="/logo-placeholder.svg" 
+                src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/z6962793123503_272937a9ee0e08bdf66bd995f565b486.jpg" 
                 alt="Thaypin.vn Logo" 
-                className="w-6 h-6 object-contain"
+                className="w-full h-full object-cover"
                 onError={(e) => {
                   // Fallback to text if image fails to load
                   const target = e.target as HTMLImageElement;
