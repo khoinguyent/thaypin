@@ -5,13 +5,6 @@ import jwt from 'jsonwebtoken'
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 
 export function middleware(request: NextRequest) {
-  // TEMPORARILY DISABLED - Allow all admin routes to pass through
-  // This will be re-enabled once we fix the authentication flow
-  
-  // For now, just allow everything through
-  return NextResponse.next()
-  
-  /* ORIGINAL CODE - COMMENTED OUT FOR DEBUGGING
   // Check if the request is for admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {
     // Skip middleware for login page
@@ -39,13 +32,34 @@ export function middleware(request: NextRequest) {
       }
     }
 
-    // For page routes, allow access and let the client-side handle auth
-    // This prevents redirect loops while maintaining security
-    return NextResponse.next()
+    // For page routes, check for admin token in cookies or headers
+    const token = request.cookies.get('adminToken')?.value || 
+                  request.headers.get('authorization')?.replace('Bearer ', '')
+
+    if (!token) {
+      // Redirect to login if no token
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+
+    try {
+      // Verify JWT token
+      const decoded = jwt.verify(token, JWT_SECRET) as any
+      
+      // Check if token is expired
+      if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+        // Token expired, redirect to login
+        return NextResponse.redirect(new URL('/admin/login', request.url))
+      }
+
+      // Token is valid, continue
+      return NextResponse.next()
+    } catch (error) {
+      // Invalid token, redirect to login
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
   }
 
   return NextResponse.next()
-  */
 }
 
 export const config = {

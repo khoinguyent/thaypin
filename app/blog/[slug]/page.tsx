@@ -1,13 +1,17 @@
 import { notFound } from "next/navigation"
+import { Metadata } from "next"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import VideoPlayer from "@/components/video-player"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, Clock, User, Calendar, Share2, Tag, Video } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import VideoPlayer from "@/components/video-player"
+import { createClient } from "@/lib/supabase/server"
+import { ArrowLeft, Clock, Calendar, Tag, Video, User, Share2, Phone } from "lucide-react"
 import Link from "next/link"
-import { getBlogPostBySlug, getBlogPosts } from "@/lib/blog-actions"
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
+
 
 
 
@@ -124,10 +128,27 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <div className="lg:col-span-3">
                   <Card className="bg-card border-border">
                     <CardContent className="p-8">
-                      <div
-                        className="prose prose-lg max-w-none prose-headings:font-space-grotesk prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-ul:text-muted-foreground prose-ol:text-muted-foreground prose-li:text-muted-foreground prose-blockquote:text-muted-foreground prose-blockquote:border-primary"
-                        dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, "<br />") }}
-                      />
+                      <div className="prose prose-lg max-w-none prose-headings:font-space-grotesk prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-ul:text-muted-foreground prose-ol:text-muted-foreground prose-li:text-muted-foreground prose-blockquote:text-muted-foreground prose-blockquote:border-primary">
+                        <ReactMarkdown 
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            h1: ({children}) => <h1 className="text-3xl font-bold text-foreground mb-6 mt-8 pb-2 border-b-2 border-primary/20">{children}</h1>,
+                            h2: ({children}) => <h2 className="text-2xl font-bold text-foreground mb-4 mt-6 text-primary/80">{children}</h2>,
+                            h3: ({children}) => <h3 className="text-xl font-semibold text-foreground mb-3 mt-5">{children}</h3>,
+                            h4: ({children}) => <h4 className="text-lg font-semibold text-foreground mb-2 mt-4">{children}</h4>,
+                            p: ({children}) => <p className="text-muted-foreground mb-4 leading-relaxed text-base">{children}</p>,
+                            strong: ({children}) => <strong className="font-semibold text-foreground">{children}</strong>,
+                            ul: ({children}) => <ul className="list-disc list-inside text-muted-foreground mb-6 space-y-2 ml-4">{children}</ul>,
+                            ol: ({children}) => <ol className="list-decimal list-inside text-muted-foreground mb-6 space-y-2 ml-4">{children}</ol>,
+                            li: ({children}) => <li className="text-muted-foreground leading-relaxed">{children}</li>,
+                            blockquote: ({children}) => <blockquote className="border-l-4 border-primary pl-6 italic text-muted-foreground mb-6 bg-primary/5 py-4 rounded-r-lg">{children}</blockquote>,
+                            code: ({children}) => <code className="bg-muted px-2 py-1 rounded text-sm font-mono text-primary">{children}</code>,
+                            pre: ({children}) => <pre className="bg-muted p-4 rounded-lg overflow-x-auto mb-6 border border-border">{children}</pre>,
+                          }}
+                        >
+                          {post.content}
+                        </ReactMarkdown>
+                      </div>
                     </CardContent>
                   </Card>
 
@@ -159,7 +180,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <CardContent className="p-6 text-center space-y-4">
                       <h3 className="font-space-grotesk font-semibold text-foreground">Cần Hỗ Trợ?</h3>
                       <p className="text-sm text-muted-foreground">Liên hệ với chuyên gia để được tư vấn miễn phí</p>
-                      <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                      <Button 
+                        size="sm"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground text-sm px-4 py-2 h-auto"
+                      >
+                        <Phone className="w-4 h-4 mr-2" />
                         Gọi ngay: 0906 674 679
                       </Button>
                     </CardContent>
