@@ -12,31 +12,29 @@ export function middleware(request: NextRequest) {
       return NextResponse.next()
     }
 
-    // Check for admin token in cookies or headers
-    const token = request.cookies.get('adminToken')?.value || 
-                  request.headers.get('authorization')?.replace('Bearer ', '')
+    // For API routes, check Authorization header
+    if (request.nextUrl.pathname.startsWith('/api/admin')) {
+      const authHeader = request.headers.get('authorization')
+      const token = authHeader ? authHeader.replace('Bearer ', '') : null
 
-    if (!token) {
-      // Redirect to login if no token
-      return NextResponse.redirect(new URL('/admin/login', request.url))
-    }
-
-    try {
-      // Verify JWT token
-      const decoded = jwt.verify(token, JWT_SECRET) as any
-      
-      // Check if token is expired
-      if (decoded.exp && Date.now() >= decoded.exp * 1000) {
-        // Token expired, redirect to login
-        return NextResponse.redirect(new URL('/admin/login', request.url))
+      if (!token) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
       }
 
-      // Token is valid, continue
-      return NextResponse.next()
-    } catch (error) {
-      // Invalid token, redirect to login
-      return NextResponse.redirect(new URL('/admin/login', request.url))
+      try {
+        const decoded = jwt.verify(token, JWT_SECRET) as any
+        if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+          return NextResponse.json({ error: 'Token expired' }, { status: 401 })
+        }
+        return NextResponse.next()
+      } catch (error) {
+        return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+      }
     }
+
+    // For page routes, allow access and let the client-side handle auth
+    // This prevents redirect loops while maintaining security
+    return NextResponse.next()
   }
 
   return NextResponse.next()
@@ -45,5 +43,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/admin/:path*',
+    '/api/admin/:path*',
   ],
 }

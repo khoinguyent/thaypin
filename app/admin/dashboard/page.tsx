@@ -39,14 +39,39 @@ export default function AdminDashboardPage() {
       return
     }
 
-    try {
-      setAdminUser(JSON.parse(user))
-    } catch (error) {
-      console.error("Error parsing admin user:", error)
-      router.push("/admin/login")
-    } finally {
-      setIsLoading(false)
+    // Validate token with backend
+    const validateToken = async () => {
+      try {
+        const response = await fetch("/api/admin/validate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ token })
+        })
+
+        if (!response.ok) {
+          // Token is invalid, clear storage and redirect
+          localStorage.removeItem("adminToken")
+          localStorage.removeItem("adminUser")
+          router.push("/admin/login")
+          return
+        }
+
+        // Token is valid, set user data
+        setAdminUser(JSON.parse(user))
+      } catch (error) {
+        console.error("Error validating token:", error)
+        localStorage.removeItem("adminToken")
+        localStorage.removeItem("adminUser")
+        router.push("/admin/login")
+      } finally {
+        setIsLoading(false)
+      }
     }
+
+    validateToken()
   }, [router])
 
   const handleLogout = () => {

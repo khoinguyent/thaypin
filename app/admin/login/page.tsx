@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -18,6 +18,17 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken")
+    const user = localStorage.getItem("adminUser")
+    
+    if (token && user) {
+      // User is already logged in, redirect to dashboard
+      router.replace("/admin/dashboard")
+    }
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,8 +51,8 @@ export default function AdminLoginPage() {
         localStorage.setItem("adminToken", data.token)
         localStorage.setItem("adminUser", JSON.stringify(data.user))
         
-        // Redirect to admin dashboard
-        router.push("/admin/dashboard")
+        // Redirect to admin dashboard using replace to prevent back navigation
+        router.replace("/admin/dashboard")
       } else {
         setError(data.error || "Đăng nhập thất bại")
       }
