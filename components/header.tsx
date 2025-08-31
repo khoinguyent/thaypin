@@ -49,16 +49,20 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <div className="hidden lg:flex items-center space-x-2 text-sm text-muted-foreground">
-              <Phone className="w-4 h-4" />
-              <a href="tel:0123456789" className="hover:text-foreground transition-colors">
-                0123 456 789
-              </a>
+            <div className="hidden lg:flex items-center space-x-4 text-sm text-muted-foreground">
+              <div className="flex items-center space-x-2">
+                <Phone className="w-4 h-4" />
+                <a href="tel:0906674679" className="hover:text-foreground transition-colors">
+                  0906 674 679 (Thông)
+                </a>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Phone className="w-4 h-4" />
+                <a href="tel:0908693138" className="hover:text-foreground transition-colors">
+                  0908 69 31 38 (Nhật Hãn)
+                </a>
+              </div>
             </div>
-
-            <Button asChild className="hidden md:flex bg-primary hover:bg-primary/90 text-primary-foreground">
-              <Link href="/lien-he">Đặt lịch ngay</Link>
-            </Button>
 
             <Button
               variant="ghost"
@@ -89,15 +93,16 @@ export default function Header() {
               <div className="flex flex-col space-y-3 pt-2">
                 <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                   <Phone className="w-4 h-4" />
-                  <a href="tel:0123456789" className="hover:text-foreground transition-colors">
-                    0123 456 789
+                  <a href="tel:0906674679" className="hover:text-foreground transition-colors">
+                    0906 674 679 (Thông)
                   </a>
                 </div>
-                <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                  <Link href="/lien-he" onClick={() => setIsMobileMenuOpen(false)}>
-                    Đặt lịch ngay
-                  </Link>
-                </Button>
+                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                  <Phone className="w-4 h-4" />
+                  <a href="tel:0908693138" className="hover:text-foreground transition-colors">
+                    0908 69 31 38 (Nhật Hãn)
+                  </a>
+                </div>
               </div>
             </nav>
           </div>
