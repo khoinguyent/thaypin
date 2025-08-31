@@ -29,7 +29,19 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">T</span>
+              <img 
+                src="/logo-placeholder.svg" 
+                alt="Thaypin.vn Logo" 
+                className="w-6 h-6 object-contain"
+                onError={(e) => {
+                  // Fallback to text if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const fallback = target.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+              />
+              <span className="text-primary-foreground font-bold text-sm hidden">T</span>
             </div>
             <span className="font-space-grotesk font-bold text-xl text-foreground">Thaypin.vn</span>
           </Link>
