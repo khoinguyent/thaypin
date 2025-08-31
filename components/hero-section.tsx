@@ -1,8 +1,20 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CheckCircle, Clock, Shield, Wrench } from "lucide-react"
 
 export default function HeroSection() {
+  const scrollToPricing = () => {
+    const pricingSection = document.getElementById('bang-gia')
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
+
   return (
     <section className="bg-gradient-to-br from-background to-muted py-20">
       <div className="container mx-auto px-4">
@@ -46,6 +58,7 @@ export default function HeroSection() {
                 size="lg"
                 variant="outline"
                 className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
+                onClick={scrollToPricing}
               >
                 Xem bảng giá
               </Button>
