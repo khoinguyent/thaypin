@@ -48,6 +48,14 @@ export default function HeroSection() {
                 <Wrench className="w-5 h-5 text-primary" />
                 <span className="text-sm text-muted-foreground">Kỹ thuật viên chuyên nghiệp</span>
               </div>
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="w-5 h-5 text-primary" />
+                <span className="text-sm text-muted-foreground">Pin dung lượng cao & chuẩn</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="w-5 h-5 text-primary" />
+                <span className="text-sm text-muted-foreground">Phôi (cell) pin xịn</span>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
