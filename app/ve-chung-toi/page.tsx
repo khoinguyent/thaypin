@@ -126,7 +126,7 @@ export default function AboutPage() {
               <div className="relative">
                 <Card className="p-6 bg-card border-border">
                   <img
-                    src="/placeholder.svg?height=400&width=600&text=Thaypin.vn+Team"
+                    src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Flux_Schnell_highresolution_stock_photo_of_highresolution_stoc_3%20(2).jpg?height=400&width=600&text=Thaypin.vn+Team"
                     alt="Đội ngũ Thaypin.vn"
                     className="w-full h-auto rounded-lg"
                   />
@@ -214,7 +214,7 @@ export default function AboutPage() {
 
                 <div className="space-y-6">
                   <img
-                    src="/placeholder.svg?height=500&width=600&text=Our+Journey"
+                    src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Flux_Schnell_highresolution_stock_photo_of_highresolution_stoc_3%20(3).jpg?height=500&width=600&text=Our+Journey"
                     alt="Hành trình phát triển"
                     className="w-full h-auto rounded-lg"
                   />
@@ -323,7 +323,7 @@ export default function AboutPage() {
                 <div className="relative">
                   <Card className="p-6 bg-card border-border">
                     <img
-                      src="/placeholder.svg?height=400&width=600&text=Certifications"
+                      src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Flux_Schnell_highresolution_stock_photo_of_highresolution_stoc_3%20(2).jpg?height=400&width=600&text=Certifications"
                       alt="Chứng chỉ và đào tạo"
                       className="w-full h-auto rounded-lg"
                     />
