@@ -110,7 +110,7 @@ export default function BatteryMaintenancePage() {
               <div className="relative">
                 <Card className="p-6 bg-card border-border">
                   <img
-                    src="/placeholder.svg?height=400&width=600"
+                    src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Gemini_Generated_Image_d7hfbud7hfbud7hf.png?height=400&width=600"
                     alt="Dịch vụ bảo trì pin iPhone"
                     className="w-full h-auto rounded-lg"
                   />

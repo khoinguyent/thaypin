@@ -112,7 +112,7 @@ export default function BatteryReplacementPage() {
               <div className="relative">
                 <Card className="p-6 bg-card border-border">
                   <img
-                    src="/placeholder.svg?height=400&width=600"
+                    src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Gemini_Generated_Image_xtte58xtte58xtte.png?height=400&width=600"
                     alt="Dịch vụ thay pin iPhone chuyên nghiệp"
                     className="w-full h-auto rounded-lg"
                   />

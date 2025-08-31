@@ -1,16 +1,15 @@
 import { notFound } from "next/navigation"
-import { Metadata } from "next"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import VideoPlayer from "@/components/video-player"
-import { createClient } from "@/lib/supabase/server"
 import { ArrowLeft, Clock, Calendar, Tag, Video, User, Share2, Phone } from "lucide-react"
 import Link from "next/link"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import { getBlogPostBySlug, getBlogPosts } from "@/lib/blog-actions"
 
 
 
