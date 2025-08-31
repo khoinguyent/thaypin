@@ -31,7 +31,7 @@ export default function Header() {
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center overflow-hidden">
               <img 
                 src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/z6962793123503_272937a9ee0e08bdf66bd995f565b486.jpg" 
-                alt="Thaypin.vn Logo" 
+                alt="thaypin.vn Logo" 
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   // Fallback to text if image fails to load
@@ -43,7 +43,7 @@ export default function Header() {
               />
               <span className="text-primary-foreground font-bold text-sm hidden">T</span>
             </div>
-            <span className="font-space-grotesk font-bold text-xl text-foreground">Thaypin.vn</span>
+            <span className="font-space-grotesk font-bold text-xl text-foreground">thaypin.vn</span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">

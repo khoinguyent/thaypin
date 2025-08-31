@@ -43,7 +43,7 @@ export default async function BlogPage({
                   <BookOpen className="w-8 h-8 text-primary" />
                 </div>
                 <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
-                  Blog Thaypin.vn
+                  Blog thaypin.vn
                 </span>
               </div>
               <h1 className="font-bold text-5xl lg:text-6xl text-foreground leading-tight">

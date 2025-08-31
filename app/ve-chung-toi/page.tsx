@@ -11,21 +11,21 @@ const teamMembers = [
     role: "Founder & CEO",
     experience: "8 năm kinh nghiệm",
     description: "Chuyên gia sửa chữa iPhone với hơn 8 năm kinh nghiệm trong ngành",
-    image: "/placeholder.svg?height=300&width=300&text=CEO",
+    image: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Default_a_detailed_portraiture_of_an_Asian_male_technician_eng_0.jpg?height=300&width=300&text=CEO",
   },
   {
     name: "Trần Thị B",
     role: "Kỹ thuật viên trưởng",
     experience: "6 năm kinh nghiệm",
     description: "Chuyên về thay pin và sửa chữa bo mạch iPhone các dòng mới nhất",
-    image: "/placeholder.svg?height=300&width=300&text=Tech+Lead",
+    image: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Gemini_Generated_Image_m5ncum5ncum5ncum.png?height=300&width=300&text=Tech+Lead",
   },
   {
     name: "Lê Văn C",
     role: "Kỹ thuật viên",
     experience: "4 năm kinh nghiệm",
     description: "Chuyên gia kiểm tra và chẩn đoán lỗi pin iPhone",
-    image: "/placeholder.svg?height=300&width=300&text=Technician",
+    image: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Gemini_Generated_Image_u0lbpxu0lbpxu0lb.png?height=300&width=300&text=Technician",
   },
 ]
 
@@ -98,14 +98,14 @@ export default function AboutPage() {
               <div className="space-y-6">
                 <div className="flex items-center space-x-2">
                   <Users className="w-8 h-8 text-primary" />
-                  <Badge className="bg-primary text-primary-foreground">Về Thaypin.vn</Badge>
+                  <Badge className="bg-primary text-primary-foreground">Về thaypin.vn</Badge>
                 </div>
                 <h1 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground leading-tight">
                   Chuyên Gia
                   <span className="text-primary block">Pin iPhone Hàng Đầu</span>
                 </h1>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Với hơn 8 năm kinh nghiệm trong ngành sửa chữa iPhone, Thaypin.vn tự hào là địa chỉ tin cậy hàng đầu
+                  Với hơn 8 năm kinh nghiệm trong ngành sửa chữa iPhone, thaypin.vn tự hào là địa chỉ tin cậy hàng đầu
                   cho dịch vụ thay pin iPhone tại Việt Nam.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -127,7 +127,7 @@ export default function AboutPage() {
                 <Card className="p-6 bg-card border-border">
                   <img
                     src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Flux_Schnell_highresolution_stock_photo_of_highresolution_stoc_3%20(2).jpg?height=400&width=600&text=Thaypin.vn+Team"
-                    alt="Đội ngũ Thaypin.vn"
+                    alt="Đội ngũ thaypin.vn"
                     className="w-full h-auto rounded-lg"
                   />
                 </Card>
@@ -183,7 +183,7 @@ export default function AboutPage() {
                     <CardContent className="p-6 space-y-4">
                       <h3 className="font-space-grotesk font-semibold text-xl text-foreground">Khởi Đầu (2016)</h3>
                       <p className="text-muted-foreground">
-                        Thaypin.vn được thành lập từ niềm đam mê công nghệ và mong muốn mang đến dịch vụ thay pin iPhone
+                        thaypin.vn được thành lập từ niềm đam mê công nghệ và mong muốn mang đến dịch vụ thay pin iPhone
                         chất lượng cao với giá cả hợp lý cho người dùng Việt Nam.
                       </p>
                     </CardContent>
@@ -203,9 +203,9 @@ export default function AboutPage() {
 
                   <Card className="bg-card border-border">
                     <CardContent className="p-6 space-y-4">
-                      <h3 className="font-space-grotesk font-semibold text-xl text-foreground">Hiện Tại (2024)</h3>
+                      <h3 className="font-space-grotesk font-semibold text-xl text-foreground">Hiện Tại (2025)</h3>
                       <p className="text-muted-foreground">
-                        Ngày nay, Thaypin.vn là địa chỉ tin cậy hàng đầu cho dịch vụ thay pin iPhone với đội ngũ kỹ
+                        Ngày nay, thaypin.vn là địa chỉ tin cậy hàng đầu cho dịch vụ thay pin iPhone với đội ngũ kỹ
                         thuật viên chuyên nghiệp và quy trình chuẩn quốc tế.
                       </p>
                     </CardContent>

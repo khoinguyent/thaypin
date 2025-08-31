@@ -67,7 +67,7 @@ export default function WarrantyPolicyPage() {
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Cam kết bảo hành dài hạn và chính sách hỗ trợ khách hàng minh bạch, rõ ràng cho tất cả dịch vụ tại
-                Thaypin.vn
+                thaypin.vn
               </p>
             </div>
           </div>
@@ -184,7 +184,7 @@ export default function WarrantyPolicyPage() {
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="w-4 h-4 text-primary mr-2 mt-0.5 flex-shrink-0" />
-                          Lỗi thuộc trách nhiệm của Thaypin.vn
+                          Lỗi thuộc trách nhiệm của thaypin.vn
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="w-4 h-4 text-primary mr-2 mt-0.5 flex-shrink-0" />

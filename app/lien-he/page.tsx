@@ -115,7 +115,7 @@ export default function ContactPage() {
               </div>
               <h1 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground">
                 Liên Hệ Với
-                <span className="text-primary block">Thaypin.vn</span>
+                <span className="text-primary block">thaypin.vn</span>
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7. Liên hệ ngay để được tư vấn miễn phí về tình trạng pin iPhone
@@ -137,15 +137,15 @@ export default function ContactPage() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {contactMethods.map((method, index) => (
-                <Card key={index} className="bg-card border-border text-center hover:shadow-lg transition-shadow">
+                <Card key={index} className="bg-card border-border text-center hover:shadow-lg transition-shadow flex flex-col">
                   <CardHeader className="pb-4">
                     <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
                       <method.icon className="w-6 h-6 text-primary" />
                     </div>
                     <CardTitle className="text-lg font-space-grotesk">{method.title}</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
+                  <CardContent className="space-y-4 flex-1 flex flex-col">
+                    <div className="space-y-2 flex-1">
                       <div className="font-semibold text-foreground">{method.value}</div>
                       <CardDescription className="text-muted-foreground text-sm">{method.description}</CardDescription>
                       <div className="text-xs text-muted-foreground">{method.available}</div>

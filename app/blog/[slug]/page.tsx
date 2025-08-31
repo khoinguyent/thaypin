@@ -71,7 +71,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                     <div className="flex items-center">
                       <User className="w-4 h-4 mr-1" />
-                      Thaypin.vn
+                      thaypin.vn
                     </div>
                     <div className="flex items-center">
                       <Calendar className="w-4 h-4 mr-1" />

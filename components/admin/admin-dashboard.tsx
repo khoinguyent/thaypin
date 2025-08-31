@@ -73,7 +73,7 @@ export default function AdminDashboard({ initialPosts }: AdminDashboardProps) {
               <div className="h-6 w-px bg-border" />
               <div>
                 <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
-                <p className="text-sm text-muted-foreground">Quản lý blog Thaypin.vn</p>
+                <p className="text-sm text-muted-foreground">Quản lý blog thaypin.vn</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">

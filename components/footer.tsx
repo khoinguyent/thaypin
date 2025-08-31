@@ -11,7 +11,7 @@ export default function Footer() {
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-sm">T</span>
               </div>
-              <span className="font-space-grotesk font-bold text-xl text-foreground">Thaypin.vn</span>
+              <span className="font-space-grotesk font-bold text-xl text-foreground">thaypin.vn</span>
             </Link>
             <p className="text-muted-foreground text-sm">
               Dịch vụ thay pin iPhone chuyên nghiệp, uy tín hàng đầu Việt Nam
@@ -98,7 +98,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 Thaypin.vn. Tất cả quyền được bảo lưu.</p>
+          <p>&copy; 2025 thaypin.vn. Tất cả quyền được bảo lưu.</p>
         </div>
       </div>
     </footer>

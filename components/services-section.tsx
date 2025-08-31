@@ -1,5 +1,4 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Battery, Smartphone, Zap, Settings } from "lucide-react"
 
 const services = [
@@ -66,7 +65,6 @@ export default function ServicesSection() {
                     </li>
                   ))}
                 </ul>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mt-auto">Đặt lịch ngay</Button>
               </CardContent>
             </Card>
           ))}
