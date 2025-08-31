@@ -106,13 +106,13 @@ export default function Header() {
                 <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                   <Phone className="w-4 h-4" />
                   <a href="tel:0906674679" className="hover:text-foreground transition-colors">
-                    0906 674 679 (Thông)
+                    0906674679 (Thông)
                   </a>
                 </div>
                 <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                   <Phone className="w-4 h-4" />
                   <a href="tel:0908693138" className="hover:text-foreground transition-colors">
-                    0908 69 31 38 (Nhật Hãn)
+                    0908693138 (Nhật Hãn)
                   </a>
                 </div>
               </div>

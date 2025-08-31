@@ -46,7 +46,7 @@ export default function ServicesSection() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
-            <Card key={index} className="bg-card border-border hover:shadow-lg transition-shadow">
+            <Card key={index} className="bg-card border-border hover:shadow-lg transition-shadow flex flex-col">
               <CardHeader className="text-center">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <service.icon className="w-6 h-6 text-primary" />
@@ -54,11 +54,11 @@ export default function ServicesSection() {
                 <CardTitle className="text-xl font-space-grotesk">{service.title}</CardTitle>
                 <CardDescription className="text-muted-foreground">{service.description}</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 flex-1 flex flex-col">
                 <div className="text-center">
                   <span className="text-2xl font-bold text-primary">{service.price}</span>
                 </div>
-                <ul className="space-y-2">
+                <ul className="space-y-2 flex-1">
                   {service.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center text-sm text-muted-foreground">
                       <div className="w-1.5 h-1.5 bg-primary rounded-full mr-2"></div>
@@ -66,7 +66,7 @@ export default function ServicesSection() {
                     </li>
                   ))}
                 </ul>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Đặt lịch ngay</Button>
+                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mt-auto">Đặt lịch ngay</Button>
               </CardContent>
             </Card>
           ))}

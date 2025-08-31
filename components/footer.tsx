@@ -76,7 +76,7 @@ export default function Footer() {
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
                 <a href="tel:0123456789" className="hover:text-foreground transition-colors">
-                  0123 456 789
+                  0966674679 (Thông) - 0908693138 (Nhật Hãn)
                 </a>
               </div>
               <div className="flex items-center space-x-2">
@@ -87,18 +87,18 @@ export default function Footer() {
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4" />
-                <span>123 Đường ABC, Quận 1, TP.HCM</span>
+                <span>465/32 Đường Nguyễn Văn Công, Phường 3, Quận Gò Vấp, TP.HCM</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Clock className="w-4 h-4" />
-                <span>8:00 - 20:00 (Thứ 2 - CN)</span>
+                <span>9:00 - 18:00 (Thứ 2 - CN)</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 Thaypin.vn. Tất cả quyền được bảo lưu.</p>
+          <p>&copy; 2025 Thaypin.vn. Tất cả quyền được bảo lưu.</p>
         </div>
       </div>
     </footer>

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { CheckCircle, Clock, Shield, Wrench } from "lucide-react"
+import { Battery, BatteryFull, CheckCircle, Clock, Shield, Wrench } from "lucide-react"
 
 export default function HeroSection() {
   const scrollToPricing = () => {
@@ -41,21 +41,21 @@ export default function HeroSection() {
                 <span className="text-sm text-muted-foreground">Thay trong 30 phút</span>
               </div>
               <div className="flex items-center space-x-2">
+                <Battery className="w-5 h-5 text-primary" />
+                <span className="text-sm text-muted-foreground">Pin dung lượng cao & chuẩn</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <BatteryFull className="w-5 h-5 text-primary" />
+                <span className="text-sm text-muted-foreground">Phôi (cell) pin xịn</span>
+              </div>
+              <div className="flex items-center space-x-2">
                 <Shield className="w-5 h-5 text-primary" />
                 <span className="text-sm text-muted-foreground">Bảo hành 12 tháng</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Wrench className="w-5 h-5 text-primary" />
                 <span className="text-sm text-muted-foreground">Kỹ thuật viên chuyên nghiệp</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-5 h-5 text-primary" />
-                <span className="text-sm text-muted-foreground">Pin dung lượng cao & chuẩn</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-5 h-5 text-primary" />
-                <span className="text-sm text-muted-foreground">Phôi (cell) pin xịn</span>
-              </div>
+              </div>           
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
