@@ -11,7 +11,7 @@ export default function HeroSection() {
             <div className="space-y-4">
               <h1 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground leading-tight">
                 Thay Pin iPhone
-                <span className="text-primary block">Chuyên Nghiệpppp</span>
+                <span className="text-primary block">Chuyên Nghiệp</span>
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Dịch vụ thay pin iPhone uy tín, chất lượng cao với bảo hành 12 tháng. Thay pin nhanh chóng trong 30 phút
@@ -55,7 +55,7 @@ export default function HeroSection() {
           <div className="relative">
             <Card className="p-8 bg-card border-border">
               <img
-                src="/placeholder.svg?height=400&width=600"
+                src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Flux_Schnell_highresolution_stock_photo_of_highresolution_stoc_3.jpg?height=400&width=600"
                 alt="Dịch vụ thay pin iPhone chuyên nghiệp"
                 className="w-full h-auto rounded-lg"
               />
