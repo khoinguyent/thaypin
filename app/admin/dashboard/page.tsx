@@ -34,7 +34,12 @@ export default function AdminDashboardPage() {
     const token = localStorage.getItem("adminToken")
     const user = localStorage.getItem("adminUser")
 
+    console.log("Dashboard: Checking authentication...")
+    console.log("Dashboard: Token exists:", !!token)
+    console.log("Dashboard: User exists:", !!user)
+
     if (!token || !user) {
+      console.log("Dashboard: No token or user, redirecting to login")
       router.push("/admin/login")
       return
     }
@@ -42,6 +47,7 @@ export default function AdminDashboardPage() {
     // Validate token with backend
     const validateToken = async () => {
       try {
+        console.log("Dashboard: Validating token with backend...")
         const response = await fetch("/api/admin/validate", {
           method: "POST",
           headers: {
@@ -51,7 +57,10 @@ export default function AdminDashboardPage() {
           body: JSON.stringify({ token })
         })
 
+        console.log("Dashboard: Validation response status:", response.status)
+
         if (!response.ok) {
+          console.log("Dashboard: Token validation failed, clearing storage")
           // Token is invalid, clear storage and redirect
           localStorage.removeItem("adminToken")
           localStorage.removeItem("adminUser")
@@ -60,9 +69,10 @@ export default function AdminDashboardPage() {
         }
 
         // Token is valid, set user data
+        console.log("Dashboard: Token valid, setting user data")
         setAdminUser(JSON.parse(user))
       } catch (error) {
-        console.error("Error validating token:", error)
+        console.error("Dashboard: Error validating token:", error)
         localStorage.removeItem("adminToken")
         localStorage.removeItem("adminUser")
         router.push("/admin/login")
