@@ -34,9 +34,9 @@ const contactMethods = [
   {
     icon: Phone,
     title: "Điện thoại",
-    value: "0906 674 679 (Thông) / 0908 69 31 38 (Nhật Hãn)",
+    value: "0969 674 679 (Thông) / 0908 69 31 38 (Nhật Hãn)",
     description: "Gọi trực tiếp để được tư vấn nhanh nhất",
-    action: "tel:0906674679",
+    action: "tel:0969674679",
     available: "9:00 - 18:00 (Thứ 2 - CN)",
     color: "from-blue-500 to-blue-600",
     bgColor: "bg-blue-50",
@@ -46,7 +46,7 @@ const contactMethods = [
   {
     icon: MessageCircle,
     title: "Zalo",
-    value: "0906 674 679 (Thông) / 0908 69 31 38 (Nhật Hãn)",
+    value: "0702514166",
     description: "Chat trực tiếp qua ứng dụng nhắn tin",
     action: "#",
     available: "8:00 - 20:00 hàng ngày",
@@ -504,7 +504,7 @@ export default function ContactPage() {
                       </p>
                       <Button className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                         <Phone className="w-5 h-5 mr-2" />
-                        Gọi ngay: 0906 674 679
+                        Gọi ngay: 0969 674 679
                       </Button>
                     </div>
                   </CardContent>

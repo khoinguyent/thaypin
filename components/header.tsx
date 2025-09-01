@@ -64,8 +64,8 @@ export default function Header() {
             <div className="hidden lg:flex items-center space-x-4 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
-                <a href="tel:0906674679" className="hover:text-foreground transition-colors">
-                  0906 674 679 (Thông)
+                <a href="tel:0969674679" className="hover:text-foreground transition-colors">
+                  0969 674 679 (Thông)
                 </a>
               </div>
               <div className="flex items-center space-x-2">
@@ -105,8 +105,8 @@ export default function Header() {
               <div className="flex flex-col space-y-3 pt-2">
                 <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                   <Phone className="w-4 h-4" />
-                  <a href="tel:0906674679" className="hover:text-foreground transition-colors">
-                    0906674679 (Thông)
+                                  <a href="tel:0969674679" className="hover:text-foreground transition-colors">
+                  0969674679 (Thông)
                   </a>
                 </div>
                 <div className="flex items-center space-x-2 text-sm text-muted-foreground">

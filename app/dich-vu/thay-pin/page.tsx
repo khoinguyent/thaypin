@@ -104,7 +104,7 @@ export default function BatteryReplacementPage() {
                     className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
                   >
                     <Phone className="w-4 h-4 mr-2" />
-                    Gọi tư vấn: 0906 674 679
+                    Gọi tư vấn: 0969 674 679
                   </Button>
                 </div>
               </div>

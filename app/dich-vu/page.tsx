@@ -187,7 +187,7 @@ export default function ServicesPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                  Gọi ngay: 0906 674 679
+                                      Gọi ngay: 0969 674 679
                 </Button>
                 <Button
                   size="lg"

@@ -460,7 +460,7 @@ export default function AboutPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                   <Phone className="w-4 h-4 mr-2" />
-                  Gọi ngay: 0906 674 679
+                                      Gọi ngay: 0969 674 679
                 </Button>
                 <Button
                   size="lg"

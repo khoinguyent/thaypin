@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Clock } from "lucide-react"
+import { Phone, Mail, MapPin, Clock, Smartphone } from "lucide-react"
 import Link from "next/link"
 
 export default function Footer() {
@@ -75,8 +75,14 @@ export default function Footer() {
             <div className="space-y-3 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
-                <a href="tel:0906674679" className="hover:text-foreground transition-colors">
-                  0906 674 679 (Thông) - 0908 69 31 38 (Nhật Hãn)
+                              <a href="tel:0969674679" className="hover:text-foreground transition-colors">
+                0969 674 679 (Thông) - 0908 69 31 38 (Nhật Hãn)
+                </a>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Smartphone className="w-4 h-4" />
+                <a href="tel:0702514166" className="hover:text-foreground transition-colors">
+                  0702514166 (Zalo)
                 </a>
               </div>
               <div className="flex items-center space-x-2">

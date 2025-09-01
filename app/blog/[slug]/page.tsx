@@ -184,7 +184,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         className="bg-primary hover:bg-primary/90 text-primary-foreground text-sm px-4 py-2 h-auto"
                       >
                         <Phone className="w-4 h-4 mr-2" />
-                        Gọi ngay: 0906 674 679
+                        Gọi ngay: 0969 674 679
                       </Button>
                     </CardContent>
                   </Card>
