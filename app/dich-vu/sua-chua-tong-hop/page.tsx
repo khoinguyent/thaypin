@@ -163,7 +163,7 @@ export default function GeneralRepairPage() {
               <div className="relative">
                 <Card className="p-6 bg-card border-border">
                   <img
-                    src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Gemini_Generated_Image_d7hfbud7hfbud7hf.png?height=400&width=600"
+                    src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Flux_Schnell_highresolution_stock_photo_of_a_cluttered_table_w_0.jpg?height=400&width=600"
                     alt="Dịch vụ sửa chữa tổng hợp iPhone chuyên nghiệp"
                     className="w-full h-auto rounded-lg"
                   />
