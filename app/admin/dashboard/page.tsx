@@ -12,7 +12,8 @@ import {
   LogOut, 
   LayoutDashboard,
   MessageSquare,
-  TrendingUp
+  TrendingUp,
+  Battery
 } from "lucide-react"
 import Link from "next/link"
 
@@ -211,7 +212,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Main Actions */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Blog Management */}
           <Card className="bg-white border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
@@ -227,6 +228,26 @@ export default function AdminDashboardPage() {
               <Link href="/admin/blog">
                 <Button className="w-full bg-primary hover:bg-primary/90">
                   Quản lý Blog
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Battery Images Management */}
+          <Card className="bg-white border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Battery className="w-5 h-5 text-primary" />
+                <span>Hình ảnh Pin</span>
+              </CardTitle>
+              <CardDescription>
+                Quản lý hình ảnh pin iPhone cho slider dịch vụ
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/admin/battery-images">
+                <Button className="w-full bg-primary hover:bg-primary/90">
+                  Quản lý hình ảnh
                 </Button>
               </Link>
             </CardContent>
@@ -315,6 +336,17 @@ export default function AdminDashboardPage() {
                     <div className="text-xs text-muted-foreground">Trần Thị B - 0908 69 31 38</div>
                   </div>
                   <div className="text-xs text-muted-foreground">6 giờ trước</div>
+                </div>
+
+                <div className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg">
+                  <div className="w-8 h-8 bg-cyan-100 rounded-full flex items-center justify-center">
+                    <Battery className="w-4 h-4 text-cyan-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-sm font-medium">Hình ảnh pin mới được thêm</div>
+                    <div className="text-xs text-muted-foreground">iPhone 15 Pro Max battery image</div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">8 giờ trước</div>
                 </div>
               </div>
             </CardContent>
