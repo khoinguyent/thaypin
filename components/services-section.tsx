@@ -28,7 +28,7 @@ const services = [
     title: "Sửa Chữa Tổng Hợp",
     description: "Sửa chữa các lỗi liên quan đến pin và hệ thống sạc của iPhone",
     price: "Báo giá",
-    features: ["Sửa cổng sạc", "Thay IC sạc", "Bảo hành dài hạn"],
+    features: ["Ép kính, ép cảm ứng", "Fix FaceId, fix cam", "Thay thế linh kiện", "..."],
   },
 ]
 
