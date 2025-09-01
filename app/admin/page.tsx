@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import AdminDashboard from "@/components/admin/admin-dashboard"
+import AdminPageClient from "@/components/admin/admin-page-client"
 import { getBlogPosts } from "@/lib/blog-actions"
 
 export default async function AdminPage() {
@@ -8,7 +8,7 @@ export default async function AdminPage() {
   return (
     <div className="min-h-screen bg-background">
       <Suspense fallback={<div>Loading...</div>}>
-        <AdminDashboard initialPosts={posts} />
+        <AdminPageClient initialPosts={posts} />
       </Suspense>
     </div>
   )
