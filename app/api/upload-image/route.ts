@@ -19,11 +19,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File too large' }, { status: 400 })
     }
 
+    // Get image type from query parameter
+    const { searchParams } = new URL(request.url)
+    const imageType = searchParams.get('type') || 'blog'
+    
     // Generate unique filename
     const timestamp = Date.now()
     const randomString = Math.random().toString(36).substring(2, 15)
     const extension = image.name.split('.').pop()
-    const filename = `blog-images/${timestamp}-${randomString}.${extension}`
+    const filename = `${imageType}-images/${timestamp}-${randomString}.${extension}`
 
     // Upload to Cloudflare R2
     const r2Response = await fetch(`${process.env.CLOUDFLARE_R2_ENDPOINT}/${filename}`, {

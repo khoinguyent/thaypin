@@ -13,7 +13,9 @@ import {
   Trash2, 
   Eye, 
   EyeOff, 
-  Image as ImageIcon
+  Image as ImageIcon,
+  Upload,
+  X
 } from 'lucide-react'
 import { 
   BatteryImage, 
@@ -28,6 +30,8 @@ export default function BatteryImagesManager() {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editingImage, setEditingImage] = useState<BatteryImage | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [formData, setFormData] = useState({
     set_name: 'battery-images-set',
     url: '',
@@ -108,13 +112,74 @@ export default function BatteryImagesManager() {
       is_active: true,
       visible: true
     })
+    setSelectedFile(null)
   }
 
   const openAddModal = () => {
     setEditingImage(null)
     resetForm()
+    setSelectedFile(null)
     setFormData(prev => ({ ...prev, order_index: images.length }))
     setShowModal(true)
+  }
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Vui lòng chọn file hình ảnh')
+        return
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File quá lớn. Vui lòng chọn file nhỏ hơn 5MB')
+        return
+      }
+      
+      setSelectedFile(file)
+    }
+  }
+
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      alert('Vui lòng chọn file để upload')
+      return
+    }
+
+    setUploading(true)
+    
+    try {
+      const formData = new FormData()
+      formData.append('image', selectedFile)
+      
+      const response = await fetch('/api/upload-image?type=battery', {
+        method: 'POST',
+        body: formData,
+      })
+      
+      if (!response.ok) {
+        throw new Error('Upload failed')
+      }
+      
+      const result = await response.json()
+      
+      // Update the URL field with the uploaded image URL
+      setFormData(prev => ({ ...prev, url: result.url }))
+      setSelectedFile(null)
+      
+      alert('Upload thành công!')
+    } catch (error) {
+      console.error('Upload error:', error)
+      alert('Upload thất bại. Vui lòng thử lại.')
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const removeSelectedFile = () => {
+    setSelectedFile(null)
   }
 
   if (loading) {
@@ -240,14 +305,66 @@ export default function BatteryImagesManager() {
 
               <div>
                 <Label htmlFor="url">URL hình ảnh</Label>
-                <Input
-                  id="url"
-                  type="url"
-                  value={formData.url}
-                  onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
-                  placeholder="https://example.com/image.jpg"
-                  required
-                />
+                <div className="space-y-2">
+                  <Input
+                    id="url"
+                    type="url"
+                    value={formData.url}
+                    onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
+                    placeholder="https://example.com/image.jpg"
+                    required
+                  />
+                  
+                  {/* Upload Section */}
+                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4">
+                    <div className="text-center space-y-2">
+                      <Upload className="w-8 h-8 mx-auto text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">
+                        Hoặc upload hình ảnh từ máy tính
+                      </p>
+                      
+                      {selectedFile ? (
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between bg-muted p-2 rounded">
+                            <span className="text-sm truncate">{selectedFile.name}</span>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={removeSelectedFile}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                          <Button
+                            type="button"
+                            onClick={handleUpload}
+                            disabled={uploading}
+                            className="w-full"
+                          >
+                            {uploading ? 'Đang upload...' : 'Upload hình ảnh'}
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileSelect}
+                            className="hidden"
+                            id="image-upload"
+                          />
+                          <label htmlFor="image-upload">
+                            <Button type="button" variant="outline" className="w-full cursor-pointer">
+                              Chọn file
+                            </Button>
+                          </label>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div>
