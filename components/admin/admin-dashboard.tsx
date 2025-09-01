@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BarChart3, FileText, Plus, TrendingUp, Users, Eye, Calendar, Settings, Home, ArrowLeft } from "lucide-react"
+import { BarChart3, FileText, Plus, TrendingUp, Users, Eye, Calendar, Settings, Home, ArrowLeft, Battery } from "lucide-react"
 import Link from "next/link"
 import type { BlogPost } from "@/lib/supabase/client"
 import BlogPostForm from "./blog-post-form"
@@ -88,7 +88,7 @@ export default function AdminDashboard({ initialPosts }: AdminDashboardProps) {
 
       <div className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:grid-cols-5">
             <TabsTrigger value="dashboard" className="flex items-center space-x-2">
               <BarChart3 className="w-4 h-4" />
               <span>Dashboard</span>
@@ -96,6 +96,10 @@ export default function AdminDashboard({ initialPosts }: AdminDashboardProps) {
             <TabsTrigger value="posts" className="flex items-center space-x-2">
               <FileText className="w-4 h-4" />
               <span>Bài viết</span>
+            </TabsTrigger>
+            <TabsTrigger value="battery-images" className="flex items-center space-x-2">
+              <Battery className="w-4 h-4" />
+              <span>Hình ảnh pin</span>
             </TabsTrigger>
             <TabsTrigger value="create" className="flex items-center space-x-2">
               <Plus className="w-4 h-4" />
@@ -201,6 +205,36 @@ export default function AdminDashboard({ initialPosts }: AdminDashboardProps) {
           {/* Posts Management Tab */}
           <TabsContent value="posts">
             <BlogPostsList posts={posts} onPostsChange={setPosts} />
+          </TabsContent>
+
+          {/* Battery Images Management Tab */}
+          <TabsContent value="battery-images">
+            <Card className="bg-background border-border">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Battery className="w-5 h-5" />
+                  <span>Quản lý hình ảnh pin</span>
+                </CardTitle>
+                <CardDescription>
+                  Quản lý hình ảnh pin iPhone hiển thị trong slider dịch vụ
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <Battery className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground mb-4">
+                    Quản lý hình ảnh pin tại trang riêng biệt
+                  </p>
+                  <Link 
+                    href="/admin/battery-images" 
+                    className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                  >
+                    <Battery className="w-4 h-4 mr-2" />
+                    Quản lý hình ảnh pin
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Create Post Tab */}

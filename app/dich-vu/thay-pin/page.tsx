@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Battery, Clock, Shield, CheckCircle, Star, Phone, Calendar } from "lucide-react"
+import BatteryImageSlider from "@/components/battery-image-slider"
+import { getBatteryImagesBySet } from "@/lib/battery-images-actions"
 
 const processSteps = [
   {
@@ -55,7 +57,10 @@ const pricingTiers = [
   },
 ]
 
-export default function BatteryReplacementPage() {
+export default async function BatteryReplacementPage() {
+  // Fetch battery images for the slider
+  const batteryImages = await getBatteryImagesBySet('battery-images-set')
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -104,7 +109,7 @@ export default function BatteryReplacementPage() {
                     className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
                   >
                     <Phone className="w-4 h-4 mr-2" />
-                    Gọi tư vấn: 0969 674 679
+                    Gọi tư vấn: 0969674679 - 0908693138
                   </Button>
                 </div>
               </div>
@@ -209,6 +214,34 @@ export default function BatteryReplacementPage() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Battery Images Section */}
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center space-y-4 mb-16">
+              <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">
+                Hình Ảnh Pin iPhone Chính Hãng
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Khám phá các loại pin iPhone chính hãng chất lượng cao mà chúng tôi sử dụng
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <BatteryImageSlider 
+                images={batteryImages} 
+                autoPlayInterval={5000}
+                showControls={true}
+              />
+            </div>
+
+            <div className="text-center mt-8">
+              <p className="text-sm text-muted-foreground">
+                Tất cả pin đều là chính hãng, đảm bảo chất lượng và tuổi thọ tối ưu
+              </p>
             </div>
           </div>
         </section>
