@@ -5,9 +5,9 @@ const services = [
   {
     icon: Battery,
     title: "Thay Pin iPhone",
-    description: "Thay pin chính hãng cho tất cả các dòng iPhone từ iPhone 6 đến iPhone 15 Pro Max",
+    description: "Thay linh kiện chính hãng cho tất cả các dòng iPhone từ iPhone 6 đến iPhone 15 Pro Max",
     price: "Từ 500.000đ",
-    features: ["Pin chính hãng", "Bảo hành 12 tháng", "Thay trong 30 phút"],
+    features: ["Liên kiện chính hãng", "Bảo hành 12 tháng", "Thay trong 30 phút"],
   },
   {
     icon: Zap,

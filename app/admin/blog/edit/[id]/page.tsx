@@ -70,7 +70,7 @@ export default function EditBlogPostPage() {
         title: "Hướng dẫn thay pin iPhone 15 - Tất cả những gì bạn cần biết",
         slug: "huong-dan-thay-pin-iphone-15",
         excerpt: "Hướng dẫn chi tiết về quy trình thay pin iPhone 15, các lưu ý quan trọng và địa chỉ uy tín để thực hiện dịch vụ.",
-        content: "# Hướng dẫn thay pin iPhone 15\n\n## Giới thiệu\n\nThay pin iPhone là một dịch vụ quan trọng để duy trì hiệu suất thiết bị. Bài viết này sẽ hướng dẫn bạn tất cả những gì cần biết.\n\n## Các bước thực hiện\n\n1. **Chuẩn bị dụng cụ**\n2. **Tháo vỏ máy**\n3. **Thay pin mới**\n4. **Kiểm tra hoạt động**\n\n## Lưu ý quan trọng\n\n- Sử dụng pin chính hãng\n- Thực hiện cẩn thận\n- Kiểm tra kỹ sau khi thay",
+        content: "# Hướng dẫn thay pin iPhone 15\n\n## Giới thiệu\n\nThay pin iPhone là một dịch vụ quan trọng để duy trì hiệu suất thiết bị. Bài viết này sẽ hướng dẫn bạn tất cả những gì cần biết.\n\n## Các bước thực hiện\n\n1. **Chuẩn bị dụng cụ**\n2. **Tháo vỏ máy**\n3. **Thay pin mới**\n4. **Kiểm tra hoạt động**\n\n## Lưu ý quan trọng\n\n- Sử dụng linh kiện chính hãng\n- Thực hiện cẩn thận\n- Kiểm tra kỹ sau khi thay",
         category: "Hướng dẫn",
         tags: ["iPhone 15", "Thay pin", "Hướng dẫn", "Bảo trì"],
         featured: true,

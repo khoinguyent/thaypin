@@ -131,7 +131,7 @@ Mang iPhone đến bảo trì pin định kỳ 6-12 tháng một lần tại cá
 
 ## Kết Luận
 
-Việc áp dụng những mẹo trên sẽ giúp pin iPhone của bạn hoạt động tốt hơn và bền bỉ hơn. Nếu pin đã bị chai nghiêm trọng, hãy liên hệ **Thaypin.vn** để được tư vấn thay pin chính hãng.
+Việc áp dụng những mẹo trên sẽ giúp pin iPhone của bạn hoạt động tốt hơn và bền bỉ hơn. Nếu pin đã bị chai nghiêm trọng, hãy liên hệ **Thaypin.vn** để được tư vấn thay linh kiện chính hãng.
 
 *Đặt lịch thay pin: 0123 456 789*
     `,
@@ -233,7 +233,7 @@ Tại **Thaypin.vn**, chúng tôi thường xuyên gặp các trường hợp pi
 
 **Dịch vụ của chúng tôi**:
 - Kiểm tra pin miễn phí
-- Thay pin chính hãng
+- Thay linh kiện chính hãng
 - Tư vấn cách sử dụng đúng
 
 *Liên hệ ngay: 0123 456 789 để được tư vấn!*
@@ -247,7 +247,7 @@ Tại **Thaypin.vn**, chúng tôi thường xuyên gặp các trường hợp pi
   },
   {
     slug: "so-sanh-pin-chinh-hang-va-pin-zin",
-    title: "So Sánh Pin Chính Hãng Và Pin Zin: Nên Chọn Loại Nào?",
+    title: "So Sánh Linh Kiện Chính Hãng Và Pin Zin: Nên Chọn Loại Nào?",
     excerpt: "Phân tích chi tiết sự khác biệt giữa pin chính hãng Apple và pin zin, giúp bạn đưa ra lựa chọn phù hợp.",
     content: `
 # So Sánh Pin Chính Hãng Và Pin Zin: Nên Chọn Loại Nào?

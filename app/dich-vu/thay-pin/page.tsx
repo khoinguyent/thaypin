@@ -18,8 +18,8 @@ const processSteps = [
   },
   {
     step: 3,
-    title: "Thay pin chính hãng",
-    description: "Sử dụng pin chính hãng Apple, thay thế cẩn thận với quy trình chuẩn",
+    title: "Thay linh kiện chính hãng",
+    description: "Sử dụng linh kiện chính hãng, thay thế cẩn thận với quy trình chuẩn",
   },
   {
     step: 4,
@@ -74,7 +74,7 @@ export default function BatteryReplacementPage() {
                   <span className="text-primary block">Chính Hãng</span>
                 </h1>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Dịch vụ thay pin iPhone chuyên nghiệp với pin chính hãng Apple, bảo hành 12 tháng và thay thế nhanh
+                  Dịch vụ thay pin iPhone chuyên nghiệp với linh kiện chính hãng, bảo hành 12 tháng và thay thế nhanh
                   chóng chỉ trong 30 phút.
                 </p>
 
@@ -159,7 +159,7 @@ export default function BatteryReplacementPage() {
             <div className="text-center space-y-4 mb-16">
               <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">Bảng Giá Chi Tiết</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Giá cả minh bạch, cạnh tranh với chất lượng pin chính hãng Apple
+                Giá cả minh bạch, cạnh tranh với chất lượng linh kiện chính hãng
               </p>
             </div>
 
@@ -191,7 +191,7 @@ export default function BatteryReplacementPage() {
                     <div className="space-y-2 text-sm text-muted-foreground">
                       <div className="flex items-center">
                         <CheckCircle className="w-4 h-4 text-primary mr-2" />
-                        Pin chính hãng Apple
+                        Linh kiện chính hãng
                       </div>
                       <div className="flex items-center">
                         <Shield className="w-4 h-4 text-primary mr-2" />
@@ -226,11 +226,11 @@ export default function BatteryReplacementPage() {
               <Card className="bg-card border-border text-center">
                 <CardHeader>
                   <Battery className="w-12 h-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="font-space-grotesk">Pin Chính Hãng 100%</CardTitle>
+                  <CardTitle className="font-space-grotesk">Linh kiện Chính Hãng 100%</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-muted-foreground">
-                    Chỉ sử dụng pin chính hãng Apple, đảm bảo chất lượng và tuổi thọ tối ưu
+                    Chỉ sử dụng linh kiện chính hãng, đảm bảo chất lượng và tuổi thọ tối ưu
                   </CardDescription>
                 </CardContent>
               </Card>

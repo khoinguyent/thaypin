@@ -62,7 +62,7 @@ export default function PricingSection() {
             Bảng Giá Thay Pin iPhone
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Giá cả minh bạch, cạnh tranh nhất thị trường với chất lượng pin chính hãng
+            Giá cả minh bạch, cạnh tranh nhất thị trường với chất lượng linh kiện chính hãng
           </p>
         </div>
 
@@ -83,7 +83,7 @@ export default function PricingSection() {
                   <div className="text-sm text-muted-foreground line-through">{item.originalPrice}</div>
                 </div>
                 <div className="space-y-2 text-sm text-muted-foreground">
-                  <div>✓ Pin chính hãng</div>
+                  <div>✓ Linh kiện chính hãng</div>
                   <div>✓ Bảo hành 12 tháng</div>
                   <div>✓ Thay trong 30 phút</div>
                 </div>

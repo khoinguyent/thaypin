@@ -29,7 +29,7 @@ Cách đơn giản nhất là vào **Settings > Battery > Battery Health & Charg
 
 ## 3. Khi Nào Cần Thay Pin?
 
-Apple khuyến nghị thay pin khi Maximum Capacity dưới 80%. Tại Thaypin.vn, chúng tôi sử dụng pin chính hãng với bảo hành 12 tháng.
+Apple khuyến nghị thay pin khi Maximum Capacity dưới 80%. Tại Thaypin.vn, chúng tôi sử dụng linh kiện chính hãng với bảo hành 12 tháng.
 
 **Liên hệ ngay: 0123.456.789 để được tư vấn miễn phí!**`,
     category: "Hướng dẫn",
@@ -160,7 +160,7 @@ Khi cần thay pin iPhone, bạn sẽ có 2 lựa chọn chính: pin zin (chính
 
 ## Khuyến Nghị Của Thaypin.vn
 
-Chúng tôi khuyên dùng pin chính hãng hoặc pin thay thế chất lượng cao từ các nhà sản xuất uy tín. Tại Thaypin.vn, chúng tôi chỉ sử dụng pin đạt chuẩn với bảo hành 12 tháng.
+Chúng tôi khuyên dùng linh kiện chính hãng hoặc pin thay thế chất lượng cao từ các nhà sản xuất uy tín. Tại thaypin.vn, chúng tôi chỉ sử dụng pin đạt chuẩn với bảo hành 12 tháng.
 
 **Liên hệ 0123.456.789 để được tư vấn loại pin phù hợp!**`,
     category: "So sánh",
