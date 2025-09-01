@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -27,6 +27,7 @@ import {
 
 
 export default function BatteryImagesManager() {
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [images, setImages] = useState<BatteryImage[]>([])
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
@@ -394,17 +395,20 @@ export default function BatteryImagesManager() {
                       ) : (
                         <div className="space-y-2">
                           <input
+                            ref={fileInputRef}
                             type="file"
                             accept="image/*"
                             onChange={handleFileSelect}
                             className="hidden"
-                            id="image-upload"
                           />
-                          <label htmlFor="image-upload">
-                            <Button type="button" variant="outline" className="w-full cursor-pointer">
-                              Chọn file
-                            </Button>
-                          </label>
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            className="w-full cursor-pointer"
+                            onClick={() => fileInputRef.current?.click()}
+                          >
+                            Chọn file
+                          </Button>
                         </div>
                       )}
                     </div>
