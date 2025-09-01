@@ -32,6 +32,7 @@ export default function BatteryImagesManager() {
   const [editingImage, setEditingImage] = useState<BatteryImage | null>(null)
   const [uploading, setUploading] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [isDragOver, setIsDragOver] = useState(false)
   const [formData, setFormData] = useState({
     set_name: 'battery-images-set',
     url: '',
@@ -123,24 +124,7 @@ export default function BatteryImagesManager() {
     setShowModal(true)
   }
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        alert('Vui lòng chọn file hình ảnh')
-        return
-      }
-      
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File quá lớn. Vui lòng chọn file nhỏ hơn 5MB')
-        return
-      }
-      
-      setSelectedFile(file)
-    }
-  }
+
 
   const handleUpload = async () => {
     if (!selectedFile) {
@@ -180,6 +164,50 @@ export default function BatteryImagesManager() {
 
   const removeSelectedFile = () => {
     setSelectedFile(null)
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(false)
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(false)
+    
+    const files = e.dataTransfer.files
+    if (files.length > 0) {
+      const file = files[0]
+      validateAndSetFile(file)
+    }
+  }
+
+  const validateAndSetFile = (file: File) => {
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Vui lòng chọn file hình ảnh')
+      return
+    }
+    
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File quá lớn. Vui lòng chọn file nhỏ hơn 5MB')
+      return
+    }
+    
+    setSelectedFile(file)
+  }
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      validateAndSetFile(file)
+    }
   }
 
   if (loading) {
@@ -316,11 +344,20 @@ export default function BatteryImagesManager() {
                   />
                   
                   {/* Upload Section */}
-                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4">
+                  <div 
+                    className={`border-2 border-dashed rounded-lg p-4 transition-colors ${
+                      isDragOver 
+                        ? 'border-primary bg-primary/5' 
+                        : 'border-muted-foreground/25'
+                    }`}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                  >
                     <div className="text-center space-y-2">
                       <Upload className="w-8 h-8 mx-auto text-muted-foreground" />
                       <p className="text-sm text-muted-foreground">
-                        Hoặc upload hình ảnh từ máy tính
+                        {isDragOver ? 'Thả file vào đây' : 'Kéo thả hoặc click để chọn file'}
                       </p>
                       
                       {selectedFile ? (
@@ -355,11 +392,14 @@ export default function BatteryImagesManager() {
                             className="hidden"
                             id="image-upload"
                           />
-                          <label htmlFor="image-upload">
-                            <Button type="button" variant="outline" className="w-full cursor-pointer">
-                              Chọn file
-                            </Button>
-                          </label>
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            className="w-full cursor-pointer"
+                            onClick={() => document.getElementById('image-upload')?.click()}
+                          >
+                            Chọn file
+                          </Button>
                         </div>
                       )}
                     </div>
