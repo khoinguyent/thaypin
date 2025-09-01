@@ -4,18 +4,15 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { 
   Plus, 
   Edit, 
   Trash2, 
   Eye, 
   EyeOff, 
-  CheckCircle, 
-  XCircle,
   Image as ImageIcon
 } from 'lucide-react'
 import { 
