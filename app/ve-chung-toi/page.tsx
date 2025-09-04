@@ -291,7 +291,7 @@ export default function AboutPage() {
                           </Badge>
                         </>
                       )}
-                      {member.role === "Kỹ thuật viên" && (
+                      {member.role === "Kỹ thuật viên" && member.name === "Dương Tấn Thông" && (
                         <>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-orange-100 text-orange-700 hover:bg-orange-200">
                             Thay pin
@@ -310,7 +310,7 @@ export default function AboutPage() {
                           </Badge>
                         </>
                       )}
-                      {member.role === "Kỹ thuật viên" && (
+                      {member.role === "Kỹ thuật viên" && member.name === "Nguyễn Hoàng Ngọc Lâm" && (
                         <>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-teal-100 text-teal-700 hover:bg-teal-200">
                             Phần cứng
