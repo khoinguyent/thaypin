@@ -7,25 +7,25 @@ import { Users, Award, Shield, Clock, CheckCircle, Star, Heart, Target, Zap, Pho
 
 const teamMembers = [
   {
-    name: "Nguyễn Văn A",
-    role: "Founder & CEO",
-    experience: "8 năm kinh nghiệm",
-    description: "Chuyên gia sửa chữa iPhone với hơn 8 năm kinh nghiệm trong ngành",
-    image: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Default_a_detailed_portraiture_of_an_Asian_male_technician_eng_0.jpg?height=300&width=300&text=CEO",
+    name: "Trần Nhật Hãn",
+    role: "CEO",
+    experience: "5 năm kinh nghiệm",
+    description: "Chuyên viên tư vấn sản phẩm và chăm sóc khách hàng. Làm việc tại thaypin.vn, LBTool.vn, Icfix .vn",
+    image: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Ha%CC%83n.jpg?height=300&width=300&text=CEO",
   },
   {
-    name: "Trần Thị B",
-    role: "Kỹ thuật viên trưởng",
-    experience: "6 năm kinh nghiệm",
-    description: "Chuyên về thay pin và sửa chữa bo mạch iPhone các dòng mới nhất",
-    image: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Gemini_Generated_Image_m5ncum5ncum5ncum.png?height=300&width=300&text=Tech+Lead",
-  },
-  {
-    name: "Lê Văn C",
+    name: "Dương Tấn Thông",
     role: "Kỹ thuật viên",
-    experience: "4 năm kinh nghiệm",
-    description: "Chuyên gia kiểm tra và chẩn đoán lỗi pin iPhone",
-    image: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Gemini_Generated_Image_u0lbpxu0lbpxu0lb.png?height=300&width=300&text=Technician",
+    experience: "10 năm kinh nghiệm",
+    description: "Chuyên ép kính, thay pin, làm iFace, camera...",
+    image: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Thong.jpg?height=300&width=300&text=Tech+Lead",
+  },
+  {
+    name: "Nguyễn Hoàng Ngọc Lâm",
+    role: "Kỹ thuật viên",
+    experience: "10 năm kinh nghiệm",
+    description: "Chuyên sửa chửa phần cứng các dòng iPhone, iPad, Samsung.",
+    image: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/La%CC%82m.jpg?height=300&width=300&text=Technician",
   },
 ]
 
@@ -278,20 +278,20 @@ export default function AboutPage() {
                     
                     {/* Skills/Expertise tags */}
                     <div className="flex flex-wrap justify-center gap-2 pt-2">
-                      {member.role === "Founder & CEO" && (
+                      {member.role === "CEO" && (
                         <>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-green-100 text-green-700 hover:bg-green-200">
-                            Quản lý
+                            Tư vấn sản phẩm
                           </Badge>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200">
-                            Chiến lược
+                            Chăm sóc khách hàng
                           </Badge>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-purple-100 text-purple-700 hover:bg-purple-200">
-                            Kinh nghiệm
+                            Trên 5 năm kinh nghiệm
                           </Badge>
                         </>
                       )}
-                      {member.role === "Kỹ thuật viên trưởng" && (
+                      {member.role === "Kỹ thuật viên" && (
                         <>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-orange-100 text-orange-700 hover:bg-orange-200">
                             Thay pin
@@ -300,20 +300,26 @@ export default function AboutPage() {
                             Bo mạch
                           </Badge>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-indigo-100 text-indigo-700 hover:bg-indigo-200">
-                            iPhone mới
+                            Ép kính
+                          </Badge>
+                          <Badge variant="secondary" className="text-xs px-3 py-1 bg-yellow-100 text-yellow-700 hover:bg-yellow-200">
+                            Camera
+                          </Badge>
+                          <Badge variant="secondary" className="text-xs px-3 py-1 bg-yellow-100 text-yellow-700 hover:bg-yellow-200">
+                            Trên 10 năm kinh nghiệm
                           </Badge>
                         </>
                       )}
                       {member.role === "Kỹ thuật viên" && (
                         <>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-teal-100 text-teal-700 hover:bg-teal-200">
-                            Kiểm tra
+                            Phần cứng
                           </Badge>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-pink-100 text-pink-700 hover:bg-pink-200">
-                            Chẩn đoán
+                            iPhone, iPad, Samsung
                           </Badge>
                           <Badge variant="secondary" className="text-xs px-3 py-1 bg-yellow-100 text-yellow-700 hover:bg-yellow-200">
-                            Pin iPhone
+                            Trên 10 năm kinh nghiệm
                           </Badge>
                         </>
                       )}
