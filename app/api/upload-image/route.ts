@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     const canonicalQueryString = ''
     const canonicalHeaders = `host:${new URL(process.env.CLOUDFLARE_R2_ENDPOINT!).host}\nx-amz-date:${awsTimestamp}\n`
     const signedHeaders = 'host;x-amz-date'
-    const payloadHash = crypto.createHash('sha256').update(await image.arrayBuffer()).digest('hex')
+    const payloadHash = crypto.createHash('sha256').update(Buffer.from(await image.arrayBuffer())).digest('hex')
     
     const canonicalRequest = `PUT\n${canonicalUri}\n${canonicalQueryString}\n${canonicalHeaders}\n${signedHeaders}\n${payloadHash}`
     
