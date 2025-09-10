@@ -76,7 +76,7 @@ export default function BlogManagementPage() {
             return post.tags;
           }
           if (typeof post.tags === 'string') {
-            return post.tags.split(",").filter(tag => tag.trim());
+            return (post.tags as string).split(",").filter(tag => tag.trim());
           }
           return [];
         })(),
