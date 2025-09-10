@@ -34,7 +34,7 @@ export default function SmartLink({ href, children, className = "" }: SmartLinkP
         // Default to URL
         setLinkType('url')
         setIsLoading(false)
-      } catch (error) {
+      } catch {
         setLinkType('url')
         setIsLoading(false)
       }
