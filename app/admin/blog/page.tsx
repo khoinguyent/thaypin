@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
+import { getAllBlogPosts } from "@/lib/blog-actions"
 import { 
   Plus, 
   Edit, 
@@ -59,58 +60,31 @@ export default function BlogManagementPage() {
 
   const loadBlogPosts = async () => {
     try {
-      // For now, using sample data - replace with actual API call
-      const samplePosts: BlogPost[] = [
-        {
-          id: "1",
-          title: "Hướng dẫn thay pin iPhone 15 - Tất cả những gì bạn cần biết",
-          slug: "huong-dan-thay-pin-iphone-15",
-          excerpt: "Hướng dẫn chi tiết về quy trình thay pin iPhone 15, các lưu ý quan trọng và địa chỉ uy tín để thực hiện dịch vụ.",
-          content: "Nội dung bài viết...",
-          category: "Hướng dẫn",
-          tags: ["iPhone 15", "Thay pin", "Hướng dẫn"],
-          featured: true,
-          is_published: true,
-          image_url: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/iphone-15-battery.jpg",
-          created_at: "2025-01-31T10:00:00Z",
-          updated_at: "2025-01-31T10:00:00Z",
-          author: "thaypin.vn"
-        },
-        {
-          id: "2",
-          title: "5 dấu hiệu cho thấy iPhone của bạn cần thay pin ngay lập tức",
-          slug: "5-dau-hieu-can-thay-pin-iphone",
-          excerpt: "Nhận biết các dấu hiệu cảnh báo pin iPhone đã chai và cần được thay thế để tránh hư hỏng thiết bị.",
-          content: "Nội dung bài viết...",
-          category: "Kiến thức",
-          tags: ["Pin iPhone", "Dấu hiệu", "Bảo trì"],
-          featured: false,
-          is_published: true,
-          image_url: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/iphone-battery-warning.jpg",
-          created_at: "2025-01-30T15:30:00Z",
-          updated_at: "2025-01-30T15:30:00Z",
-          author: "thaypin.vn"
-        },
-        {
-          id: "3",
-          title: "So sánh pin iPhone 14 vs iPhone 15: Đâu là lựa chọn tốt nhất?",
-          slug: "so-sanh-pin-iphone-14-vs-15",
-          excerpt: "Phân tích chi tiết về hiệu suất pin giữa iPhone 14 và iPhone 15, giúp bạn đưa ra quyết định mua sắm thông minh.",
-          content: "Nội dung bài viết...",
-          category: "So sánh",
-          tags: ["iPhone 14", "iPhone 15", "So sánh", "Pin"],
-          featured: true,
-          is_published: false,
-          image_url: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/iphone-14-15-comparison.jpg",
-          created_at: "2025-01-29T09:15:00Z",
-          updated_at: "2025-01-29T09:15:00Z",
-          author: "thaypin.vn"
-        }
-      ]
+      // Fetch real blog posts from database
+      const posts = await getAllBlogPosts()
+      
+      // Transform the data to match the expected interface
+      const transformedPosts: BlogPost[] = posts.map(post => ({
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        excerpt: post.excerpt || "",
+        content: post.content,
+        category: post.category,
+        tags: Array.isArray(post.tags) ? post.tags : (post.tags || "").split(",").filter(tag => tag.trim()),
+        featured: post.featured || false,
+        is_published: post.published || false,
+        image_url: post.image_url || "",
+        created_at: post.created_at,
+        updated_at: post.updated_at,
+        author: "thaypin.vn" // Default author
+      }))
 
-      setBlogPosts(samplePosts)
+      setBlogPosts(transformedPosts)
     } catch (error) {
       console.error("Lỗi khi tải danh sách bài viết:", error)
+      // Set empty array on error instead of sample data
+      setBlogPosts([])
     } finally {
       setIsLoading(false)
     }

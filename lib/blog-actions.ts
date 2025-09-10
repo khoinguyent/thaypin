@@ -252,6 +252,29 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   return data || []
 }
 
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+  const dbAvailable = await isDatabaseAvailable()
+  if (!dbAvailable) {
+    console.log("[v0] Database not available, returning sample blog posts")
+    return SAMPLE_BLOG_POSTS
+  }
+
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .order("created_at", { ascending: false })
+
+  if (error) {
+    console.error("Error fetching all blog posts:", error.message)
+    console.error("Error details:", error)
+    return SAMPLE_BLOG_POSTS // Return sample data on error
+  }
+
+  return data || []
+}
+
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   const dbAvailable = await isDatabaseAvailable()
   if (!dbAvailable) {
