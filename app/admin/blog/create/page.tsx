@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
+import { createBlogPost } from "@/lib/blog-actions"
 
 import { 
   ArrowLeft, 
@@ -146,14 +147,28 @@ export default function CreateBlogPostPage() {
         return
       }
 
-      // API call to create blog post
-      console.log("Tạo bài viết mới:", formData)
+      // Create FormData for the API call
+      const submitFormData = new FormData()
+      submitFormData.set("title", formData.title)
+      submitFormData.set("slug", formData.slug)
+      submitFormData.set("excerpt", formData.excerpt)
+      submitFormData.set("content", formData.content)
+      submitFormData.set("category", formData.category)
+      submitFormData.set("tags", formData.tags.join(","))
+      submitFormData.set("featured", formData.featured ? "on" : "off")
+      submitFormData.set("image_url", formData.image_url)
+      submitFormData.set("meta_description", formData.excerpt) // Use excerpt as meta description
+      submitFormData.set("video_type", "none") // Default to no video
+
+      // Call the createBlogPost function
+      await createBlogPost(submitFormData)
       
-      // For now, just redirect back to blog management
-      // Replace with actual API call
+      // Show success message and redirect
+      alert("Tạo bài viết thành công!")
       router.push("/admin/blog")
       
-    } catch {
+    } catch (error) {
+      console.error("Error creating blog post:", error)
       alert("Có lỗi xảy ra khi tạo bài viết. Vui lòng thử lại.")
     } finally {
       setIsSubmitting(false)
