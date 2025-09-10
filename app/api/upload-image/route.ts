@@ -72,13 +72,13 @@ export async function POST(request: NextRequest) {
 
     // Create AWS S3-compatible signature for R2
     const now = new Date()
-    const timestamp = now.toISOString().replace(/[:\-]|\.\d{3}/g, '')
-    const date = timestamp.substr(0, 8)
+    const awsTimestamp = now.toISOString().replace(/[:\-]|\.\d{3}/g, '')
+    const date = awsTimestamp.substr(0, 8)
     
     // Create the canonical request
     const canonicalUri = `/${process.env.CLOUDFLARE_R2_BUCKET}/${filename}`
     const canonicalQueryString = ''
-    const canonicalHeaders = `host:${new URL(process.env.CLOUDFLARE_R2_ENDPOINT!).host}\nx-amz-date:${timestamp}\n`
+    const canonicalHeaders = `host:${new URL(process.env.CLOUDFLARE_R2_ENDPOINT!).host}\nx-amz-date:${awsTimestamp}\n`
     const signedHeaders = 'host;x-amz-date'
     const payloadHash = crypto.createHash('sha256').update(await image.arrayBuffer()).digest('hex')
     
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
     // Create the string to sign
     const algorithm = 'AWS4-HMAC-SHA256'
     const credentialScope = `${date}/auto/s3/aws4_request`
-    const stringToSign = `${algorithm}\n${timestamp}\n${credentialScope}\n${crypto.createHash('sha256').update(canonicalRequest).digest('hex')}`
+    const stringToSign = `${algorithm}\n${awsTimestamp}\n${credentialScope}\n${crypto.createHash('sha256').update(canonicalRequest).digest('hex')}`
     
     // Calculate the signature
     const signingKey = getSignatureKey(process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY!, date, 'auto', 's3')
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
       headers: {
         'Authorization': authorizationHeader,
         'Content-Type': image.type,
-        'x-amz-date': timestamp,
+        'x-amz-date': awsTimestamp,
         'x-amz-content-sha256': payloadHash,
       },
       body: image,
