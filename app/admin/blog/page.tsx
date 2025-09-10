@@ -71,7 +71,7 @@ export default function BlogManagementPage() {
         excerpt: post.excerpt || "",
         content: post.content,
         category: post.category,
-        tags: Array.isArray(post.tags) ? post.tags : (post.tags || "").split(",").filter(tag => tag.trim()),
+        tags: Array.isArray(post.tags) ? post.tags : (typeof post.tags === 'string' ? post.tags.split(",").filter(tag => tag.trim()) : []),
         featured: post.featured || false,
         is_published: post.published || false,
         image_url: post.image_url || "",
