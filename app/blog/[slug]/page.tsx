@@ -10,6 +10,7 @@ import Link from "next/link"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import { getBlogPostBySlug, getBlogPosts } from "@/lib/blog-actions"
+import SmartLink from "@/components/smart-link"
 
 
 
@@ -110,8 +111,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   className="mb-4"
                 />
               ) : (
-                <div className="aspect-video overflow-hidden rounded-lg">
-                  <img src={post.image_url || "/placeholder.svg"} alt={post.title} className="w-full h-full object-cover" />
+                <div className="w-full rounded-lg overflow-hidden">
+                  <img src={post.image_url || "/placeholder.svg"} alt={post.title} className="w-full h-auto object-contain max-h-96" />
                 </div>
               )}
             </div>
@@ -143,6 +144,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             blockquote: ({children}) => <blockquote className="border-l-4 border-primary pl-6 italic text-muted-foreground mb-6 bg-primary/5 py-4 rounded-r-lg">{children}</blockquote>,
                             code: ({children}) => <code className="bg-muted px-2 py-1 rounded text-sm font-mono text-primary">{children}</code>,
                             pre: ({children}) => <pre className="bg-muted p-4 rounded-lg overflow-x-auto mb-6 border border-border">{children}</pre>,
+                            a: ({href, children}) => <SmartLink href={href || ''}>{children}</SmartLink>,
                           }}
                         >
                           {post.content}
@@ -181,10 +183,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       <p className="text-sm text-muted-foreground">Liên hệ với chuyên gia để được tư vấn miễn phí</p>
                       <Button 
                         size="sm"
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground text-sm px-4 py-2 h-auto"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs px-3 py-2 h-auto w-full break-words"
                       >
-                        <Phone className="w-4 h-4 mr-2" />
-                        Gọi ngay: 0969 674 679
+                        <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
+                        <span className="truncate">Gọi ngay: 0969 674 679</span>
                       </Button>
                     </CardContent>
                   </Card>
