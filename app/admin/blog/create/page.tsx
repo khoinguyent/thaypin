@@ -19,6 +19,7 @@ import {
   X,
   FileText,
   Image as ImageIcon,
+  Video as VideoIcon,
   Tag,
   User
 } from "lucide-react"
@@ -34,6 +35,8 @@ interface BlogPostForm {
   featured: boolean
   is_published: boolean
   image_url: string
+  video_url: string
+  video_type: string
   author: string
 }
 
@@ -48,6 +51,8 @@ export default function CreateBlogPostPage() {
     featured: false,
     is_published: false,
     image_url: "",
+    video_url: "",
+    video_type: "none",
     author: "thaypin.vn"
   })
   
@@ -55,6 +60,8 @@ export default function CreateBlogPostPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [imageUploadStatus, setImageUploadStatus] = useState("")
   const [imageUrl, setImageUrl] = useState("")
+  const [videoUploadStatus, setVideoUploadStatus] = useState("")
+  const [videoUrl, setVideoUrl] = useState("")
   const router = useRouter()
 
   useEffect(() => {
@@ -115,7 +122,7 @@ export default function CreateBlogPostPage() {
 
     try {
       const formData = new FormData()
-      formData.append('image', file)
+      formData.append('file', file)
 
       const response = await fetch('/api/upload-image', {
         method: 'POST',
@@ -133,6 +140,50 @@ export default function CreateBlogPostPage() {
       }
     } catch {
       setImageUploadStatus("Lỗi kết nối. Vui lòng thử lại.")
+    }
+  }
+
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Client-side validation
+    if (!file.type.startsWith('video/')) {
+      setVideoUploadStatus("Lỗi: Chỉ chấp nhận file video")
+      return
+    }
+
+    if (file.size > 50 * 1024 * 1024) {
+      setVideoUploadStatus("Lỗi: File quá lớn (tối đa 50MB)")
+      return
+    }
+
+    setVideoUploadStatus("Đang tải lên...")
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/upload-image', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setVideoUrl(data.url)
+        setFormData(prev => ({ 
+          ...prev, 
+          video_url: data.url,
+          video_type: "upload"
+        }))
+        setVideoUploadStatus("Tải lên thành công!")
+      } else {
+        const error = await response.json()
+        setVideoUploadStatus(`Lỗi: ${error.error}`)
+      }
+    } catch {
+      setVideoUploadStatus("Lỗi kết nối. Vui lòng thử lại.")
     }
   }
 
@@ -157,8 +208,9 @@ export default function CreateBlogPostPage() {
       submitFormData.set("tags", formData.tags.join(","))
       submitFormData.set("featured", formData.featured ? "on" : "off")
       submitFormData.set("image_url", formData.image_url)
+      submitFormData.set("video_url", formData.video_url)
+      submitFormData.set("video_type", formData.video_type)
       submitFormData.set("meta_description", formData.excerpt) // Use excerpt as meta description
-      submitFormData.set("video_type", "none") // Default to no video
 
       // Call the createBlogPost function
       await createBlogPost(submitFormData)
@@ -347,6 +399,115 @@ export default function CreateBlogPostPage() {
                         value={imageUrl}
                         onChange={(e) => handleInputChange("image_url", e.target.value)}
                         placeholder="URL hình ảnh..."
+                        className="text-sm"
+                      />
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Video Upload */}
+              <Card className="bg-white border-0 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <VideoIcon className="w-5 h-5 text-primary" />
+                    <span>Video bài viết</span>
+                  </CardTitle>
+                  <CardDescription>
+                    Tải lên video hoặc nhập URL video cho bài viết
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="video-type">Loại video</Label>
+                    <select
+                      id="video-type"
+                      value={formData.video_type}
+                      onChange={(e) => handleInputChange("video_type", e.target.value)}
+                      className="w-full p-2 border border-border rounded-md bg-background"
+                    >
+                      <option value="none">Không có video</option>
+                      <option value="upload">Tải lên video</option>
+                      <option value="youtube">YouTube URL</option>
+                      <option value="url">URL video khác</option>
+                    </select>
+                  </div>
+
+                  {formData.video_type === "upload" && (
+                    <div className="space-y-2">
+                      <Label htmlFor="video">Chọn video</Label>
+                      <div className="flex items-center space-x-4">
+                        <Input
+                          id="video"
+                          type="file"
+                          accept="video/*"
+                          onChange={handleVideoUpload}
+                          className="flex-1"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => document.getElementById('video')?.click()}
+                        >
+                          <VideoIcon className="w-4 h-4 mr-2" />
+                          Chọn file
+                        </Button>
+                      </div>
+                      {videoUploadStatus && (
+                        <p className={`text-sm ${
+                          videoUploadStatus.includes("Lỗi") 
+                            ? "text-red-600" 
+                            : videoUploadStatus.includes("thành công") 
+                              ? "text-green-600" 
+                              : "text-blue-600"
+                        }`}>
+                          {videoUploadStatus}
+                        </p>
+                      )}
+                      <p className="text-xs text-muted-foreground">
+                        Hỗ trợ: MP4, WebM, OGG (tối đa 50MB)
+                      </p>
+                    </div>
+                  )}
+
+                  {(formData.video_type === "youtube" || formData.video_type === "url") && (
+                    <div className="space-y-2">
+                      <Label htmlFor="video-url">URL video</Label>
+                      <Input
+                        id="video-url"
+                        value={formData.video_url}
+                        onChange={(e) => handleInputChange("video_url", e.target.value)}
+                        placeholder={
+                          formData.video_type === "youtube" 
+                            ? "https://www.youtube.com/watch?v=..." 
+                            : "https://example.com/video.mp4"
+                        }
+                        className="text-sm"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        {formData.video_type === "youtube" 
+                          ? "Nhập URL YouTube (watch hoặc embed)" 
+                          : "Nhập URL video trực tiếp"}
+                      </p>
+                    </div>
+                  )}
+
+                  {videoUrl && (
+                    <div className="space-y-2">
+                      <Label>Video đã tải lên</Label>
+                      <div className="relative w-full h-48 rounded-lg overflow-hidden border bg-gray-100">
+                        <video
+                          src={videoUrl}
+                          controls
+                          className="w-full h-full object-contain"
+                        >
+                          Trình duyệt không hỗ trợ video.
+                        </video>
+                      </div>
+                      <Input
+                        value={videoUrl}
+                        onChange={(e) => handleInputChange("video_url", e.target.value)}
+                        placeholder="URL video..."
                         className="text-sm"
                       />
                     </div>

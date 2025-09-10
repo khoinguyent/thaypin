@@ -36,38 +36,45 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = await request.formData()
-    const image = formData.get('image') as File
+    const file = formData.get('file') as File
 
-    if (!image) {
-      return NextResponse.json({ error: 'No image provided' }, { status: 400 })
+    if (!file) {
+      return NextResponse.json({ error: 'No file provided' }, { status: 400 })
     }
 
-    // Validate file type
-    if (!image.type.startsWith('image/')) {
-      return NextResponse.json({ error: 'Invalid file type' }, { status: 400 })
+    // Validate file type (images and videos)
+    const isImage = file.type.startsWith('image/')
+    const isVideo = file.type.startsWith('video/')
+    
+    if (!isImage && !isVideo) {
+      return NextResponse.json({ error: 'Invalid file type. Only images and videos are allowed.' }, { status: 400 })
     }
 
-    // Validate file size (max 5MB)
-    if (image.size > 5 * 1024 * 1024) {
-      return NextResponse.json({ error: 'File too large' }, { status: 400 })
+    // Validate file size (max 50MB for videos, 5MB for images)
+    const maxSize = isVideo ? 50 * 1024 * 1024 : 5 * 1024 * 1024
+    if (file.size > maxSize) {
+      const maxSizeMB = isVideo ? 50 : 5
+      return NextResponse.json({ error: `File too large. Maximum size: ${maxSizeMB}MB` }, { status: 400 })
     }
 
-    // Get image type from query parameter
+    // Get file type from query parameter
     const { searchParams } = new URL(request.url)
-    const imageType = searchParams.get('type') || 'blog'
+    const fileType = searchParams.get('type') || 'blog'
     
     // Generate unique filename
     const timestamp = Date.now()
     const randomString = Math.random().toString(36).substring(2, 15)
-    const extension = image.name.split('.').pop()
-    const filename = `${imageType}-images/${timestamp}-${randomString}.${extension}`
+    const extension = file.name.split('.').pop()
+    const folder = isVideo ? 'videos' : 'images'
+    const filename = `${fileType}-${folder}/${timestamp}-${randomString}.${extension}`
 
     console.log('Uploading to R2:', {
       endpoint: process.env.CLOUDFLARE_R2_ENDPOINT,
       bucket: process.env.CLOUDFLARE_R2_BUCKET,
       filename,
-      size: image.size,
-      type: image.type
+      size: file.size,
+      type: file.type,
+      isVideo: isVideo
     })
 
     // Create AWS S3-compatible signature for R2
@@ -80,7 +87,7 @@ export async function POST(request: NextRequest) {
     const canonicalQueryString = ''
     const canonicalHeaders = `host:${new URL(process.env.CLOUDFLARE_R2_ENDPOINT!).host}\nx-amz-date:${awsTimestamp}\n`
     const signedHeaders = 'host;x-amz-date'
-    const payloadHash = crypto.createHash('sha256').update(Buffer.from(await image.arrayBuffer())).digest('hex')
+    const payloadHash = crypto.createHash('sha256').update(Buffer.from(await file.arrayBuffer())).digest('hex')
     
     const canonicalRequest = `PUT\n${canonicalUri}\n${canonicalQueryString}\n${canonicalHeaders}\n${signedHeaders}\n${payloadHash}`
     
@@ -100,11 +107,11 @@ export async function POST(request: NextRequest) {
       method: 'PUT',
       headers: {
         'Authorization': authorizationHeader,
-        'Content-Type': image.type,
+        'Content-Type': file.type,
         'x-amz-date': awsTimestamp,
         'x-amz-content-sha256': payloadHash,
       },
-      body: image,
+      body: file,
     })
 
     if (!r2Response.ok) {
@@ -125,15 +132,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ 
       url: publicUrl,
       filename: filename,
-      size: image.size,
-      type: image.type
+      size: file.size,
+      type: file.type,
+      isVideo: isVideo
     })
 
   } catch (error) {
-    console.error('Image upload error:', error)
+    console.error('File upload error:', error)
     return NextResponse.json(
       { 
-        error: 'Failed to upload image',
+        error: 'Failed to upload file',
         details: error instanceof Error ? error.message : 'Unknown error'
       }, 
       { status: 500 }
