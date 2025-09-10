@@ -23,25 +23,23 @@ This guide will help you set up Cloudflare R2 Object Storage for image uploads i
    - **Location**: Choose closest to your users (e.g., APAC for Vietnam)
    - Click "Create bucket"
 
-## 🔑 **Step 2: Create API Token**
+## 🔑 **Step 2: Create R2 API Token (Access Key/Secret)**
 
-1. **Go to API Tokens**
-   - In Cloudflare dashboard, click "My Profile" (top right)
-   - Click "API Tokens" tab
-   - Click "Create Token"
+1. **Go to R2 API Tokens**
+   - In Cloudflare dashboard, go to R2 Object Storage
+   - Click on "Manage R2 API Tokens"
+   - Click "Create API Token"
 
 2. **Configure Token**
    - **Token name**: `thaypin-r2-upload`
    - **Permissions**: 
-     - **Account**: `Cloudflare R2:Edit` (for your account)
-     - **Zone**: `Zone:Edit` (for your domain)
-   - **Account Resources**: Include specific account
-   - **Zone Resources**: Include specific zone (your domain)
+     - **Object Read & Write** (for uploading and accessing images)
+   - **Bucket**: Select your specific bucket (e.g., `thaypin-images`)
+   - **TTL**: Set appropriate expiration (or leave blank for no expiration)
 
 3. **Create Token**
-   - Click "Continue to summary"
-   - Click "Create Token"
-   - **IMPORTANT**: Copy the token immediately (you won't see it again!)
+   - Click "Create API Token"
+   - **IMPORTANT**: Copy both the **Access Key ID** and **Secret Access Key** immediately (you won't see the secret again!)
 
 ## 🌐 **Step 3: Get Account ID and Endpoint**
 
@@ -76,7 +74,8 @@ Create a `.env.local` file in your project root with these variables:
 ```bash
 # Cloudflare R2 Configuration
 CLOUDFLARE_R2_ENDPOINT=https://your-account-id.r2.cloudflarestorage.com
-CLOUDFLARE_R2_TOKEN=your-r2-api-token-here
+CLOUDFLARE_R2_ACCESS_KEY_ID=your-access-key-id-here
+CLOUDFLARE_R2_SECRET_ACCESS_KEY=your-secret-access-key-here
 CLOUDFLARE_R2_PUBLIC_URL=https://images.thaypin.vn
 CLOUDFLARE_R2_BUCKET=thaypin-images
 CLOUDFLARE_R2_ACCOUNT_ID=your-account-id
@@ -107,9 +106,10 @@ CLOUDFLARE_R2_ACCOUNT_ID=your-account-id
 - Restart your development server
 
 ### **Error: "R2 upload failed: 401 Unauthorized"**
-- Check your API token has correct permissions
-- Verify token hasn't expired
-- Ensure token has access to the specific bucket
+- Check your Access Key ID and Secret Access Key are correct
+- Verify the R2 API token hasn't expired
+- Ensure the token has access to the specific bucket
+- Check that the endpoint URL is correct
 
 ### **Error: "R2 upload failed: 403 Forbidden"**
 - Check bucket permissions

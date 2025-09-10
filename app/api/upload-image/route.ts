@@ -1,11 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
+import crypto from 'crypto'
+
+// Helper function to create AWS signature key
+function getSignatureKey(key: string, dateStamp: string, regionName: string, serviceName: string) {
+  const kDate = crypto.createHmac('sha256', `AWS4${key}`).update(dateStamp).digest()
+  const kRegion = crypto.createHmac('sha256', kDate).update(regionName).digest()
+  const kService = crypto.createHmac('sha256', kRegion).update(serviceName).digest()
+  const kSigning = crypto.createHmac('sha256', kService).update('aws4_request').digest()
+  return kSigning
+}
 
 export async function POST(request: NextRequest) {
   try {
     // Check if required environment variables are set
     const requiredEnvVars = {
       CLOUDFLARE_R2_ENDPOINT: process.env.CLOUDFLARE_R2_ENDPOINT,
-      CLOUDFLARE_R2_TOKEN: process.env.CLOUDFLARE_R2_TOKEN,
+      CLOUDFLARE_R2_ACCESS_KEY_ID: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID,
+      CLOUDFLARE_R2_SECRET_ACCESS_KEY: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY,
       CLOUDFLARE_R2_PUBLIC_URL: process.env.CLOUDFLARE_R2_PUBLIC_URL,
       CLOUDFLARE_R2_BUCKET: process.env.CLOUDFLARE_R2_BUCKET,
       CLOUDFLARE_R2_ACCOUNT_ID: process.env.CLOUDFLARE_R2_ACCOUNT_ID,
@@ -59,12 +70,39 @@ export async function POST(request: NextRequest) {
       type: image.type
     })
 
-    // Upload to Cloudflare R2
-    const r2Response = await fetch(`${process.env.CLOUDFLARE_R2_ENDPOINT}/${filename}`, {
+    // Create AWS S3-compatible signature for R2
+    const now = new Date()
+    const timestamp = now.toISOString().replace(/[:\-]|\.\d{3}/g, '')
+    const date = timestamp.substr(0, 8)
+    
+    // Create the canonical request
+    const canonicalUri = `/${process.env.CLOUDFLARE_R2_BUCKET}/${filename}`
+    const canonicalQueryString = ''
+    const canonicalHeaders = `host:${new URL(process.env.CLOUDFLARE_R2_ENDPOINT!).host}\nx-amz-date:${timestamp}\n`
+    const signedHeaders = 'host;x-amz-date'
+    const payloadHash = crypto.createHash('sha256').update(await image.arrayBuffer()).digest('hex')
+    
+    const canonicalRequest = `PUT\n${canonicalUri}\n${canonicalQueryString}\n${canonicalHeaders}\n${signedHeaders}\n${payloadHash}`
+    
+    // Create the string to sign
+    const algorithm = 'AWS4-HMAC-SHA256'
+    const credentialScope = `${date}/auto/s3/aws4_request`
+    const stringToSign = `${algorithm}\n${timestamp}\n${credentialScope}\n${crypto.createHash('sha256').update(canonicalRequest).digest('hex')}`
+    
+    // Calculate the signature
+    const signingKey = getSignatureKey(process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY!, date, 'auto', 's3')
+    const signature = crypto.createHmac('sha256', signingKey).update(stringToSign).digest('hex')
+    
+    // Create authorization header
+    const authorizationHeader = `${algorithm} Credential=${process.env.CLOUDFLARE_R2_ACCESS_KEY_ID}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`
+    
+    const r2Response = await fetch(`${process.env.CLOUDFLARE_R2_ENDPOINT}${canonicalUri}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${process.env.CLOUDFLARE_R2_TOKEN}`,
+        'Authorization': authorizationHeader,
         'Content-Type': image.type,
+        'x-amz-date': timestamp,
+        'x-amz-content-sha256': payloadHash,
       },
       body: image,
     })
