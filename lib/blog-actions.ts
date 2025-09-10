@@ -180,17 +180,12 @@ Chúng tôi khuyên dùng linh kiện chính hãng hoặc pin thay thế chất 
 
 async function handleVideoUpload(videoFile: File): Promise<string | null> {
   try {
-    // For now, return a placeholder URL
-    // In production, this would upload to Vercel Blob or similar service
-    console.log("[v0] Video file upload:", videoFile.name, videoFile.size)
-
-    // Simulate upload delay
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    // Return a placeholder URL - in production this would be the actual uploaded file URL
-    return `/uploads/videos/${videoFile.name}`
+    // This function is no longer used since video uploads are handled client-side
+    // Return null to indicate no video file processing needed
+    console.log("Video upload handled client-side:", videoFile.name)
+    return null
   } catch (error) {
-    console.error("Error uploading video:", error)
+    console.error("Error in video upload handler:", error)
     return null
   }
 }
@@ -370,7 +365,6 @@ export async function createBlogPost(formData: FormData) {
 
   const videoType = (formData.get("video_type") as string) || "none"
   const videoUrl = formData.get("video_url") as string
-  const videoFile = formData.get("video_file") as File
   const videoThumbnail = formData.get("video_thumbnail") as string
 
   let processedVideoUrl: string | null = null
@@ -383,20 +377,15 @@ export async function createBlogPost(formData: FormData) {
     } else {
       throw new Error("URL video không hợp lệ")
     }
-  } else if (videoType === "upload" && videoFile && videoFile.size > 0) {
-    // Validate file size (max 100MB)
-    if (videoFile.size > 100 * 1024 * 1024) {
-      throw new Error("File video quá lớn (tối đa 100MB)")
-    }
-
-    // Validate file type
-    if (!videoFile.type.startsWith("video/")) {
-      throw new Error("File không phải là video")
-    }
-
-    processedVideoFileUrl = await handleVideoUpload(videoFile)
-    if (!processedVideoFileUrl) {
-      throw new Error("Không thể tải lên video")
+  } else if (videoType === "upload" && videoUrl) {
+    // Video was already uploaded client-side, use the provided URL
+    processedVideoFileUrl = videoUrl
+  } else if (videoType === "youtube" && videoUrl) {
+    // YouTube URL - validate and use directly
+    if (validateVideoUrl(videoUrl)) {
+      processedVideoUrl = videoUrl
+    } else {
+      throw new Error("URL YouTube không hợp lệ")
     }
   }
 
