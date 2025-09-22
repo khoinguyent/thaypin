@@ -47,7 +47,9 @@ export default function AdminMessagesPage() {
 
   const loadMessages = async () => {
     try {
+      console.log("Loading messages with filter:", filterStatus)
       const result = await getContactMessagesGrouped(filterStatus === "all" ? undefined : filterStatus)
+      console.log("Loaded result:", result)
       setMessages(result.messages)
       setGroupedMessages(result.groupedMessages)
       setStats(result.stats)

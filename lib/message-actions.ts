@@ -24,13 +24,20 @@ export async function getContactMessages(status?: string, limit: number = 50): P
     }
     params.append("limit", limit.toString())
 
-    const response = await fetch(`/api/admin/messages?${params}`)
+    const apiUrl = `${window.location.origin}/api/admin/messages?${params}`
+    console.log("Fetching messages from:", apiUrl)
+    
+    const response = await fetch(apiUrl)
+    console.log("Response status:", response.status)
     
     if (!response.ok) {
+      const errorText = await response.text()
+      console.error("API Error:", errorText)
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 
     const result = await response.json()
+    console.log("API Response:", result)
     return result.messages || []
   } catch (error) {
     console.error("Error in getContactMessages:", error)
@@ -47,13 +54,20 @@ export async function getContactMessagesGrouped(status?: string, limit: number =
     }
     params.append("limit", limit.toString())
 
-    const response = await fetch(`/api/admin/messages?${params}`)
+    const apiUrl = `${window.location.origin}/api/admin/messages?${params}`
+    console.log("Fetching grouped messages from:", apiUrl)
+    
+    const response = await fetch(apiUrl)
+    console.log("Grouped response status:", response.status)
     
     if (!response.ok) {
+      const errorText = await response.text()
+      console.error("Grouped API Error:", errorText)
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 
     const result = await response.json()
+    console.log("Grouped API Response:", result)
     return {
       messages: result.messages || [],
       groupedMessages: result.groupedMessages || {},
@@ -93,7 +107,7 @@ export async function getContactMessageById(id: string): Promise<ContactMessage 
 
 export async function updateMessageStatus(id: string, status: "pending" | "read" | "replied" | "closed"): Promise<boolean> {
   try {
-    const response = await fetch('/api/admin/messages', {
+    const response = await fetch(`${window.location.origin}/api/admin/messages`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -116,7 +130,7 @@ export async function updateMessageStatus(id: string, status: "pending" | "read"
 
 export async function deleteContactMessage(id: string): Promise<boolean> {
   try {
-    const response = await fetch(`/api/admin/messages?id=${id}`, {
+    const response = await fetch(`${window.location.origin}/api/admin/messages?id=${id}`, {
       method: 'DELETE'
     })
 
