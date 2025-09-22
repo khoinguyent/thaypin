@@ -142,17 +142,37 @@ export default function ContactPage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      // Send message to API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
 
-    setIsSubmitting(false)
-    setIsSubmitted(true)
+      const result = await response.json()
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({ name: "", phone: "", email: "", service: "", message: "" })
-    }, 3000)
+      if (!response.ok) {
+        throw new Error(result.error || 'Có lỗi xảy ra khi gửi tin nhắn')
+      }
+
+      // Success
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false)
+        setFormData({ name: "", phone: "", email: "", service: "", message: "" })
+      }, 5000)
+
+    } catch (error) {
+      console.error('Error sending message:', error)
+      setIsSubmitting(false)
+      alert(error instanceof Error ? error.message : 'Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại.')
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

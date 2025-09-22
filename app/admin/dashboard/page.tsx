@@ -265,7 +265,7 @@ export default function AdminDashboardPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href="/admin/contacts">
+              <Link href="/admin/messages">
                 <Button className="w-full bg-primary hover:bg-primary/90">
                   Xem tin nhắn
                 </Button>
