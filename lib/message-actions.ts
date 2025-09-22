@@ -45,7 +45,7 @@ export async function getContactMessages(status?: string, limit: number = 50): P
   }
 }
 
-export async function getContactMessagesGrouped(status?: string, limit: number = 50): Promise<{ messages: ContactMessage[], groupedMessages: { [key: string]: ContactMessage[] }, stats: any }> {
+export async function getContactMessagesGrouped(status?: string, limit: number = 50): Promise<{ messages: ContactMessage[], groupedMessages: { [key: string]: ContactMessage[] }, stats: { total: number, pending: number, read: number, replied: number, closed: number } }> {
   try {
     // Use the admin API endpoint that bypasses RLS
     const params = new URLSearchParams()
