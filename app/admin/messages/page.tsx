@@ -43,7 +43,7 @@ export default function AdminMessagesPage() {
     }
 
     loadMessages()
-  }, [router])
+  }, [router, loadMessages])
 
   const loadMessages = async () => {
     try {
@@ -91,8 +91,8 @@ export default function AdminMessagesPage() {
     }
   }
 
-  const groupMessagesByDate = (messages: any[]) => {
-    const groups: { [key: string]: any[] } = {}
+  const groupMessagesByDate = (messages: ContactMessage[]) => {
+    const groups: { [key: string]: ContactMessage[] } = {}
     
     messages.forEach(message => {
       const date = new Date(message.created_at)
@@ -119,7 +119,7 @@ export default function AdminMessagesPage() {
       .reduce((result, key) => {
         result[key] = groups[key]
         return result
-      }, {} as { [key: string]: any[] })
+      }, {} as { [key: string]: ContactMessage[] })
     
     return sortedGroups
   }

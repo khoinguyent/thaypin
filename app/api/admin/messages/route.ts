@@ -54,8 +54,8 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function groupMessagesByDate(messages: any[]) {
-  const groups: { [key: string]: any[] } = {}
+function groupMessagesByDate(messages: Array<{created_at: string, [key: string]: unknown}>) {
+  const groups: { [key: string]: Array<{created_at: string, [key: string]: unknown}> } = {}
   
   messages.forEach(message => {
     const date = new Date(message.created_at)
@@ -82,12 +82,12 @@ function groupMessagesByDate(messages: any[]) {
     .reduce((result, key) => {
       result[key] = groups[key]
       return result
-    }, {} as { [key: string]: any[] })
+    }, {} as { [key: string]: Array<{created_at: string, [key: string]: unknown}> })
   
   return sortedGroups
 }
 
-function calculateStats(messages: any[]) {
+function calculateStats(messages: Array<{status: string, [key: string]: unknown}>) {
   return {
     total: messages.length,
     pending: messages.filter(m => m.status === "pending").length,
