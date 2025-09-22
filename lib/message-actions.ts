@@ -24,7 +24,7 @@ export async function getContactMessages(status?: string, limit: number = 50): P
     }
     params.append("limit", limit.toString())
 
-    const apiUrl = `${window.location.origin}/api/messages?${params}`
+    const apiUrl = `${window.location.origin}/api/contact?${params}`
     console.log("Fetching messages from:", apiUrl)
     
     const response = await fetch(apiUrl)
@@ -54,7 +54,7 @@ export async function getContactMessagesGrouped(status?: string, limit: number =
     }
     params.append("limit", limit.toString())
 
-    const apiUrl = `${window.location.origin}/api/messages?${params}`
+    const apiUrl = `${window.location.origin}/api/contact?${params}`
     console.log("Fetching grouped messages from:", apiUrl)
     
     const response = await fetch(apiUrl)
@@ -107,7 +107,7 @@ export async function getContactMessageById(id: string): Promise<ContactMessage 
 
 export async function updateMessageStatus(id: string, status: "pending" | "read" | "replied" | "closed"): Promise<boolean> {
   try {
-    const response = await fetch(`${window.location.origin}/api/messages`, {
+    const response = await fetch(`${window.location.origin}/api/contact`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ export async function updateMessageStatus(id: string, status: "pending" | "read"
 
 export async function deleteContactMessage(id: string): Promise<boolean> {
   try {
-    const response = await fetch(`${window.location.origin}/api/messages?id=${id}`, {
+    const response = await fetch(`${window.location.origin}/api/contact?id=${id}`, {
       method: 'DELETE'
     })
 
