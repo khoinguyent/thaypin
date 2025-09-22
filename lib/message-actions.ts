@@ -17,29 +17,55 @@ export interface ContactMessage {
 
 export async function getContactMessages(status?: string, limit: number = 50): Promise<ContactMessage[]> {
   try {
-    const supabase = await createClient()
-
-    let query = supabase
-      .from("contact_messages")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(limit)
-
+    // Use the admin API endpoint that bypasses RLS
+    const params = new URLSearchParams()
     if (status && status !== "all") {
-      query = query.eq("status", status)
+      params.append("status", status)
+    }
+    params.append("limit", limit.toString())
+
+    const response = await fetch(`/api/admin/messages?${params}`)
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    const { data, error } = await query
-
-    if (error) {
-      console.error("Error fetching contact messages:", error)
-      return []
-    }
-
-    return data || []
+    const result = await response.json()
+    return result.messages || []
   } catch (error) {
     console.error("Error in getContactMessages:", error)
     return []
+  }
+}
+
+export async function getContactMessagesGrouped(status?: string, limit: number = 50): Promise<{ messages: ContactMessage[], groupedMessages: { [key: string]: ContactMessage[] }, stats: any }> {
+  try {
+    // Use the admin API endpoint that bypasses RLS
+    const params = new URLSearchParams()
+    if (status && status !== "all") {
+      params.append("status", status)
+    }
+    params.append("limit", limit.toString())
+
+    const response = await fetch(`/api/admin/messages?${params}`)
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    const result = await response.json()
+    return {
+      messages: result.messages || [],
+      groupedMessages: result.groupedMessages || {},
+      stats: result.stats || { total: 0, pending: 0, read: 0, replied: 0, closed: 0 }
+    }
+  } catch (error) {
+    console.error("Error in getContactMessagesGrouped:", error)
+    return {
+      messages: [],
+      groupedMessages: {},
+      stats: { total: 0, pending: 0, read: 0, replied: 0, closed: 0 }
+    }
   }
 }
 
@@ -67,20 +93,21 @@ export async function getContactMessageById(id: string): Promise<ContactMessage 
 
 export async function updateMessageStatus(id: string, status: "pending" | "read" | "replied" | "closed"): Promise<boolean> {
   try {
-    const supabase = await createClient()
+    const response = await fetch('/api/admin/messages', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id, status })
+    })
 
-    const { error } = await supabase
-      .from("contact_messages")
-      .update({ status })
-      .eq("id", id)
-
-    if (error) {
-      console.error("Error updating message status:", error)
-      return false
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
 
+    const result = await response.json()
     revalidatePath("/admin")
-    return true
+    return result.success
   } catch (error) {
     console.error("Error in updateMessageStatus:", error)
     return false
@@ -89,20 +116,17 @@ export async function updateMessageStatus(id: string, status: "pending" | "read"
 
 export async function deleteContactMessage(id: string): Promise<boolean> {
   try {
-    const supabase = await createClient()
+    const response = await fetch(`/api/admin/messages?id=${id}`, {
+      method: 'DELETE'
+    })
 
-    const { error } = await supabase
-      .from("contact_messages")
-      .delete()
-      .eq("id", id)
-
-    if (error) {
-      console.error("Error deleting contact message:", error)
-      return false
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
 
+    const result = await response.json()
     revalidatePath("/admin")
-    return true
+    return result.success
   } catch (error) {
     console.error("Error in deleteContactMessage:", error)
     return false

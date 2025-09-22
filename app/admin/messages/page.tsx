@@ -22,10 +22,12 @@ import {
   Trash2
 } from "lucide-react"
 import Link from "next/link"
-import { getContactMessages, updateMessageStatus, deleteContactMessage, type ContactMessage } from "@/lib/message-actions"
+import { getContactMessagesGrouped, updateMessageStatus, deleteContactMessage, type ContactMessage } from "@/lib/message-actions"
 
 export default function AdminMessagesPage() {
   const [messages, setMessages] = useState<ContactMessage[]>([])
+  const [groupedMessages, setGroupedMessages] = useState<{ [key: string]: ContactMessage[] }>({})
+  const [stats, setStats] = useState({ total: 0, pending: 0, read: 0, replied: 0, closed: 0 })
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [filterStatus, setFilterStatus] = useState("all")
@@ -45,8 +47,10 @@ export default function AdminMessagesPage() {
 
   const loadMessages = async () => {
     try {
-      const data = await getContactMessages(filterStatus === "all" ? undefined : filterStatus)
-      setMessages(data)
+      const result = await getContactMessagesGrouped(filterStatus === "all" ? undefined : filterStatus)
+      setMessages(result.messages)
+      setGroupedMessages(result.groupedMessages)
+      setStats(result.stats)
     } catch (error) {
       console.error("Lỗi khi tải tin nhắn:", error)
     } finally {
@@ -183,7 +187,7 @@ export default function AdminMessagesPage() {
                   <MessageSquare className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-foreground">{messages.length}</div>
+                  <div className="text-2xl font-bold text-foreground">{stats.total}</div>
                   <div className="text-sm text-muted-foreground">Tổng tin nhắn</div>
                 </div>
               </div>
@@ -197,9 +201,7 @@ export default function AdminMessagesPage() {
                   <Clock className="w-6 h-6 text-yellow-600" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-foreground">
-                    {messages.filter(m => m.status === "pending").length}
-                  </div>
+                  <div className="text-2xl font-bold text-foreground">{stats.pending}</div>
                   <div className="text-sm text-muted-foreground">Chờ xử lý</div>
                 </div>
               </div>
@@ -213,9 +215,7 @@ export default function AdminMessagesPage() {
                   <CheckCircle className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-foreground">
-                    {messages.filter(m => m.status === "replied").length}
-                  </div>
+                  <div className="text-2xl font-bold text-foreground">{stats.replied}</div>
                   <div className="text-sm text-muted-foreground">Đã phản hồi</div>
                 </div>
               </div>
@@ -229,9 +229,7 @@ export default function AdminMessagesPage() {
                   <XCircle className="w-6 h-6 text-gray-600" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-foreground">
-                    {messages.filter(m => m.status === "closed").length}
-                  </div>
+                  <div className="text-2xl font-bold text-foreground">{stats.closed}</div>
                   <div className="text-sm text-muted-foreground">Đã đóng</div>
                 </div>
               </div>
@@ -310,104 +308,134 @@ export default function AdminMessagesPage() {
                 </p>
               </div>
             ) : (
-              <div className="space-y-4">
-                {filteredMessages.map((message) => (
-                  <div key={message.id} className="border border-border rounded-lg p-6 hover:shadow-md transition-shadow">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                          <User className="w-6 h-6 text-primary" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-foreground text-lg">{message.name}</h3>
-                          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                            <div className="flex items-center">
-                              <Phone className="w-4 h-4 mr-1" />
-                              {message.phone}
-                            </div>
-                            {message.email && (
-                              <div className="flex items-center">
-                                <Mail className="w-4 h-4 mr-1" />
-                                {message.email}
-                              </div>
-                            )}
-                            <div className="flex items-center">
-                              <Clock className="w-4 h-4 mr-1" />
-                              {formatDate(message.created_at)}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        {getStatusBadge(message.status)}
-                      </div>
-                    </div>
+              <div className="space-y-8">
+                {Object.entries(groupedMessages).map(([date, dateMessages]) => {
+                  const filteredDateMessages = dateMessages.filter(message => {
+                    const matchesSearch = 
+                      message.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                      message.phone.includes(searchTerm) ||
+                      (message.email && message.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (message.message && message.message.toLowerCase().includes(searchTerm.toLowerCase()))
+                    
+                    return matchesSearch
+                  })
 
-                    {message.service && (
-                      <div className="mb-3">
-                        <Badge variant="outline" className="text-xs">
-                          Dịch vụ: {message.service}
+                  if (filteredDateMessages.length === 0) return null
+
+                  return (
+                    <div key={date} className="space-y-4">
+                      {/* Date Header */}
+                      <div className="flex items-center space-x-3 py-2 border-b border-border">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                        <h3 className="font-semibold text-foreground text-lg">{date}</h3>
+                        <Badge variant="secondary" className="text-xs">
+                          {filteredDateMessages.length} tin nhắn
                         </Badge>
                       </div>
-                    )}
 
-                    {message.message && (
-                      <div className="mb-4">
-                        <p className="text-muted-foreground leading-relaxed bg-slate-50 p-4 rounded-lg">
-                          {message.message}
-                        </p>
+                      {/* Messages for this date */}
+                      <div className="space-y-4">
+                        {filteredDateMessages.map((message) => (
+                          <div key={message.id} className="border border-border rounded-lg p-6 hover:shadow-md transition-shadow">
+                            <div className="flex items-start justify-between mb-4">
+                              <div className="flex items-center space-x-4">
+                                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                                  <User className="w-6 h-6 text-primary" />
+                                </div>
+                                <div>
+                                  <h3 className="font-semibold text-foreground text-lg">{message.name}</h3>
+                                  <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                                    <div className="flex items-center">
+                                      <Phone className="w-4 h-4 mr-1" />
+                                      {message.phone}
+                                    </div>
+                                    {message.email && (
+                                      <div className="flex items-center">
+                                        <Mail className="w-4 h-4 mr-1" />
+                                        {message.email}
+                                      </div>
+                                    )}
+                                    <div className="flex items-center">
+                                      <Clock className="w-4 h-4 mr-1" />
+                                      {formatDate(message.created_at)}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                {getStatusBadge(message.status)}
+                              </div>
+                            </div>
+
+                            {message.service && (
+                              <div className="mb-3">
+                                <Badge variant="outline" className="text-xs">
+                                  Dịch vụ: {message.service}
+                                </Badge>
+                              </div>
+                            )}
+
+                            {message.message && (
+                              <div className="mb-4">
+                                <p className="text-muted-foreground leading-relaxed bg-slate-50 p-4 rounded-lg">
+                                  {message.message}
+                                </p>
+                              </div>
+                            )}
+
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-2">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleStatusUpdate(message.id, "read")}
+                                  disabled={isUpdating === message.id || message.status === "read"}
+                                  className="text-xs"
+                                >
+                                  <Eye className="w-3 h-3 mr-1" />
+                                  Đánh dấu đã đọc
+                                </Button>
+
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleStatusUpdate(message.id, "replied")}
+                                  disabled={isUpdating === message.id || message.status === "replied"}
+                                  className="text-xs"
+                                >
+                                  <CheckCircle className="w-3 h-3 mr-1" />
+                                  Đánh dấu đã phản hồi
+                                </Button>
+
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleStatusUpdate(message.id, "closed")}
+                                  disabled={isUpdating === message.id || message.status === "closed"}
+                                  className="text-xs"
+                                >
+                                  <XCircle className="w-3 h-3 mr-1" />
+                                  Đóng
+                                </Button>
+                              </div>
+
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleDelete(message.id)}
+                                disabled={isUpdating === message.id}
+                                className="text-red-600 border-red-200 hover:bg-red-50 text-xs"
+                              >
+                                <Trash2 className="w-3 h-3 mr-1" />
+                                Xóa
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    )}
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleStatusUpdate(message.id, "read")}
-                          disabled={isUpdating === message.id || message.status === "read"}
-                          className="text-xs"
-                        >
-                          <Eye className="w-3 h-3 mr-1" />
-                          Đánh dấu đã đọc
-                        </Button>
-
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleStatusUpdate(message.id, "replied")}
-                          disabled={isUpdating === message.id || message.status === "replied"}
-                          className="text-xs"
-                        >
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Đánh dấu đã phản hồi
-                        </Button>
-
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleStatusUpdate(message.id, "closed")}
-                          disabled={isUpdating === message.id || message.status === "closed"}
-                          className="text-xs"
-                        >
-                          <XCircle className="w-3 h-3 mr-1" />
-                          Đóng
-                        </Button>
-                      </div>
-
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleDelete(message.id)}
-                        disabled={isUpdating === message.id}
-                        className="text-red-600 border-red-200 hover:bg-red-50 text-xs"
-                      >
-                        <Trash2 className="w-3 h-3 mr-1" />
-                        Xóa
-                      </Button>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </CardContent>
