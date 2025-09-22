@@ -17,7 +17,7 @@ export interface ContactMessage {
 
 export async function getContactMessages(status?: string, limit: number = 50): Promise<ContactMessage[]> {
   try {
-    // Use the admin API endpoint that bypasses RLS
+    // Use the working contact API endpoint
     const params = new URLSearchParams()
     if (status && status !== "all") {
       params.append("status", status)
@@ -38,7 +38,16 @@ export async function getContactMessages(status?: string, limit: number = 50): P
 
     const result = await response.json()
     console.log("API Response:", result)
-    return result.messages || []
+    
+    // Handle both old format {"messages": []} and new format
+    if (result.messages) {
+      return result.messages
+    } else if (Array.isArray(result)) {
+      return result
+    } else {
+      console.log("Unexpected response format:", result)
+      return []
+    }
   } catch (error) {
     console.error("Error in getContactMessages:", error)
     return []

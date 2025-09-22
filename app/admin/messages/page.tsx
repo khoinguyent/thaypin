@@ -48,16 +48,80 @@ export default function AdminMessagesPage() {
   const loadMessages = async () => {
     try {
       console.log("Loading messages with filter:", filterStatus)
-      const result = await getContactMessagesGrouped(filterStatus === "all" ? undefined : filterStatus)
-      console.log("Loaded result:", result)
-      setMessages(result.messages)
-      setGroupedMessages(result.groupedMessages)
-      setStats(result.stats)
+      
+      // Try the new grouped API first
+      try {
+        const result = await getContactMessagesGrouped(filterStatus === "all" ? undefined : filterStatus)
+        console.log("Loaded grouped result:", result)
+        
+        if (result.messages && result.groupedMessages && result.stats) {
+          setMessages(result.messages)
+          setGroupedMessages(result.groupedMessages)
+          setStats(result.stats)
+          return
+        }
+      } catch (groupedError) {
+        console.log("Grouped API failed, trying fallback:", groupedError)
+      }
+      
+      // Fallback: Use simple API and create grouping manually
+      const simpleResult = await getContactMessages(filterStatus === "all" ? undefined : filterStatus)
+      console.log("Loaded simple result:", simpleResult)
+      
+      setMessages(simpleResult)
+      
+      // Create grouping manually
+      const manualGrouping = groupMessagesByDate(simpleResult)
+      setGroupedMessages(manualGrouping)
+      
+      // Calculate stats manually
+      const manualStats = {
+        total: simpleResult.length,
+        pending: simpleResult.filter(m => m.status === "pending").length,
+        read: simpleResult.filter(m => m.status === "read").length,
+        replied: simpleResult.filter(m => m.status === "replied").length,
+        closed: simpleResult.filter(m => m.status === "closed").length,
+      }
+      setStats(manualStats)
+      
     } catch (error) {
       console.error("Lỗi khi tải tin nhắn:", error)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const groupMessagesByDate = (messages: any[]) => {
+    const groups: { [key: string]: any[] } = {}
+    
+    messages.forEach(message => {
+      const date = new Date(message.created_at)
+      const dateKey = date.toLocaleDateString("vi-VN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      })
+      
+      if (!groups[dateKey]) {
+        groups[dateKey] = []
+      }
+      
+      groups[dateKey].push(message)
+    })
+    
+    // Sort groups by date (newest first)
+    const sortedGroups = Object.keys(groups)
+      .sort((a, b) => {
+        const dateA = new Date(a.split(' ').reverse().join('-'))
+        const dateB = new Date(b.split(' ').reverse().join('-'))
+        return dateB.getTime() - dateA.getTime()
+      })
+      .reduce((result, key) => {
+        result[key] = groups[key]
+        return result
+      }, {} as { [key: string]: any[] })
+    
+    return sortedGroups
   }
 
   const handleStatusUpdate = async (messageId: string, newStatus: "read" | "replied" | "closed") => {
