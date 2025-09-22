@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -22,7 +22,7 @@ import {
   Trash2
 } from "lucide-react"
 import Link from "next/link"
-import { getContactMessagesGrouped, updateMessageStatus, deleteContactMessage, type ContactMessage } from "@/lib/message-actions"
+import { getContactMessagesGrouped, getContactMessages, updateMessageStatus, deleteContactMessage, type ContactMessage } from "@/lib/message-actions"
 
 export default function AdminMessagesPage() {
   const [messages, setMessages] = useState<ContactMessage[]>([])
@@ -34,18 +34,7 @@ export default function AdminMessagesPage() {
   const [isUpdating, setIsUpdating] = useState<string | null>(null)
   const router = useRouter()
 
-  useEffect(() => {
-    // Check authentication
-    const token = localStorage.getItem("adminToken")
-    if (!token) {
-      router.push("/admin/login")
-      return
-    }
-
-    loadMessages()
-  }, [router, loadMessages])
-
-  const loadMessages = async () => {
+  const loadMessages = useCallback(async () => {
     try {
       console.log("Loading messages with filter:", filterStatus)
       
@@ -77,10 +66,10 @@ export default function AdminMessagesPage() {
       // Calculate stats manually
       const manualStats = {
         total: simpleResult.length,
-        pending: simpleResult.filter(m => m.status === "pending").length,
-        read: simpleResult.filter(m => m.status === "read").length,
-        replied: simpleResult.filter(m => m.status === "replied").length,
-        closed: simpleResult.filter(m => m.status === "closed").length,
+        pending: simpleResult.filter((m: ContactMessage) => m.status === "pending").length,
+        read: simpleResult.filter((m: ContactMessage) => m.status === "read").length,
+        replied: simpleResult.filter((m: ContactMessage) => m.status === "replied").length,
+        closed: simpleResult.filter((m: ContactMessage) => m.status === "closed").length,
       }
       setStats(manualStats)
       
@@ -89,7 +78,18 @@ export default function AdminMessagesPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [filterStatus])
+
+  useEffect(() => {
+    // Check authentication
+    const token = localStorage.getItem("adminToken")
+    if (!token) {
+      router.push("/admin/login")
+      return
+    }
+
+    loadMessages()
+  }, [router, loadMessages])
 
   const groupMessagesByDate = (messages: ContactMessage[]) => {
     const groups: { [key: string]: ContactMessage[] } = {}
