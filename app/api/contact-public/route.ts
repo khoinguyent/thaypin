@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
+import { createClient } from "@supabase/supabase-js"
+
+// Create Supabase client with service role key to bypass RLS
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { name, phone, email, service, message } = body
+
+    console.log("Contact form submission:", { name, phone, email, service, message })
 
     // Validate required fields
     if (!name || !phone) {
@@ -34,19 +42,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create Supabase client
-    const supabase = await createClient()
-
-    console.log("Attempting to insert message:", {
-      name: name.trim(),
-      phone: phone.trim(),
-      email: email ? email.trim() : null,
-      service: service || null,
-      message: message ? message.trim() : null,
-      status: "pending"
-    })
-
-    // Insert message into database
+    // Insert message into database using service role (bypasses RLS)
     const { data, error } = await supabase
       .from("contact_messages")
       .insert([
@@ -73,6 +69,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    console.log("Message saved successfully:", data[0])
+
     // Return success response
     return NextResponse.json(
       { 
@@ -87,49 +85,6 @@ export async function POST(request: NextRequest) {
     console.error("Contact form error:", error)
     return NextResponse.json(
       { error: "Có lỗi xảy ra. Vui lòng thử lại sau." },
-      { status: 500 }
-    )
-  }
-}
-
-// Optional: GET endpoint to retrieve messages (for admin)
-export async function GET(request: NextRequest) {
-  try {
-    const supabase = await createClient()
-
-    // Get query parameters
-    const { searchParams } = new URL(request.url)
-    const status = searchParams.get("status")
-    const limit = parseInt(searchParams.get("limit") || "50")
-
-    // Build query
-    let query = supabase
-      .from("contact_messages")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(limit)
-
-    // Filter by status if provided
-    if (status && status !== "all") {
-      query = query.eq("status", status)
-    }
-
-    const { data, error } = await query
-
-    if (error) {
-      console.error("Database error:", error)
-      return NextResponse.json(
-        { error: "Có lỗi xảy ra khi tải tin nhắn" },
-        { status: 500 }
-      )
-    }
-
-    return NextResponse.json({ messages: data || [] })
-
-  } catch (error) {
-    console.error("Get messages error:", error)
-    return NextResponse.json(
-      { error: "Có lỗi xảy ra khi tải tin nhắn" },
       { status: 500 }
     )
   }

@@ -144,7 +144,7 @@ export default function ContactPage() {
 
     try {
       // Send message to API
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/api/contact-public', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
