@@ -25,7 +25,10 @@ export async function getContactMessages(status?: string, limit: number = 50): P
     params.append("limit", limit.toString())
 
     const apiUrl = `${window.location.origin}/api/contact?${params}`
+    console.log("=== API CALL DEBUG ===")
     console.log("Fetching messages from:", apiUrl)
+    console.log("Window location:", window.location.href)
+    console.log("Window origin:", window.location.origin)
     
     const response = await fetch(apiUrl)
     console.log("Response status:", response.status)
