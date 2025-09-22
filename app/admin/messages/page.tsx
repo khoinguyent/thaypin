@@ -36,7 +36,9 @@ export default function AdminMessagesPage() {
 
   const loadMessages = useCallback(async () => {
     try {
+      console.log("=== loadMessages called ===")
       console.log("Loading messages with filter:", filterStatus)
+      console.log("Current window.location.origin:", typeof window !== 'undefined' ? window.location.origin : 'undefined')
       
       // Try the new grouped API first
       try {
@@ -83,11 +85,15 @@ export default function AdminMessagesPage() {
   useEffect(() => {
     // Check authentication
     const token = localStorage.getItem("adminToken")
+    console.log("Admin token check:", token ? "Token exists" : "No token")
+    
     if (!token) {
+      console.log("No admin token, redirecting to login")
       router.push("/admin/login")
       return
     }
 
+    console.log("Token found, loading messages...")
     loadMessages()
   }, [router, loadMessages])
 
