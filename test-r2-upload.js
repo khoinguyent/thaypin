@@ -63,3 +63,4 @@ console.log('\n📝 Next steps:');
 console.log('1. Create R2 API Token in Cloudflare dashboard');
 console.log('2. Update .env.local with your actual credentials');
 console.log('3. Test the upload functionality');
+

@@ -22,6 +22,7 @@ import {
   Trash2
 } from "lucide-react"
 import Link from "next/link"
+import { getBlogPostById, updateBlogPost, deleteBlogPost } from "@/lib/blog-actions"
 
 interface BlogPostForm {
   id: string
@@ -64,25 +65,35 @@ export default function EditBlogPostPage() {
 
   const loadBlogPost = async () => {
     try {
-      // For now, using sample data - replace with actual API call
-      const samplePost: BlogPostForm = {
-        id: postId,
-        title: "Hướng dẫn thay pin iPhone 15 - Tất cả những gì bạn cần biết",
-        slug: "huong-dan-thay-pin-iphone-15",
-        excerpt: "Hướng dẫn chi tiết về quy trình thay pin iPhone 15, các lưu ý quan trọng và địa chỉ uy tín để thực hiện dịch vụ.",
-        content: "# Hướng dẫn thay pin iPhone 15\n\n## Giới thiệu\n\nThay pin iPhone là một dịch vụ quan trọng để duy trì hiệu suất thiết bị. Bài viết này sẽ hướng dẫn bạn tất cả những gì cần biết.\n\n## Các bước thực hiện\n\n1. **Chuẩn bị dụng cụ**\n2. **Tháo vỏ máy**\n3. **Thay pin mới**\n4. **Kiểm tra hoạt động**\n\n## Lưu ý quan trọng\n\n- Sử dụng linh kiện chính hãng\n- Thực hiện cẩn thận\n- Kiểm tra kỹ sau khi thay",
-        category: "Hướng dẫn",
-        tags: ["iPhone 15", "Thay pin", "Hướng dẫn", "Bảo trì"],
-        featured: true,
-        is_published: true,
-        image_url: "https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/iphone-15-battery.jpg",
-        author: "thaypin.vn",
-        created_at: "2025-01-31T10:00:00Z",
-        updated_at: "2025-01-31T10:00:00Z"
+      const blogPost = await getBlogPostById(postId)
+      
+      if (!blogPost) {
+        console.error("Không tìm thấy bài viết với ID:", postId)
+        setIsLoading(false)
+        return
       }
 
-      setFormData(samplePost)
-      setImageUrl(samplePost.image_url)
+      // Transform the blog post data to match the form interface
+      const formData: BlogPostForm = {
+        id: blogPost.id,
+        title: blogPost.title,
+        slug: blogPost.slug,
+        excerpt: blogPost.excerpt || "",
+        content: blogPost.content,
+        category: blogPost.category,
+        tags: Array.isArray(blogPost.tags) ? blogPost.tags : 
+              typeof blogPost.tags === 'string' ? 
+              (blogPost.tags as string).split(",").filter(tag => tag.trim()) : [],
+        featured: blogPost.featured || false,
+        is_published: blogPost.published || false,
+        image_url: blogPost.image_url || "",
+        author: "thaypin.vn", // Default author
+        created_at: blogPost.created_at,
+        updated_at: blogPost.updated_at
+      }
+
+      setFormData(formData)
+      setImageUrl(formData.image_url)
     } catch (error) {
       console.error("Lỗi khi tải bài viết:", error)
     } finally {
@@ -171,14 +182,27 @@ export default function EditBlogPostPage() {
         return
       }
 
-      // API call to update blog post
-      console.log("Cập nhật bài viết:", formData)
+      // Create FormData object for the update
+      const updateFormData = new FormData()
+      updateFormData.append("title", formData.title)
+      updateFormData.append("slug", formData.slug)
+      updateFormData.append("excerpt", formData.excerpt)
+      updateFormData.append("content", formData.content)
+      updateFormData.append("category", formData.category)
+      updateFormData.append("featured", formData.featured ? "on" : "off")
+      updateFormData.append("image_url", formData.image_url)
+      updateFormData.append("meta_description", formData.excerpt) // Using excerpt as meta description
+      updateFormData.append("tags", formData.tags.join(","))
+      updateFormData.append("video_type", "none") // Default to no video for now
+
+      // Call the update API
+      await updateBlogPost(postId, updateFormData)
       
-      // For now, just redirect back to blog management
-      // Replace with actual API call
+      alert("Cập nhật bài viết thành công!")
       router.push("/admin/blog")
       
-    } catch {
+    } catch (error) {
+      console.error("Lỗi khi cập nhật bài viết:", error)
       alert("Có lỗi xảy ra khi cập nhật bài viết. Vui lòng thử lại.")
     } finally {
       setIsSubmitting(false)
@@ -189,13 +213,14 @@ export default function EditBlogPostPage() {
     if (!confirm("Bạn có chắc chắn muốn xóa bài viết này?")) return
 
     try {
-      // API call to delete blog post
-      console.log("Xóa bài viết:", postId)
+      // Call the delete API
+      await deleteBlogPost(postId)
       
-      // Redirect back to blog management
+      alert("Xóa bài viết thành công!")
       router.push("/admin/blog")
       
-    } catch {
+    } catch (error) {
+      console.error("Lỗi khi xóa bài viết:", error)
       alert("Có lỗi xảy ra khi xóa bài viết. Vui lòng thử lại.")
     }
   }

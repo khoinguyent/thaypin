@@ -289,6 +289,25 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   return data
 }
 
+export async function getBlogPostById(id: string): Promise<BlogPost | null> {
+  const dbAvailable = await isDatabaseAvailable()
+  if (!dbAvailable) {
+    console.log("[v0] Database not available, searching sample posts by ID")
+    return SAMPLE_BLOG_POSTS.find((post) => post.id === id) || null
+  }
+
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from("blog_posts").select("*").eq("id", id).single()
+
+  if (error) {
+    console.error("Error fetching blog post by ID:", error.message)
+    return SAMPLE_BLOG_POSTS.find((post) => post.id === id) || null // Fallback to sample data
+  }
+
+  return data
+}
+
 export async function getFeaturedPosts(): Promise<BlogPost[]> {
   const dbAvailable = await isDatabaseAvailable()
   if (!dbAvailable) {
