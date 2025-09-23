@@ -89,6 +89,9 @@ export default function BatteryImagesManager() {
         
         // Clear the selected file after successful upload
         setSelectedFile(null)
+      } else if (!finalUrl) {
+        alert('Vui lòng chọn hình ảnh để upload')
+        return
       }
       
       // Now insert/update in database with the final URL
@@ -350,15 +353,13 @@ export default function BatteryImagesManager() {
               </div>
 
               <div>
-                <Label htmlFor="url">URL hình ảnh</Label>
+                <Label>Upload hình ảnh</Label>
                 <div className="space-y-2">
-                  <Input
-                    id="url"
-                    type="url"
+                  {/* Hidden URL field for storing uploaded image URL */}
+                  <input
+                    type="hidden"
                     value={formData.url}
                     onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
-                    placeholder="https://example.com/image.jpg"
-                    required
                   />
                   
                   {/* Upload Section */}
@@ -366,10 +367,25 @@ export default function BatteryImagesManager() {
                     <div className="text-center space-y-2">
                       <Upload className="w-8 h-8 mx-auto text-muted-foreground" />
                       <p className="text-sm text-muted-foreground">
-                        Hoặc upload hình ảnh từ máy tính
+                        Chọn hình ảnh từ máy tính để upload
                       </p>
                       
-                      {selectedFile ? (
+                      {formData.url ? (
+                        <div className="space-y-2">
+                          <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                            <p className="text-sm text-green-800 font-medium">✓ Hình ảnh đã được upload thành công</p>
+                            <p className="text-xs text-green-600 truncate mt-1">{formData.url}</p>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setFormData(prev => ({ ...prev, url: '' }))}
+                            className="w-full"
+                          >
+                            Chọn hình ảnh khác
+                          </Button>
+                        </div>
+                      ) : selectedFile ? (
                         <div className="space-y-2">
                           <div className="flex items-center justify-between bg-muted p-2 rounded">
                             <span className="text-sm truncate">{selectedFile.name}</span>
