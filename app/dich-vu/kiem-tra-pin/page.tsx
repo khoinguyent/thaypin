@@ -141,6 +141,7 @@ export default function BatteryCheckPage() {
 
               <div className="relative">
                 <Card className="p-6 bg-card border-border">
+                  {/* minor change to trigger deploy */}
                   <img
                     src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Gemini_Generated_Image_v9fmb6v9fmb6v9fm.png?height=400&width=600"
                     alt="Kiểm tra pin iPhone miễn phí"
