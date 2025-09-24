@@ -53,7 +53,13 @@ export default function PricingManager() {
       setPricingItems(items)
     } catch (error) {
       console.error('Error loading pricing items:', error)
-      alert('Lỗi khi tải danh sách giá')
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      
+      if (errorMessage.includes('relation "pricing" does not exist')) {
+        alert('Bảng giá chưa được tạo trong cơ sở dữ liệu. Vui lòng chạy script SQL: scripts/09-create-pricing-table.sql')
+      } else {
+        alert(`Lỗi khi tải danh sách giá: ${errorMessage}`)
+      }
     } finally {
       setLoading(false)
     }
@@ -97,7 +103,13 @@ export default function PricingManager() {
         loadPricingItems()
       } catch (error) {
         console.error('Error saving pricing item:', error)
-        alert('Lỗi khi lưu giá')
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+        
+        if (errorMessage.includes('relation "pricing" does not exist')) {
+          alert('Bảng giá chưa được tạo trong cơ sở dữ liệu. Vui lòng chạy script SQL: scripts/09-create-pricing-table.sql')
+        } else {
+          alert(`Lỗi khi lưu giá: ${errorMessage}`)
+        }
       }
     })
   }

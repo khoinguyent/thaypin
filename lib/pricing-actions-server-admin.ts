@@ -148,31 +148,41 @@ export async function togglePricingItemStatusServer(id: number): Promise<Pricing
 
 // Form action for updating pricing item
 export async function updatePricingItemAction(formData: FormData) {
-  const id = parseInt(formData.get('id') as string)
-  const data: UpdatePricingData = {
-    model: formData.get('model') as string,
-    price: parseInt(formData.get('price') as string),
-    original_price: parseInt(formData.get('original_price') as string),
-    is_popular: formData.get('is_popular') === 'true',
-    is_active: formData.get('is_active') === 'true',
-    display_order: parseInt(formData.get('display_order') as string)
+  try {
+    const id = parseInt(formData.get('id') as string)
+    const data: UpdatePricingData = {
+      model: formData.get('model') as string,
+      price: parseInt(formData.get('price') as string),
+      original_price: parseInt(formData.get('original_price') as string),
+      is_popular: formData.get('is_popular') === 'true',
+      is_active: formData.get('is_active') === 'true',
+      display_order: parseInt(formData.get('display_order') as string)
+    }
+    
+    return await updatePricingItemServer(id, data)
+  } catch (error) {
+    console.error('Error in updatePricingItemAction:', error)
+    throw new Error(`Failed to update pricing item: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }
-  
-  return await updatePricingItemServer(id, data)
 }
 
 // Form action for creating pricing item
 export async function createPricingItemAction(formData: FormData) {
-  const data: CreatePricingData = {
-    model: formData.get('model') as string,
-    price: parseInt(formData.get('price') as string),
-    original_price: parseInt(formData.get('original_price') as string),
-    is_popular: formData.get('is_popular') === 'true',
-    is_active: formData.get('is_active') === 'true',
-    display_order: parseInt(formData.get('display_order') as string)
+  try {
+    const data: CreatePricingData = {
+      model: formData.get('model') as string,
+      price: parseInt(formData.get('price') as string),
+      original_price: parseInt(formData.get('original_price') as string),
+      is_popular: formData.get('is_popular') === 'true',
+      is_active: formData.get('is_active') === 'true',
+      display_order: parseInt(formData.get('display_order') as string)
+    }
+    
+    return await createPricingItemServer(data)
+  } catch (error) {
+    console.error('Error in createPricingItemAction:', error)
+    throw new Error(`Failed to create pricing item: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }
-  
-  return await createPricingItemServer(data)
 }
 
 // Form action for deleting pricing item
