@@ -27,10 +27,6 @@ interface ServicesSectionProps {
 export default function ServicesSection({ services }: ServicesSectionProps) {
   const [showContactModal, setShowContactModal] = useState(false)
 
-  const handleServiceClick = () => {
-    setShowContactModal(true)
-  }
-
   if (!services || services.length === 0) {
     return null
   }
@@ -100,10 +96,7 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
         </div>
       </section>
 
-      <ContactModal 
-        isOpen={showContactModal}
-        onClose={() => setShowContactModal(false)}
-      />
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
     </>
   )
 }
