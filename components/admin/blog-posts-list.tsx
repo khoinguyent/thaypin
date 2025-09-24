@@ -9,6 +9,7 @@ import { deleteBlogPost } from "@/lib/blog-actions"
 import { Search, Edit, Trash2, Eye, Star, Calendar, Filter } from "lucide-react"
 import Link from "next/link"
 import type { BlogPost } from "@/lib/supabase/client"
+import { useToast } from "@/components/ui/toast-provider"
 
 interface BlogPostsListProps {
   posts: BlogPost[]
@@ -19,6 +20,7 @@ export default function BlogPostsList({ posts, onPostsChange }: BlogPostsListPro
   const [isPending, startTransition] = useTransition()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
+  const { showSuccess, showError } = useToast()
 
   const categories = ["all", ...Array.from(new Set(posts.map((post) => post.category)))]
 
@@ -38,7 +40,7 @@ export default function BlogPostsList({ posts, onPostsChange }: BlogPostsListPro
           onPostsChange(posts.filter((post) => post.id !== id))
         } catch (error) {
           console.error("Error deleting post:", error)
-          alert("Có lỗi xảy ra khi xóa bài viết")
+          showError("Có lỗi xảy ra khi xóa bài viết")
         }
       })
     }

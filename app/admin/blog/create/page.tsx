@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
+import { useToast } from "@/components/ui/toast-provider"
 import { createBlogPost } from "@/lib/blog-actions"
 
 import { 
@@ -55,6 +56,7 @@ export default function CreateBlogPostPage() {
     video_type: "none",
     author: "thaypin.vn"
   })
+  const { showSuccess, showError } = useToast()
   
   const [newTag, setNewTag] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -194,7 +196,7 @@ export default function CreateBlogPostPage() {
     try {
       // Validate required fields
       if (!formData.title || !formData.content) {
-        alert("Vui lòng điền đầy đủ tiêu đề và nội dung bài viết")
+        showError("Vui lòng điền đầy đủ tiêu đề và nội dung bài viết")
         return
       }
 
@@ -216,12 +218,12 @@ export default function CreateBlogPostPage() {
       await createBlogPost(submitFormData)
       
       // Show success message and redirect
-      alert("Tạo bài viết thành công!")
+      showSuccess("Tạo bài viết thành công!")
       router.push("/admin/blog")
       
     } catch (error) {
       console.error("Error creating blog post:", error)
-      alert("Có lỗi xảy ra khi tạo bài viết. Vui lòng thử lại.")
+      showError("Có lỗi xảy ra khi tạo bài viết", "Vui lòng thử lại.")
     } finally {
       setIsSubmitting(false)
     }

@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
+import { useToast } from "@/components/ui/toast-provider"
 import { 
   MessageSquare, 
   Search, 
@@ -33,6 +34,7 @@ export default function AdminMessagesPage() {
   const [filterStatus, setFilterStatus] = useState("all")
   const [isUpdating, setIsUpdating] = useState<string | null>(null)
   const router = useRouter()
+  const { showSuccess, showError } = useToast()
 
   const loadMessages = useCallback(async () => {
     try {
@@ -141,7 +143,7 @@ export default function AdminMessagesPage() {
       }
     } catch (error) {
       console.error("Lỗi khi cập nhật trạng thái:", error)
-      alert("Có lỗi xảy ra khi cập nhật trạng thái")
+      showError("Có lỗi xảy ra khi cập nhật trạng thái")
     } finally {
       setIsUpdating(null)
     }
@@ -158,7 +160,7 @@ export default function AdminMessagesPage() {
       }
     } catch (error) {
       console.error("Lỗi khi xóa tin nhắn:", error)
-      alert("Có lỗi xảy ra khi xóa tin nhắn")
+      showError("Có lỗi xảy ra khi xóa tin nhắn")
     } finally {
       setIsUpdating(null)
     }

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { useToast } from "@/components/ui/toast-provider"
 import { createBlogPost } from "@/lib/blog-actions"
 import { Save, Loader2, Plus, X, Eye, Video, Upload, Link } from "lucide-react"
 import type { BlogPost } from "@/lib/supabase/client"
@@ -26,6 +27,7 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
   const [videoType, setVideoType] = useState<"none" | "url" | "upload">((editingPost as BlogPost & { video_type?: string })?.video_type || "none")
   const [imageUploadStatus, setImageUploadStatus] = useState<string>("")
   const [imageUrl, setImageUrl] = useState<string>(editingPost?.image_url || "")
+  const { showSuccess, showError } = useToast()
 
   const handleSubmit = async (formData: FormData) => {
     formData.set("tags", tags.join(","))
@@ -58,7 +60,7 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
         setVideoType("none")
       } catch (error) {
         console.error("Error creating post:", error)
-        alert("Có lỗi xảy ra khi tạo bài viết")
+        showError("Có lỗi xảy ra khi tạo bài viết")
       }
     })
   }

@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { useToast } from '@/components/ui/toast-provider'
 import { 
   Plus, 
   Edit, 
@@ -34,6 +35,7 @@ export default function BatteryImagesManager() {
   const [editingImage, setEditingImage] = useState<BatteryImage | null>(null)
   const [uploading, setUploading] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const { showSuccess, showError } = useToast()
   const [formData, setFormData] = useState({
     set_name: 'battery-images-set',
     url: '',
@@ -90,17 +92,17 @@ export default function BatteryImagesManager() {
         // Clear the selected file after successful upload
         setSelectedFile(null)
       } else if (!finalUrl) {
-        alert('Vui lòng chọn hình ảnh để upload')
+        showError('Vui lòng chọn hình ảnh để upload')
         return
       }
       
       // Now insert/update in database with the final URL
       if (editingImage) {
         await updateBatteryImage(editingImage.id, { ...formData, url: finalUrl })
-        alert('Hình ảnh đã được cập nhật thành công!')
+        showSuccess('Hình ảnh đã được cập nhật thành công!')
       } else {
         await createBatteryImage({ ...formData, url: finalUrl })
-        alert('Hình ảnh đã được thêm thành công!')
+        showSuccess('Hình ảnh đã được thêm thành công!')
       }
       
       // Reset form and close modal
@@ -122,7 +124,10 @@ export default function BatteryImagesManager() {
     } catch (error) {
       setUploading(false)
       console.error('Error:', error)
-      alert(error instanceof Error ? error.message : 'Có lỗi xảy ra')
+      showError(
+        'Có lỗi xảy ra',
+        error instanceof Error ? error.message : 'Vui lòng thử lại sau.'
+      )
     }
   }
 
@@ -177,13 +182,13 @@ export default function BatteryImagesManager() {
     if (file) {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        alert('Vui lòng chọn file hình ảnh')
+        showError('Vui lòng chọn file hình ảnh')
         return
       }
       
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert('File quá lớn. Vui lòng chọn file nhỏ hơn 5MB')
+        showError('File quá lớn', 'Vui lòng chọn file nhỏ hơn 5MB')
         return
       }
       
@@ -193,7 +198,7 @@ export default function BatteryImagesManager() {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert('Vui lòng chọn file để upload')
+      showError('Vui lòng chọn file để upload')
       return
     }
 
@@ -218,10 +223,10 @@ export default function BatteryImagesManager() {
       setFormData(prev => ({ ...prev, url: result.url }))
       setSelectedFile(null)
       
-      alert('Upload thành công!')
+      showSuccess('Upload thành công!')
     } catch (error) {
       console.error('Upload error:', error)
-      alert('Upload thất bại. Vui lòng thử lại.')
+      showError('Upload thất bại', 'Vui lòng thử lại.')
     } finally {
       setUploading(false)
     }

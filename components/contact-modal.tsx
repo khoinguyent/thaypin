@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { X, Send } from "lucide-react"
+import { useToast } from "@/components/ui/toast-provider"
 
 interface ContactModalProps {
   isOpen: boolean
@@ -23,6 +24,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { showSuccess, showError } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -38,7 +40,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       })
 
       if (response.ok) {
-        alert('Tin nhắn đã được gửi thành công! Chúng tôi sẽ liên hệ lại trong vòng 30 phút.')
+        showSuccess(
+          'Tin nhắn đã được gửi thành công!',
+          'Chúng tôi sẽ liên hệ lại trong vòng 30 phút.'
+        )
         setFormData({
           name: '',
           phone: '',
@@ -48,11 +53,17 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         })
         onClose()
       } else {
-        alert('Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại.')
+        showError(
+          'Có lỗi xảy ra khi gửi tin nhắn',
+          'Vui lòng thử lại sau.'
+        )
       }
     } catch (error) {
       console.error('Error sending message:', error)
-      alert('Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại.')
+      showError(
+        'Có lỗi xảy ra khi gửi tin nhắn',
+        'Vui lòng kiểm tra kết nối mạng và thử lại.'
+      )
     } finally {
       setIsSubmitting(false)
     }

@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { useToast } from "@/components/ui/toast-provider"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -137,6 +138,7 @@ export default function ContactPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const { showSuccess, showError } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -161,6 +163,10 @@ export default function ContactPage() {
       // Success
       setIsSubmitting(false)
       setIsSubmitted(true)
+      showSuccess(
+        'Tin nhắn đã được gửi thành công!',
+        'Chúng tôi sẽ liên hệ lại trong vòng 30 phút.'
+      )
 
       // Reset form after 5 seconds
       setTimeout(() => {
@@ -171,7 +177,10 @@ export default function ContactPage() {
     } catch (error) {
       console.error('Error sending message:', error)
       setIsSubmitting(false)
-      alert(error instanceof Error ? error.message : 'Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại.')
+      showError(
+        'Có lỗi xảy ra khi gửi tin nhắn',
+        error instanceof Error ? error.message : 'Vui lòng thử lại sau.'
+      )
     }
   }
 

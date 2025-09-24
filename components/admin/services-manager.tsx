@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { useToast } from '@/components/ui/toast-provider'
 import { 
   Plus, 
   Edit, 
@@ -35,6 +36,7 @@ export default function ServicesManager() {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editingService, setEditingService] = useState<Service | null>(null)
+  const { showSuccess, showError } = useToast()
   const [formData, setFormData] = useState<CreateServiceData>({
     title: '',
     header_tag: '',
@@ -75,10 +77,10 @@ export default function ServicesManager() {
     try {
       if (editingService) {
         await updateService({ ...formData, id: editingService.id })
-        alert('Dịch vụ đã được cập nhật thành công!')
+        showSuccess('Dịch vụ đã được cập nhật thành công!')
       } else {
         await createService(formData)
-        alert('Dịch vụ đã được thêm thành công!')
+        showSuccess('Dịch vụ đã được thêm thành công!')
       }
       
       // Reset form and close modal
@@ -91,7 +93,10 @@ export default function ServicesManager() {
       
     } catch (error) {
       console.error('Error:', error)
-      alert(error instanceof Error ? error.message : 'Có lỗi xảy ra')
+      showError(
+        'Có lỗi xảy ra',
+        error instanceof Error ? error.message : 'Vui lòng thử lại sau.'
+      )
     }
   }
 

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
+import { useToast } from "@/components/ui/toast-provider"
 import { 
   ArrowLeft, 
   Save, 
@@ -50,6 +51,7 @@ export default function EditBlogPostPage() {
   const router = useRouter()
   const params = useParams()
   const postId = params.id as string
+  const { showSuccess, showError } = useToast()
 
   useEffect(() => {
     // Check authentication
@@ -178,7 +180,7 @@ export default function EditBlogPostPage() {
     try {
       // Validate required fields
       if (!formData.title || !formData.content) {
-        alert("Vui lòng điền đầy đủ tiêu đề và nội dung bài viết")
+        showError("Vui lòng điền đầy đủ tiêu đề và nội dung bài viết")
         return
       }
 
@@ -198,12 +200,12 @@ export default function EditBlogPostPage() {
       // Call the update API
       await updateBlogPost(postId, updateFormData)
       
-      alert("Cập nhật bài viết thành công!")
+      showSuccess("Cập nhật bài viết thành công!")
       router.push("/admin/blog")
       
     } catch (error) {
       console.error("Lỗi khi cập nhật bài viết:", error)
-      alert("Có lỗi xảy ra khi cập nhật bài viết. Vui lòng thử lại.")
+      showError("Có lỗi xảy ra khi cập nhật bài viết", "Vui lòng thử lại.")
     } finally {
       setIsSubmitting(false)
     }
@@ -216,12 +218,12 @@ export default function EditBlogPostPage() {
       // Call the delete API
       await deleteBlogPost(postId)
       
-      alert("Xóa bài viết thành công!")
+      showSuccess("Xóa bài viết thành công!")
       router.push("/admin/blog")
       
     } catch (error) {
       console.error("Lỗi khi xóa bài viết:", error)
-      alert("Có lỗi xảy ra khi xóa bài viết. Vui lòng thử lại.")
+      showError("Có lỗi xảy ra khi xóa bài viết", "Vui lòng thử lại.")
     }
   }
 

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
+import { useToast } from "@/components/ui/toast-provider"
 import { 
   Plus, 
   Edit, 
@@ -32,6 +33,7 @@ export default function PricingManager() {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editingItem, setEditingItem] = useState<PricingItem | null>(null)
+  const { showSuccess, showError } = useToast()
   const [formData, setFormData] = useState<CreatePricingData>({
     model: '',
     price: 0,
@@ -56,9 +58,15 @@ export default function PricingManager() {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
       
       if (errorMessage.includes('relation "pricing" does not exist')) {
-        alert('Bảng giá chưa được tạo trong cơ sở dữ liệu. Vui lòng chạy script SQL: scripts/09-create-pricing-table.sql')
+        showError(
+          'Bảng giá chưa được tạo',
+          'Vui lòng chạy script SQL: scripts/09-create-pricing-table.sql'
+        )
       } else {
-        alert(`Lỗi khi tải danh sách giá: ${errorMessage}`)
+        showError(
+          'Lỗi khi tải danh sách giá',
+          errorMessage
+        )
       }
     } finally {
       setLoading(false)
@@ -84,10 +92,10 @@ export default function PricingManager() {
       try {
         if (editingItem) {
           await updatePricingItemAction(submitFormData)
-          alert('Cập nhật giá thành công!')
+          showSuccess('Cập nhật giá thành công!')
         } else {
           await createPricingItemAction(submitFormData)
-          alert('Thêm giá thành công!')
+          showSuccess('Thêm giá thành công!')
         }
         
         setShowModal(false)
@@ -106,9 +114,15 @@ export default function PricingManager() {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error'
         
         if (errorMessage.includes('relation "pricing" does not exist')) {
-          alert('Bảng giá chưa được tạo trong cơ sở dữ liệu. Vui lòng chạy script SQL: scripts/09-create-pricing-table.sql')
+          showError(
+            'Bảng giá chưa được tạo',
+            'Vui lòng chạy script SQL: scripts/09-create-pricing-table.sql'
+          )
         } else {
-          alert(`Lỗi khi lưu giá: ${errorMessage}`)
+          showError(
+            'Lỗi khi lưu giá',
+            errorMessage
+          )
         }
       }
     })
@@ -135,11 +149,11 @@ export default function PricingManager() {
       startTransition(async () => {
         try {
           await deletePricingItemAction(formData)
-          alert('Xóa giá thành công!')
+          showSuccess('Xóa giá thành công!')
           loadPricingItems()
         } catch (error) {
           console.error('Error deleting pricing item:', error)
-          alert('Lỗi khi xóa giá')
+          showError('Lỗi khi xóa giá')
         }
       })
     }
@@ -155,7 +169,7 @@ export default function PricingManager() {
         loadPricingItems()
       } catch (error) {
         console.error('Error toggling pricing item status:', error)
-        alert('Lỗi khi thay đổi trạng thái')
+        showError('Lỗi khi thay đổi trạng thái')
       }
     })
   }
