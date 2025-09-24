@@ -4,6 +4,7 @@ import { Inter, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import { ToastProvider } from "@/components/ui/toast-provider"
 import ZaloFloatingButton from "@/components/zalo-floating-button"
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -36,6 +37,7 @@ export default function RootLayout({
           {children}
         </ToastProvider>
         <ZaloFloatingButton />
+        <Analytics />
       </body>
     </html>
   )

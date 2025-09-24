@@ -3,6 +3,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import ContactButton from "@/components/contact-button"
 import { Badge } from "@/components/ui/badge"
 import { Battery, Shield, Star, Phone, Calendar } from "lucide-react"
 import BatteryImageSlider from "@/components/battery-image-slider"
@@ -77,10 +78,10 @@ export default async function BatteryReplacementPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                  <ContactButton className="bg-primary hover:bg-primary/90 text-primary-foreground">
                     <Calendar className="w-4 h-4 mr-2" />
                     Đặt lịch ngay
-                  </Button>
+                  </ContactButton>
                   <Button
                     size="lg"
                     variant="outline"
