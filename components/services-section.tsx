@@ -21,7 +21,7 @@ interface Service {
 }
 
 interface ServicesSectionProps {
-  services: Service[]
+  services?: Service[]
 }
 
 export default function ServicesSection({ services }: ServicesSectionProps) {
@@ -29,6 +29,10 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
 
   const handleServiceClick = () => {
     setShowContactModal(true)
+  }
+
+  if (!services || services.length === 0) {
+    return null
   }
 
   return (
