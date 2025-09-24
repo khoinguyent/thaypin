@@ -66,9 +66,9 @@ export default function PricingManager() {
     submitFormData.append('model', formData.model)
     submitFormData.append('price', formData.price.toString())
     submitFormData.append('original_price', formData.original_price.toString())
-    submitFormData.append('is_popular', formData.is_popular.toString())
-    submitFormData.append('is_active', formData.is_active.toString())
-    submitFormData.append('display_order', formData.display_order.toString())
+    submitFormData.append('is_popular', (formData.is_popular ?? false).toString())
+    submitFormData.append('is_active', (formData.is_active ?? true).toString())
+    submitFormData.append('display_order', (formData.display_order ?? 0).toString())
     
     if (editingItem) {
       submitFormData.append('id', editingItem.id.toString())
