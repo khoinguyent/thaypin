@@ -323,7 +323,6 @@ export async function getFeaturedPosts(): Promise<BlogPost[]> {
     .eq("published", true)
     .eq("featured", true)
     .order("created_at", { ascending: false })
-    .limit(3)
 
   if (error) {
     console.error("Error fetching featured posts:", error)
