@@ -22,7 +22,7 @@ export interface Service {
 
 // Get all active services for public display (server-side)
 export async function getActiveServicesServer(): Promise<Service[]> {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   const { data, error } = await supabase
     .from('services')
