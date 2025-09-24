@@ -11,6 +11,11 @@ import { getActiveServicesServer } from "@/lib/service-actions-server"
 
 const processSteps = [
   {
+    step: 1,
+    title: "Kiểm tra và chẩn đoán",
+    description: "Kiểm tra tình trạng pin hiện tại và chẩn đoán các vấn đề cần khắc phục",
+  },
+  {
     step: 2,
     title: "Tư vấn và báo giá",
     description: "Tư vấn chi tiết về tình trạng pin và đưa ra báo giá chính xác",
