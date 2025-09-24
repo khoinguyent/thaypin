@@ -20,11 +20,9 @@ export default function ZaloFloatingButton() {
       aria-label="Chat Zalo"
       className="fixed z-50 bottom-4 right-4 md:bottom-6 md:right-6"
     >
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Zalo_logo_2019.svg"
-        alt="Zalo"
-        className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-white p-2 shadow-lg hover:scale-105 active:scale-95 transition-transform"
-      />
+      <div className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-white shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center">
+        <img src="/zalo-logo.svg" alt="Zalo" className="h-8 w-8 md:h-9 md:w-9" />
+      </div>
     </a>
   )
 }
