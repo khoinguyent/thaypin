@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useTransition } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -40,6 +40,7 @@ export default function PricingManager() {
     is_active: true,
     display_order: 0
   })
+  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
     loadPricingItems()
@@ -61,30 +62,32 @@ export default function PricingManager() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    try {
-      if (editingItem) {
-        await updatePricingItemServer(editingItem.id, formData)
-        alert('Cập nhật giá thành công!')
-      } else {
-        await createPricingItemServer(formData)
-        alert('Thêm giá thành công!')
+    startTransition(async () => {
+      try {
+        if (editingItem) {
+          await updatePricingItemServer(editingItem.id, formData)
+          alert('Cập nhật giá thành công!')
+        } else {
+          await createPricingItemServer(formData)
+          alert('Thêm giá thành công!')
+        }
+        
+        setShowModal(false)
+        setEditingItem(null)
+        setFormData({
+          model: '',
+          price: 0,
+          original_price: 0,
+          is_popular: false,
+          is_active: true,
+          display_order: 0
+        })
+        loadPricingItems()
+      } catch (error) {
+        console.error('Error saving pricing item:', error)
+        alert('Lỗi khi lưu giá')
       }
-      
-      setShowModal(false)
-      setEditingItem(null)
-      setFormData({
-        model: '',
-        price: 0,
-        original_price: 0,
-        is_popular: false,
-        is_active: true,
-        display_order: 0
-      })
-      loadPricingItems()
-    } catch (error) {
-      console.error('Error saving pricing item:', error)
-      alert('Lỗi khi lưu giá')
-    }
+    })
   }
 
   const handleEdit = (item: PricingItem) => {
@@ -102,25 +105,29 @@ export default function PricingManager() {
 
   const handleDelete = async (id: number) => {
     if (confirm('Bạn có chắc chắn muốn xóa giá này?')) {
-      try {
-        await deletePricingItemServer(id)
-        alert('Xóa giá thành công!')
-        loadPricingItems()
-      } catch (error) {
-        console.error('Error deleting pricing item:', error)
-        alert('Lỗi khi xóa giá')
-      }
+      startTransition(async () => {
+        try {
+          await deletePricingItemServer(id)
+          alert('Xóa giá thành công!')
+          loadPricingItems()
+        } catch (error) {
+          console.error('Error deleting pricing item:', error)
+          alert('Lỗi khi xóa giá')
+        }
+      })
     }
   }
 
   const handleToggleStatus = async (id: number) => {
-    try {
-      await togglePricingItemStatusServer(id)
-      loadPricingItems()
-    } catch (error) {
-      console.error('Error toggling pricing item status:', error)
-      alert('Lỗi khi thay đổi trạng thái')
-    }
+    startTransition(async () => {
+      try {
+        await togglePricingItemStatusServer(id)
+        loadPricingItems()
+      } catch (error) {
+        console.error('Error toggling pricing item status:', error)
+        alert('Lỗi khi thay đổi trạng thái')
+      }
+    })
   }
 
   const calculateSavings = (price: number, originalPrice: number) => {
@@ -340,9 +347,9 @@ export default function PricingManager() {
                   >
                     Hủy
                   </Button>
-                  <Button type="submit" className="flex items-center space-x-2">
+                  <Button type="submit" className="flex items-center space-x-2" disabled={isPending}>
                     <Save className="w-4 h-4" />
-                    <span>{editingItem ? 'Cập nhật' : 'Thêm'}</span>
+                    <span>{isPending ? 'Đang xử lý...' : (editingItem ? 'Cập nhật' : 'Thêm')}</span>
                   </Button>
                 </div>
               </form>
