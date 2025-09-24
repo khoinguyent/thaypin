@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Battery, Clock, Shield, CheckCircle, Star, Phone, Calendar } from "lucide-react"
 import BatteryImageSlider from "@/components/battery-image-slider"
 import { getBatteryImagesBySet } from "@/lib/battery-images-actions"
+import { getActiveServices } from "@/lib/service-actions"
 
 const processSteps = [
   {
@@ -30,36 +31,11 @@ const processSteps = [
   },
 ]
 
-const pricingTiers = [
-  {
-    category: "iPhone 15 Series",
-    models: ["iPhone 15", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max"],
-    price: "900.000đ - 1.200.000đ",
-    popular: true,
-  },
-  {
-    category: "iPhone 14 Series",
-    models: ["iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max"],
-    price: "800.000đ - 1.000.000đ",
-    popular: true,
-  },
-  {
-    category: "iPhone 13 Series",
-    models: ["iPhone 13 mini", "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max"],
-    price: "700.000đ - 850.000đ",
-    popular: false,
-  },
-  {
-    category: "iPhone 12 Series & Cũ hơn",
-    models: ["iPhone 12", "iPhone 11", "iPhone XS", "iPhone X", "iPhone 8", "iPhone 7"],
-    price: "500.000đ - 650.000đ",
-    popular: false,
-  },
-]
-
 export default async function BatteryReplacementPage() {
   // Fetch battery images for the slider
   const batteryImages = await getBatteryImagesBySet('battery-images-set')
+  // Fetch active services from database
+  const services = await getActiveServices()
   
   return (
     <div className="min-h-screen bg-background">
@@ -169,23 +145,25 @@ export default async function BatteryReplacementPage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {pricingTiers.map((tier, index) => (
+              {services.map((service, index) => (
                 <Card
-                  key={index}
-                  className={`bg-card border-border ${tier.popular ? "ring-2 ring-primary" : ""} relative`}
+                  key={service.id}
+                  className={`bg-card border-border ${service.header_tag ? "ring-2 ring-primary" : ""} relative`}
                 >
-                  {tier.popular && (
-                    <Badge className="absolute -top-2 left-6 bg-primary text-primary-foreground">Phổ biến</Badge>
+                  {service.header_tag && (
+                    <Badge className="absolute -top-2 left-6 bg-primary text-primary-foreground">{service.header_tag}</Badge>
                   )}
                   <CardHeader>
-                    <CardTitle className="text-xl font-space-grotesk">{tier.category}</CardTitle>
-                    <div className="text-2xl font-bold text-primary">{tier.price}</div>
+                    <CardTitle className="text-xl font-space-grotesk">{service.title}</CardTitle>
+                    <div className="text-2xl font-bold text-primary">
+                      {service.price_min.toLocaleString('vi-VN')}₫ - {service.price_max.toLocaleString('vi-VN')}₫
+                    </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
                       <h4 className="font-semibold text-sm text-foreground">Áp dụng cho:</h4>
                       <div className="flex flex-wrap gap-2">
-                        {tier.models.map((model, modelIndex) => (
+                        {service.applied_for.map((model, modelIndex) => (
                           <Badge key={modelIndex} variant="secondary" className="text-xs">
                             {model}
                           </Badge>
@@ -196,20 +174,20 @@ export default async function BatteryReplacementPage() {
                     <div className="space-y-2 text-sm text-muted-foreground">
                       <div className="flex items-center">
                         <CheckCircle className="w-4 h-4 text-primary mr-2" />
-                        Linh kiện chính hãng
+                        {service.option_1}
                       </div>
                       <div className="flex items-center">
                         <Shield className="w-4 h-4 text-primary mr-2" />
-                        Bảo hành 12 tháng
+                        {service.option_2}
                       </div>
                       <div className="flex items-center">
                         <Clock className="w-4 h-4 text-primary mr-2" />
-                        Thay trong 30 phút
+                        {service.option_3}
                       </div>
                     </div>
 
                     <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                      Đặt lịch thay pin
+                      {service.button_text}
                     </Button>
                   </CardContent>
                 </Card>
