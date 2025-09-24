@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -19,14 +19,12 @@ import {
 } from "lucide-react"
 import { 
   PricingItem, 
-  CreatePricingData, 
-  UpdatePricingData,
+  CreatePricingData,
   getAllPricingItems,
   createPricingItem,
   updatePricingItem,
   deletePricingItem,
-  togglePricingItemStatus,
-  reorderPricingItems
+  togglePricingItemStatus
 } from "@/lib/pricing-actions"
 
 export default function PricingManager() {
@@ -125,26 +123,6 @@ export default function PricingManager() {
     }
   }
 
-  const handleReorder = async (fromIndex: number, toIndex: number) => {
-    const newItems = [...pricingItems]
-    const [movedItem] = newItems.splice(fromIndex, 1)
-    newItems.splice(toIndex, 0, movedItem)
-    
-    // Update display_order for all items
-    const reorderedItems = newItems.map((item, index) => ({
-      id: item.id,
-      display_order: index + 1
-    }))
-    
-    try {
-      await reorderPricingItems(reorderedItems)
-      setPricingItems(newItems)
-    } catch (error) {
-      console.error('Error reordering pricing items:', error)
-      alert('Lỗi khi sắp xếp lại')
-    }
-  }
-
   const calculateSavings = (price: number, originalPrice: number) => {
     return Math.round(((originalPrice - price) / originalPrice) * 100)
   }
@@ -179,7 +157,7 @@ export default function PricingManager() {
 
       {/* Pricing Items List */}
       <div className="grid gap-4">
-        {pricingItems.map((item, index) => (
+        {pricingItems.map((item) => (
           <Card key={item.id} className="bg-card border-border">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
