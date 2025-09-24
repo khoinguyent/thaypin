@@ -553,6 +553,23 @@ export async function setBlogPostPublished(id: string, isPublished: boolean) {
   revalidatePath("/admin")
 }
 
+export async function setBlogPostFeatured(id: string, isFeatured: boolean) {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from("blog_posts")
+    .update({ featured: isFeatured })
+    .eq("id", id)
+
+  if (error) {
+    console.error("Error updating featured status:", error)
+    throw new Error("Failed to update featured status")
+  }
+
+  revalidatePath("/blog")
+  revalidatePath("/admin")
+}
+
 export async function deleteBlogPost(id: string) {
   const supabase = await createClient()
 

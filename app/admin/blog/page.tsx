@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { getAllBlogPosts, setBlogPostPublished } from "@/lib/blog-actions"
+import { getAllBlogPosts, setBlogPostPublished, setBlogPostFeatured } from "@/lib/blog-actions"
 import { 
   Plus, 
   Edit, 
@@ -113,15 +113,10 @@ export default function BlogManagementPage() {
 
   const toggleFeaturedStatus = async (postId: string) => {
     try {
-      // API call to toggle featured status
-      console.log("Chuyển đổi trạng thái nổi bật cho bài viết:", postId)
-      
-      // Update local state
-      setBlogPosts(prev => prev.map(post => 
-        post.id === postId 
-          ? { ...post, featured: !post.featured }
-          : post
-      ))
+      const target = blogPosts.find(p => p.id === postId)
+      const next = target ? !target.featured : true
+      await setBlogPostFeatured(postId, next)
+      setBlogPosts(prev => prev.map(post => (post.id === postId ? { ...post, featured: next } : post)))
     } catch (error) {
       console.error("Lỗi khi cập nhật trạng thái nổi bật:", error)
     }
