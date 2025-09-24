@@ -13,7 +13,8 @@ import {
   LayoutDashboard,
   MessageSquare,
   TrendingUp,
-  Battery
+  Battery,
+  Wrench
 } from "lucide-react"
 import Link from "next/link"
 
@@ -233,6 +234,26 @@ export default function AdminDashboardPage() {
             </CardContent>
           </Card>
 
+          {/* Services Management */}
+          <Card className="bg-white border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Wrench className="w-5 h-5 text-primary" />
+                <span>Quản lý dịch vụ</span>
+              </CardTitle>
+              <CardDescription>
+                Quản lý các dịch vụ thay pin iPhone
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/admin/services">
+                <Button className="w-full bg-primary hover:bg-primary/90">
+                  Quản lý dịch vụ
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
           {/* Battery Images Management */}
           <Card className="bg-white border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
@@ -347,6 +368,17 @@ export default function AdminDashboardPage() {
                     <div className="text-xs text-muted-foreground">iPhone 15 Pro Max battery image</div>
                   </div>
                   <div className="text-xs text-muted-foreground">8 giờ trước</div>
+                </div>
+
+                <div className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg">
+                  <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                    <Wrench className="w-4 h-4 text-yellow-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-sm font-medium">Dịch vụ mới được tạo</div>
+                    <div className="text-xs text-muted-foreground">iPhone 15 Series - Thay pin chính hãng</div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">12 giờ trước</div>
                 </div>
               </div>
             </CardContent>
