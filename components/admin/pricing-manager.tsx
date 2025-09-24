@@ -21,10 +21,10 @@ import {
   PricingItem, 
   CreatePricingData,
   getAllPricingItemsServer,
-  createPricingItemServer,
-  updatePricingItemServer,
-  deletePricingItemServer,
-  togglePricingItemStatusServer
+  createPricingItemAction,
+  updatePricingItemAction,
+  deletePricingItemAction,
+  togglePricingItemStatusAction
 } from "@/lib/pricing-actions-server-admin"
 
 export default function PricingManager() {
@@ -62,13 +62,25 @@ export default function PricingManager() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    const submitFormData = new FormData()
+    submitFormData.append('model', formData.model)
+    submitFormData.append('price', formData.price.toString())
+    submitFormData.append('original_price', formData.original_price.toString())
+    submitFormData.append('is_popular', formData.is_popular.toString())
+    submitFormData.append('is_active', formData.is_active.toString())
+    submitFormData.append('display_order', formData.display_order.toString())
+    
+    if (editingItem) {
+      submitFormData.append('id', editingItem.id.toString())
+    }
+    
     startTransition(async () => {
       try {
         if (editingItem) {
-          await updatePricingItemServer(editingItem.id, formData)
+          await updatePricingItemAction(submitFormData)
           alert('Cập nhật giá thành công!')
         } else {
-          await createPricingItemServer(formData)
+          await createPricingItemAction(submitFormData)
           alert('Thêm giá thành công!')
         }
         
@@ -105,9 +117,12 @@ export default function PricingManager() {
 
   const handleDelete = async (id: number) => {
     if (confirm('Bạn có chắc chắn muốn xóa giá này?')) {
+      const formData = new FormData()
+      formData.append('id', id.toString())
+      
       startTransition(async () => {
         try {
-          await deletePricingItemServer(id)
+          await deletePricingItemAction(formData)
           alert('Xóa giá thành công!')
           loadPricingItems()
         } catch (error) {
@@ -119,9 +134,12 @@ export default function PricingManager() {
   }
 
   const handleToggleStatus = async (id: number) => {
+    const formData = new FormData()
+    formData.append('id', id.toString())
+    
     startTransition(async () => {
       try {
-        await togglePricingItemStatusServer(id)
+        await togglePricingItemStatusAction(formData)
         loadPricingItems()
       } catch (error) {
         console.error('Error toggling pricing item status:', error)

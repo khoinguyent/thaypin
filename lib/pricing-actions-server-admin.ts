@@ -145,3 +145,44 @@ export async function togglePricingItemStatusServer(id: number): Promise<Pricing
   revalidatePath('/')
   return result
 }
+
+// Form action for updating pricing item
+export async function updatePricingItemAction(formData: FormData) {
+  const id = parseInt(formData.get('id') as string)
+  const data: UpdatePricingData = {
+    model: formData.get('model') as string,
+    price: parseInt(formData.get('price') as string),
+    original_price: parseInt(formData.get('original_price') as string),
+    is_popular: formData.get('is_popular') === 'true',
+    is_active: formData.get('is_active') === 'true',
+    display_order: parseInt(formData.get('display_order') as string)
+  }
+  
+  return await updatePricingItemServer(id, data)
+}
+
+// Form action for creating pricing item
+export async function createPricingItemAction(formData: FormData) {
+  const data: CreatePricingData = {
+    model: formData.get('model') as string,
+    price: parseInt(formData.get('price') as string),
+    original_price: parseInt(formData.get('original_price') as string),
+    is_popular: formData.get('is_popular') === 'true',
+    is_active: formData.get('is_active') === 'true',
+    display_order: parseInt(formData.get('display_order') as string)
+  }
+  
+  return await createPricingItemServer(data)
+}
+
+// Form action for deleting pricing item
+export async function deletePricingItemAction(formData: FormData) {
+  const id = parseInt(formData.get('id') as string)
+  return await deletePricingItemServer(id)
+}
+
+// Form action for toggling pricing item status
+export async function togglePricingItemStatusAction(formData: FormData) {
+  const id = parseInt(formData.get('id') as string)
+  return await togglePricingItemStatusServer(id)
+}
