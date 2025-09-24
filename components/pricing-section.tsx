@@ -163,7 +163,6 @@ export default function PricingSection() {
                   <div>✓ Thay trong 30 phút</div>
                   <div>✓ Tiết kiệm 40% so với Apple</div>
                 </div>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Đặt lịch</Button>
               </CardContent>
             </Card>
           ))}

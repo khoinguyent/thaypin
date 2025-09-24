@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
   Plus, 
   Edit, 
@@ -210,19 +211,26 @@ export default function ServicesManager() {
 
   return (
     <div className="space-y-6">
-      {/* Header with Add Button */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-lg font-semibold">Quản lý dịch vụ thay pin</h3>
-          <p className="text-sm text-muted-foreground">
-            Tổng cộng {services.length} dịch vụ
-          </p>
-        </div>
-        <Button onClick={openAddModal} className="bg-primary hover:bg-primary/90">
-          <Plus className="w-4 h-4 mr-2" />
-          Thêm dịch vụ
-        </Button>
-      </div>
+      <Tabs defaultValue="services" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="services">Dịch vụ</TabsTrigger>
+          <TabsTrigger value="pricing">Bảng giá</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="services" className="space-y-6">
+          {/* Header with Add Button */}
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-lg font-semibold">Quản lý dịch vụ thay pin</h3>
+              <p className="text-sm text-muted-foreground">
+                Tổng cộng {services.length} dịch vụ
+              </p>
+            </div>
+            <Button onClick={openAddModal} className="bg-primary hover:bg-primary/90">
+              <Plus className="w-4 h-4 mr-2" />
+              Thêm dịch vụ
+            </Button>
+          </div>
 
       {/* Services List */}
       <div className="grid gap-4">
@@ -324,6 +332,31 @@ export default function ServicesManager() {
           ))
         )}
       </div>
+        </TabsContent>
+        
+        <TabsContent value="pricing" className="space-y-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-lg font-semibold">Quản lý bảng giá</h3>
+              <p className="text-sm text-muted-foreground">
+                Quản lý giá cả cho các model iPhone
+              </p>
+            </div>
+            <Button className="bg-primary hover:bg-primary/90">
+              <Plus className="w-4 h-4 mr-2" />
+              Thêm giá mới
+            </Button>
+          </div>
+          
+          <Card>
+            <CardContent className="text-center py-8 text-muted-foreground">
+              <Settings className="w-12 h-12 mx-auto mb-4 opacity-50" />
+              <p>Chức năng quản lý bảng giá đang được phát triển</p>
+              <p className="text-sm mt-2">Sẽ có sớm trong phiên bản tiếp theo</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
 
       {/* Add/Edit Modal */}
       {showModal && (
