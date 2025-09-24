@@ -20,7 +20,6 @@ import {
 import { 
   PricingItem, 
   CreatePricingData,
-  UpdatePricingData,
   getAllPricingItemsServer,
   createPricingItemServer,
   updatePricingItemServer,
