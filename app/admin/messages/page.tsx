@@ -23,7 +23,7 @@ import {
   Trash2
 } from "lucide-react"
 import Link from "next/link"
-import { getContactMessagesGrouped, getContactMessages, updateMessageStatus, deleteContactMessage, type ContactMessage } from "@/lib/message-actions"
+import { getContactMessagesGrouped, getContactMessages, updateMessageStatus, deleteContactMessage, type ContactMessage } from "@/lib/message-actions-client"
 
 export default function AdminMessagesPage() {
   const [messages, setMessages] = useState<ContactMessage[]>([])
