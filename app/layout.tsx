@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import { ToastProvider } from "@/components/ui/toast-provider"
+import ZaloFloatingButton from "@/components/zalo-floating-button"
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -34,6 +35,7 @@ export default function RootLayout({
         <ToastProvider>
           {children}
         </ToastProvider>
+        <ZaloFloatingButton />
       </body>
     </html>
   )
