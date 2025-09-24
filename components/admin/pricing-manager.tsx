@@ -20,12 +20,13 @@ import {
 import { 
   PricingItem, 
   CreatePricingData,
-  getAllPricingItems,
-  createPricingItem,
-  updatePricingItem,
-  deletePricingItem,
-  togglePricingItemStatus
-} from "@/lib/pricing-actions"
+  UpdatePricingData,
+  getAllPricingItemsServer,
+  createPricingItemServer,
+  updatePricingItemServer,
+  deletePricingItemServer,
+  togglePricingItemStatusServer
+} from "@/lib/pricing-actions-server-admin"
 
 export default function PricingManager() {
   const [pricingItems, setPricingItems] = useState<PricingItem[]>([])
@@ -48,7 +49,7 @@ export default function PricingManager() {
   const loadPricingItems = async () => {
     try {
       setLoading(true)
-      const items = await getAllPricingItems()
+      const items = await getAllPricingItemsServer()
       setPricingItems(items)
     } catch (error) {
       console.error('Error loading pricing items:', error)
@@ -63,10 +64,10 @@ export default function PricingManager() {
     
     try {
       if (editingItem) {
-        await updatePricingItem(editingItem.id, formData)
+        await updatePricingItemServer(editingItem.id, formData)
         alert('Cập nhật giá thành công!')
       } else {
-        await createPricingItem(formData)
+        await createPricingItemServer(formData)
         alert('Thêm giá thành công!')
       }
       
@@ -103,7 +104,7 @@ export default function PricingManager() {
   const handleDelete = async (id: number) => {
     if (confirm('Bạn có chắc chắn muốn xóa giá này?')) {
       try {
-        await deletePricingItem(id)
+        await deletePricingItemServer(id)
         alert('Xóa giá thành công!')
         loadPricingItems()
       } catch (error) {
@@ -115,7 +116,7 @@ export default function PricingManager() {
 
   const handleToggleStatus = async (id: number) => {
     try {
-      await togglePricingItemStatus(id)
+      await togglePricingItemStatusServer(id)
       loadPricingItems()
     } catch (error) {
       console.error('Error toggling pricing item status:', error)
