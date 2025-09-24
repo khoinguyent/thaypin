@@ -27,11 +27,13 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
   const [videoType, setVideoType] = useState<"none" | "url" | "upload">((editingPost as BlogPost & { video_type?: string })?.video_type || "none")
   const [imageUploadStatus, setImageUploadStatus] = useState<string>("")
   const [imageUrl, setImageUrl] = useState<string>(editingPost?.image_url || "")
+  const [featured, setFeatured] = useState<boolean>(editingPost?.featured || false)
   const { showError } = useToast()
 
   const handleSubmit = async (formData: FormData) => {
     formData.set("tags", tags.join(","))
     formData.set("video_type", videoType)
+    formData.set("featured", featured ? "true" : "false")
 
     startTransition(async () => {
       try {
@@ -373,7 +375,8 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
                   <Separator />
                   <div className="flex items-center justify-between">
                     <Label htmlFor="featured">Bài viết nổi bật</Label>
-                    <Switch id="featured" name="featured" defaultChecked={editingPost?.featured} />
+                    <Switch id="featured" checked={featured} onCheckedChange={setFeatured} />
+                    <input type="hidden" name="featured" value={featured ? "true" : "false"} />
                   </div>
                   <p className="text-xs text-muted-foreground">Bài viết nổi bật sẽ hiển thị ở phần đầu trang blog</p>
                 </div>

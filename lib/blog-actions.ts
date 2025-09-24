@@ -377,7 +377,8 @@ export async function createBlogPost(formData: FormData) {
   const excerpt = formData.get("excerpt") as string
   const content = formData.get("content") as string
   const category = formData.get("category") as string
-  const featured = formData.get("featured") === "on"
+  const featuredRaw = (formData.get("featured") as string | null) || ""
+  const featured = featuredRaw === "on" || featuredRaw === "true"
   const imageUrl = formData.get("image_url") as string
   const metaDescription = formData.get("meta_description") as string
   const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim())
@@ -448,6 +449,8 @@ export async function updateBlogPost(id: string, formData: FormData) {
   const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim())
   const publishedInput = formData.get("published") as string | null
   const published = publishedInput === "on" || publishedInput === "true"
+  const featuredRawUpdate = (formData.get("featured") as string | null) || (editingPost?.featured ? "true" : "false")
+  const featured = featuredRawUpdate === "on" || featuredRawUpdate === "true"
 
   const videoType = (formData.get("video_type") as string) || "none"
   const videoUrl = formData.get("video_url") as string
