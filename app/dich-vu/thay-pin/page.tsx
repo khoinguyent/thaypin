@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Battery, Clock, Shield, CheckCircle, Star, Phone, Calendar } from "lucide-react"
 import BatteryImageSlider from "@/components/battery-image-slider"
 import { getBatteryImagesBySet } from "@/lib/battery-images-actions"
-import { getActiveServices } from "@/lib/service-actions"
+import { getActiveServicesServer } from "@/lib/service-actions-server"
 
 const processSteps = [
   {
@@ -35,7 +35,7 @@ export default async function BatteryReplacementPage() {
   // Fetch battery images for the slider
   const batteryImages = await getBatteryImagesBySet('battery-images-set')
   // Fetch active services from database
-  const services = await getActiveServices()
+  const services = await getActiveServicesServer()
   
   return (
     <div className="min-h-screen bg-background">
