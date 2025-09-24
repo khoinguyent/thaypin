@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { revalidatePath } from "next/cache"
 
 export interface PricingItem {
@@ -52,7 +53,7 @@ export async function getAllPricingItemsServer(): Promise<PricingItem[]> {
 
 // Create new pricing item
 export async function createPricingItemServer(data: CreatePricingData): Promise<PricingItem> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   
   const { data: result, error } = await supabase
     .from('pricing')
@@ -72,7 +73,7 @@ export async function createPricingItemServer(data: CreatePricingData): Promise<
 
 // Update pricing item
 export async function updatePricingItemServer(id: number, data: UpdatePricingData): Promise<PricingItem> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   
   const { data: result, error } = await supabase
     .from('pricing')
@@ -93,7 +94,7 @@ export async function updatePricingItemServer(id: number, data: UpdatePricingDat
 
 // Delete pricing item
 export async function deletePricingItemServer(id: number): Promise<void> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   
   const { error } = await supabase
     .from('pricing')
@@ -111,7 +112,7 @@ export async function deletePricingItemServer(id: number): Promise<void> {
 
 // Toggle pricing item active status
 export async function togglePricingItemStatusServer(id: number): Promise<PricingItem> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   
   // First get current status
   const { data: current, error: fetchError } = await supabase
