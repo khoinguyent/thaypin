@@ -24,7 +24,7 @@ export async function getContactMessages(status?: string, limit: number = 50): P
     }
     params.append("limit", limit.toString())
 
-    const apiUrl = `${window.location.origin}/api/contact?${params}`
+    const apiUrl = `/api/contact?${params}`
     console.log("=== API CALL DEBUG ===")
     console.log("Fetching messages from:", apiUrl)
     console.log("Window location:", window.location.href)
@@ -66,7 +66,7 @@ export async function getContactMessagesGrouped(status?: string, limit: number =
     }
     params.append("limit", limit.toString())
 
-    const apiUrl = `${window.location.origin}/api/contact?${params}`
+    const apiUrl = `/api/contact?${params}`
     console.log("Fetching grouped messages from:", apiUrl)
     
     const response = await fetch(apiUrl)
