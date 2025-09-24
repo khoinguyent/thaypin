@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import ContactButton from "@/components/contact-button"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { getActivePricingItemsServer } from "@/lib/pricing-actions-server"
@@ -48,7 +49,7 @@ export default async function PricingSection() {
                   <div>✓ Thay trong 30 phút</div>
                   <div>✓ Tiết kiệm 40% so với Apple</div>
                 </div>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Đặt lịch</Button>
+                    <ContactButton className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Đặt lịch</ContactButton>
               </CardContent>
             </Card>
           ))}
@@ -66,7 +67,7 @@ export default async function PricingSection() {
           <p className="text-muted-foreground mb-4">
             Không tìm thấy model iPhone của bạn? Liên hệ để được báo giá chi tiết
           </p>
-          <Button
+              <Button
             variant="outline"
             size="lg"
             className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"

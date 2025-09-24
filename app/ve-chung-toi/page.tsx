@@ -2,6 +2,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import ContactButton from "@/components/contact-button"
 import { Badge } from "@/components/ui/badge"
 import { Users, Award, Shield, Clock, CheckCircle, Star, Heart, Target, Zap, Phone, Calendar } from "lucide-react"
 

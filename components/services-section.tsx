@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import ContactButton from "@/components/contact-button"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle, Shield, Clock } from "lucide-react"
 import ContactModal from "@/components/contact-modal"
@@ -90,12 +90,9 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
                     </div>
                   </div>
 
-                  <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                    onClick={() => handleServiceClick()}
-                  >
+                  <ContactButton className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                     {service.button_text}
-                  </Button>
+                  </ContactButton>
                 </CardContent>
               </Card>
             ))}

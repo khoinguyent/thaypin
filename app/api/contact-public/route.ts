@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
           email: email || null,
           service: service || null,
           message: message || null,
-          status: 'new',
-          source: 'public_form'
+          // status must match CHECK constraint: 'pending' | 'read' | 'replied' | 'closed'
+          status: 'pending'
         }
       ])
       .select()

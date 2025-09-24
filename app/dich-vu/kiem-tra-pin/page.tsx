@@ -2,6 +2,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import ContactButton from "@/components/contact-button"
 import { Badge } from "@/components/ui/badge"
 import { Zap, AlertTriangle, Battery, Smartphone } from "lucide-react"
 
@@ -215,9 +216,9 @@ export default function BatteryCheckPage() {
               <p className="text-muted-foreground mb-6">
                 Phát hiện bất kỳ dấu hiệu nào ở trên? Hãy kiểm tra pin ngay để tránh hư hỏng nghiêm trọng
               </p>
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              <ContactButton className="bg-primary hover:bg-primary/90 text-primary-foreground">
                 Đặt lịch kiểm tra miễn phí
-              </Button>
+              </ContactButton>
             </div>
           </div>
         </section>

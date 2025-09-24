@@ -2,6 +2,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import ContactButton from "@/components/contact-button"
 import { Badge } from "@/components/ui/badge"
 import { Battery, Smartphone, Zap, Settings, Clock, Shield, CheckCircle } from "lucide-react"
 import Link from "next/link"
@@ -163,12 +164,9 @@ export default function ServicesPage() {
                       <Button asChild className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground">
                         <Link href={`/dich-vu/${service.id}`}>Xem chi tiết</Link>
                       </Button>
-                      <Button
-                        variant="outline"
-                        className="flex-1 border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
-                      >
+                      <ContactButton className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground">
                         Đặt lịch ngay
-                      </Button>
+                      </ContactButton>
                     </div>
                   </CardContent>
                 </Card>
@@ -189,13 +187,9 @@ export default function ServicesPage() {
                 <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                                       Gọi ngay: 0969 674 679
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
-                >
+                <ContactButton variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent">
                   Chat với chuyên gia
-                </Button>
+                </ContactButton>
               </div>
             </div>
           </div>
