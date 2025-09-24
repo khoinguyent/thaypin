@@ -27,7 +27,7 @@ export default function BlogPostForm({ onSuccess, editingPost }: BlogPostFormPro
   const [videoType, setVideoType] = useState<"none" | "url" | "upload">((editingPost as BlogPost & { video_type?: string })?.video_type || "none")
   const [imageUploadStatus, setImageUploadStatus] = useState<string>("")
   const [imageUrl, setImageUrl] = useState<string>(editingPost?.image_url || "")
-  const { showSuccess, showError } = useToast()
+  const { showError } = useToast()
 
   const handleSubmit = async (formData: FormData) => {
     formData.set("tags", tags.join(","))

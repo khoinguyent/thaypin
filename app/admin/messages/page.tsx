@@ -34,7 +34,7 @@ export default function AdminMessagesPage() {
   const [filterStatus, setFilterStatus] = useState("all")
   const [isUpdating, setIsUpdating] = useState<string | null>(null)
   const router = useRouter()
-  const { showSuccess, showError } = useToast()
+  const { showError } = useToast()
 
   const loadMessages = useCallback(async () => {
     try {

@@ -20,7 +20,7 @@ export default function BlogPostsList({ posts, onPostsChange }: BlogPostsListPro
   const [isPending, startTransition] = useTransition()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const { showSuccess, showError } = useToast()
+  const { showError } = useToast()
 
   const categories = ["all", ...Array.from(new Set(posts.map((post) => post.category)))]
 
