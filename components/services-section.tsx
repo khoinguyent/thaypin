@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -27,7 +27,7 @@ interface ServicesSectionProps {
 export default function ServicesSection({ services }: ServicesSectionProps) {
   const [showContactModal, setShowContactModal] = useState(false)
 
-  const handleServiceClick = (service: Service) => {
+  const handleServiceClick = () => {
     setShowContactModal(true)
   }
 
@@ -88,7 +88,7 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
 
                   <Button 
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                    onClick={() => handleServiceClick(service)}
+                    onClick={() => handleServiceClick()}
                   >
                     {service.button_text}
                   </Button>
