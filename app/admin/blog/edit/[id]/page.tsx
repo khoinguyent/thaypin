@@ -192,6 +192,7 @@ export default function EditBlogPostPage() {
       updateFormData.append("content", formData.content)
       updateFormData.append("category", formData.category)
       updateFormData.append("featured", formData.featured ? "on" : "off")
+      updateFormData.append("published", formData.is_published ? "on" : "off")
       updateFormData.append("image_url", formData.image_url)
       updateFormData.append("meta_description", formData.excerpt) // Using excerpt as meta description
       updateFormData.append("tags", formData.tags.join(","))

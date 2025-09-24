@@ -446,6 +446,8 @@ export async function updateBlogPost(id: string, formData: FormData) {
   const imageUrl = formData.get("image_url") as string
   const metaDescription = formData.get("meta_description") as string
   const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim())
+  const publishedInput = formData.get("published") as string | null
+  const published = publishedInput === "on" || publishedInput === "true"
 
   const videoType = (formData.get("video_type") as string) || "none"
   const videoUrl = formData.get("video_url") as string
@@ -486,6 +488,7 @@ export async function updateBlogPost(id: string, formData: FormData) {
     content: string
     category: string
     featured: boolean
+    published: boolean | undefined
     image_url: string | null
     meta_description: string | null
     tags: string[]
@@ -500,6 +503,8 @@ export async function updateBlogPost(id: string, formData: FormData) {
     content,
     category,
     featured,
+    // Only include published if provided by the caller (edit form)
+    published: publishedInput !== null ? published : undefined,
     image_url: imageUrl || null,
     meta_description: metaDescription || null,
     tags,
@@ -524,6 +529,23 @@ export async function updateBlogPost(id: string, formData: FormData) {
   if (error) {
     console.error("Error updating blog post:", error)
     throw new Error("Failed to update blog post")
+  }
+
+  revalidatePath("/blog")
+  revalidatePath("/admin")
+}
+
+export async function setBlogPostPublished(id: string, isPublished: boolean) {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from("blog_posts")
+    .update({ published: isPublished })
+    .eq("id", id)
+
+  if (error) {
+    console.error("Error updating publish status:", error)
+    throw new Error("Failed to update publish status")
   }
 
   revalidatePath("/blog")
