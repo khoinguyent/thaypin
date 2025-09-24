@@ -2,7 +2,6 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import ContactButton from "@/components/contact-button"
 import { Badge } from "@/components/ui/badge"
 import { Users, Award, Shield, Clock, CheckCircle, Star, Heart, Target, Zap, Phone, Calendar } from "lucide-react"
 
@@ -92,7 +91,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        {/* Hero Section */}
+        {/* Hero Section   */}
         <section className="bg-gradient-to-br from-background to-muted py-16">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
