@@ -183,10 +183,6 @@ export default async function BatteryReplacementPage() {
                         {service.option_3}
                       </div>
                     </div>
-
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                      {service.button_text}
-                    </Button>
                   </CardContent>
                 </Card>
               ))}
