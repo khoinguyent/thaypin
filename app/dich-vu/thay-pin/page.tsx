@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,11 +10,6 @@ import { getBatteryImagesBySet } from "@/lib/battery-images-actions"
 import { getActiveServicesServer } from "@/lib/service-actions-server"
 
 const processSteps = [
-  {
-    step: 1,
-    title: "Kiểm tra và chẩn đoán",
-    description: "Kiểm tra tình trạng pin hiện tại, đánh giá độ chai và các vấn đề liên quan",
-  },
   {
     step: 2,
     title: "Tư vấn và báo giá",
@@ -92,9 +88,11 @@ export default async function BatteryReplacementPage() {
 
               <div className="relative">
                 <Card className="p-6 bg-card border-border">
-                  <img
+                  <Image
                     src="https://pub-2c329f0e1a104718865ba6bcce019dec.r2.dev/Gemini_Generated_Image_xtte58xtte58xtte.png?height=400&width=600"
                     alt="Dịch vụ thay pin iPhone chuyên nghiệp"
+                    width={600}
+                    height={400}
                     className="w-full h-auto rounded-lg"
                   />
                 </Card>
@@ -145,7 +143,7 @@ export default async function BatteryReplacementPage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {services.map((service, index) => (
+              {services.map((service) => (
                 <Card
                   key={service.id}
                   className={`bg-card border-border ${service.header_tag ? "ring-2 ring-primary" : ""} relative`}
