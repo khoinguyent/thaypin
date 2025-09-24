@@ -1,18 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createClient } from "@supabase/supabase-js"
-
-// Create Supabase client with service role key to bypass RLS
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+import { createAdminClient } from "@/lib/supabase/admin"
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { name, phone, email, service, message } = body
-
-    console.log("Contact form submission:", { name, phone, email, service, message })
 
     // Validate required fields
     if (!name || !phone) {
@@ -22,69 +14,46 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate phone number format (basic validation)
-    const phoneRegex = /^[0-9+\-\s()]+$/
-    if (!phoneRegex.test(phone)) {
-      return NextResponse.json(
-        { error: "Số điện thoại không hợp lệ" },
-        { status: 400 }
-      )
-    }
-
-    // Validate email format if provided
-    if (email && email.trim() !== "") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!emailRegex.test(email)) {
-        return NextResponse.json(
-          { error: "Email không hợp lệ" },
-          { status: 400 }
-        )
-      }
-    }
-
-    // Insert message into database using service role (bypasses RLS)
+    // Create message in database
+    const supabase = createAdminClient()
+    
     const { data, error } = await supabase
-      .from("contact_messages")
+      .from('contact_messages')
       .insert([
         {
-          name: name.trim(),
-          phone: phone.trim(),
-          email: email ? email.trim() : null,
+          name,
+          phone,
+          email: email || null,
           service: service || null,
-          message: message ? message.trim() : null,
-          status: "pending"
+          message: message || null,
+          // status must match CHECK constraint: 'pending' | 'read' | 'replied' | 'closed'
+          status: 'pending'
         }
       ])
       .select()
+      .single()
 
     if (error) {
-      console.error("Database error:", error)
-      console.error("Error details:", JSON.stringify(error, null, 2))
+      console.error('Error creating contact message:', error)
       return NextResponse.json(
-        { 
-          error: "Có lỗi xảy ra khi lưu tin nhắn. Vui lòng thử lại.",
-          details: process.env.NODE_ENV === 'development' ? error.message : undefined
-        },
+        { error: "Có lỗi xảy ra khi lưu tin nhắn" },
         { status: 500 }
       )
     }
 
-    console.log("Message saved successfully:", data[0])
-
-    // Return success response
     return NextResponse.json(
       { 
         success: true, 
-        message: "Tin nhắn đã được gửi thành công! Chúng tôi sẽ liên hệ lại trong vòng 30 phút.",
-        id: data[0]?.id
+        message: "Tin nhắn đã được gửi thành công",
+        data 
       },
       { status: 201 }
     )
 
   } catch (error) {
-    console.error("Contact form error:", error)
+    console.error('Error in contact API:', error)
     return NextResponse.json(
-      { error: "Có lỗi xảy ra. Vui lòng thử lại sau." },
+      { error: "Có lỗi xảy ra khi xử lý yêu cầu" },
       { status: 500 }
     )
   }

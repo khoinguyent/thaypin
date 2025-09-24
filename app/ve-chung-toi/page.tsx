@@ -91,7 +91,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        {/* Hero Section */}
+        {/* Hero Section   */}
         <section className="bg-gradient-to-br from-background to-muted py-16">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 items-center">

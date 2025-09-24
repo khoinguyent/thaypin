@@ -1,75 +1,102 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Battery, Smartphone, Zap, Settings } from "lucide-react"
+"use client"
 
-const services = [
-  {
-    icon: Battery,
-    title: "Thay Pin iPhone",
-    description: "Thay linh kiện chính hãng cho tất cả các dòng iPhone từ iPhone 6 đến iPhone 15 Pro Max",
-    price: "Từ 500.000đ",
-    features: ["Liên kiện chính hãng", "Bảo hành 12 tháng", "Thay trong 30 phút"],
-  },
-  {
-    icon: Zap,
-    title: "Kiểm Tra Pin",
-    description: "Kiểm tra tình trạng pin iPhone miễn phí, đánh giá độ chai pin và khả năng hoạt động",
-    price: "Miễn phí",
-    features: ["Kiểm tra miễn phí", "Báo cáo chi tiết", "Tư vấn chuyên nghiệp"],
-  },
-  {
-    icon: Settings,
-    title: "Bảo Trì Pin",
-    description: "Dịch vụ bảo trì và tối ưu hóa pin iPhone để kéo dài tuổi thọ pin",
-    price: "200.000đ",
-    features: ["Tối ưu hóa pin", "Làm sạch cổng sạc", "Kiểm tra toàn diện"],
-  },
-  {
-    icon: Smartphone,
-    title: "Sửa Chữa Tổng Hợp",
-    description: "Sửa chữa các lỗi liên quan đến pin và hệ thống sạc của iPhone",
-    price: "Báo giá",
-    features: ["Ép kính, ép cảm ứng", "Fix FaceId, fix cam", "Thay thế linh kiện", "..."],
-  },
-]
+import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import ContactButton from "@/components/contact-button"
+import { Badge } from "@/components/ui/badge"
+import { CheckCircle, Shield, Clock } from "lucide-react"
+import ContactModal from "@/components/contact-modal"
 
-export default function ServicesSection() {
+interface Service {
+  id: number
+  title: string
+  header_tag?: string
+  price_min: number
+  price_max: number
+  applied_for: string[]
+  option_1: string
+  option_2: string
+  option_3: string
+  button_text: string
+}
+
+interface ServicesSectionProps {
+  services?: Service[]
+}
+
+export default function ServicesSection({ services }: ServicesSectionProps) {
+  const [showContactModal, setShowContactModal] = useState(false)
+
+  if (!services || services.length === 0) {
+    return null
+  }
+
   return (
-    <section id="dich-vu" className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">Dịch Vụ Của Chúng Tôi</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Chúng tôi cung cấp đầy đủ các dịch vụ liên quan đến pin iPhone với chất lượng cao nhất
-          </p>
-        </div>
+    <>
+      <section className="py-20 bg-muted">
+        <div className="container mx-auto px-4">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground">
+              Bảng Giá Chi Tiết
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Giá cả minh bạch, cạnh tranh với chất lượng linh kiện chính hãng
+            </p>
+          </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
-            <Card key={index} className="bg-card border-border hover:shadow-lg transition-shadow flex flex-col">
-              <CardHeader className="text-center">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <service.icon className="w-6 h-6 text-primary" />
-                </div>
-                <CardTitle className="text-xl font-space-grotesk">{service.title}</CardTitle>
-                <CardDescription className="text-muted-foreground">{service.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 flex-1 flex flex-col">
-                <div className="text-center">
-                  <span className="text-2xl font-bold text-primary">{service.price}</span>
-                </div>
-                <ul className="space-y-2 flex-1">
-                  {service.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center text-sm text-muted-foreground">
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full mr-2"></div>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ))}
+          <div className="grid md:grid-cols-2 gap-6">
+            {services.map((service) => (
+              <Card
+                key={service.id}
+                className={`bg-card border-border ${service.header_tag ? "ring-2 ring-primary" : ""} relative`}
+              >
+                {service.header_tag && (
+                  <Badge className="absolute -top-2 left-6 bg-primary text-primary-foreground">{service.header_tag}</Badge>
+                )}
+                <CardHeader>
+                  <CardTitle className="text-xl font-space-grotesk">{service.title}</CardTitle>
+                  <div className="text-2xl font-bold text-primary">
+                    {service.price_min.toLocaleString('vi-VN')}₫ - {service.price_max.toLocaleString('vi-VN')}₫
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-sm text-foreground">Áp dụng cho:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {service.applied_for.map((model, modelIndex) => (
+                        <Badge key={modelIndex} variant="secondary" className="text-xs">
+                          {model}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <div className="flex items-center">
+                      <CheckCircle className="w-4 h-4 text-primary mr-2" />
+                      {service.option_1}
+                    </div>
+                    <div className="flex items-center">
+                      <Shield className="w-4 h-4 text-primary mr-2" />
+                      {service.option_2}
+                    </div>
+                    <div className="flex items-center">
+                      <Clock className="w-4 h-4 text-primary mr-2" />
+                      {service.option_3}
+                    </div>
+                  </div>
+
+                  <ContactButton className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                    {service.button_text}
+                  </ContactButton>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
+    </>
   )
 }

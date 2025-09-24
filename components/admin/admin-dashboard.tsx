@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BarChart3, FileText, Plus, TrendingUp, Users, Eye, Calendar, Settings, Home, ArrowLeft, Battery } from "lucide-react"
+import { BarChart3, FileText, Plus, TrendingUp, Users, Eye, Calendar, Settings, Home, ArrowLeft, Battery, Wrench } from "lucide-react"
 import Link from "next/link"
 import type { BlogPost } from "@/lib/supabase/client"
 import BlogPostForm from "./blog-post-form"
@@ -88,7 +88,7 @@ export default function AdminDashboard({ initialPosts }: AdminDashboardProps) {
 
       <div className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:grid-cols-6">
             <TabsTrigger value="dashboard" className="flex items-center space-x-2">
               <BarChart3 className="w-4 h-4" />
               <span>Dashboard</span>
@@ -96,6 +96,10 @@ export default function AdminDashboard({ initialPosts }: AdminDashboardProps) {
             <TabsTrigger value="posts" className="flex items-center space-x-2">
               <FileText className="w-4 h-4" />
               <span>Bài viết</span>
+            </TabsTrigger>
+            <TabsTrigger value="services" className="flex items-center space-x-2">
+              <Wrench className="w-4 h-4" />
+              <span>Dịch vụ</span>
             </TabsTrigger>
             <TabsTrigger value="battery-images" className="flex items-center space-x-2">
               <Battery className="w-4 h-4" />
@@ -200,11 +204,82 @@ export default function AdminDashboard({ initialPosts }: AdminDashboardProps) {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Quick Actions */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Link href="/admin/services">
+                <Card className="bg-background border-border hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <Wrench className="w-8 h-8 mx-auto mb-3 text-primary" />
+                    <h3 className="font-semibold text-foreground mb-2">Quản lý dịch vụ</h3>
+                    <p className="text-sm text-muted-foreground">Quản lý dịch vụ thay pin iPhone</p>
+                  </CardContent>
+                </Card>
+              </Link>
+              
+              <Link href="/admin/battery-images">
+                <Card className="bg-background border-border hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <Battery className="w-8 h-8 mx-auto mb-3 text-primary" />
+                    <h3 className="font-semibold text-foreground mb-2">Hình ảnh pin</h3>
+                    <p className="text-sm text-muted-foreground">Quản lý hình ảnh pin iPhone</p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/admin/messages">
+                <Card className="bg-background border-border hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <Users className="w-8 h-8 mx-auto mb-3 text-primary" />
+                    <h3 className="font-semibold text-foreground mb-2">Tin nhắn</h3>
+                    <p className="text-sm text-muted-foreground">Xem tin nhắn từ khách hàng</p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Card className="bg-background border-border hover:shadow-md transition-shadow cursor-pointer" onClick={() => setActiveTab("create")}>
+                <CardContent className="p-6 text-center">
+                  <Plus className="w-8 h-8 mx-auto mb-3 text-primary" />
+                  <h3 className="font-semibold text-foreground mb-2">Tạo bài viết</h3>
+                  <p className="text-sm text-muted-foreground">Viết bài viết mới</p>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           {/* Posts Management Tab */}
           <TabsContent value="posts">
             <BlogPostsList posts={posts} onPostsChange={setPosts} />
+          </TabsContent>
+
+          {/* Services Management Tab */}
+          <TabsContent value="services">
+            <Card className="bg-background border-border">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Wrench className="w-5 h-5" />
+                  <span>Quản lý dịch vụ thay pin</span>
+                </CardTitle>
+                <CardDescription>
+                  Quản lý các dịch vụ thay pin iPhone hiển thị trên trang dịch vụ
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <Wrench className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground mb-4">
+                    Quản lý dịch vụ thay pin tại trang riêng biệt
+                  </p>
+                  <Link 
+                    href="/admin/services" 
+                    className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                  >
+                    <Wrench className="w-4 h-4 mr-2" />
+                    Quản lý dịch vụ
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Battery Images Management Tab */}

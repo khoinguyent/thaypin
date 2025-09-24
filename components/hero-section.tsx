@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import ContactButton from "@/components/contact-button"
 import { Card } from "@/components/ui/card"
 import { Battery, BatteryFull, CheckCircle, Clock, Shield, Wrench } from "lucide-react"
 
@@ -59,9 +60,9 @@ export default function HeroSection() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              <ContactButton>
                 Đặt lịch thay pin ngay
-              </Button>
+              </ContactButton>
               <Button
                 size="lg"
                 variant="outline"
