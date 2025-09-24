@@ -339,7 +339,7 @@ export default function ServicesManager() {
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="title">Tên dịch vụ *</Label>
                   <Input
@@ -361,7 +361,7 @@ export default function ServicesManager() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="price_min">Giá tối thiểu (₫) *</Label>
                   <Input
@@ -414,7 +414,7 @@ export default function ServicesManager() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <Label htmlFor="option_1">Tùy chọn 1</Label>
                   <Input

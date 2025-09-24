@@ -102,7 +102,7 @@ export default function BlogPostsList({ posts, onPostsChange }: BlogPostsListPro
             {filteredPosts.map((post) => (
               <Card key={post.id} className="bg-muted/30 border-border">
                 <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2 mb-2">
                         <h3 className="font-semibold text-lg text-foreground truncate">{post.title}</h3>
@@ -146,13 +146,13 @@ export default function BlogPostsList({ posts, onPostsChange }: BlogPostsListPro
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-2 ml-4">
-                      <Button asChild size="sm" variant="outline">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-2 sm:ml-4">
+                      <Button asChild size="sm" variant="outline" className="w-full xs:w-auto sm:w-auto">
                         <Link href={`/blog/${post.slug}`} target="_blank">
                           <Eye className="w-4 h-4" />
                         </Link>
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button size="sm" variant="outline" className="w-full xs:w-auto sm:w-auto">
                         <Edit className="w-4 h-4" />
                       </Button>
                       <Button
@@ -160,7 +160,7 @@ export default function BlogPostsList({ posts, onPostsChange }: BlogPostsListPro
                         variant="outline"
                         onClick={() => handleDelete(post.id)}
                         disabled={isPending}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        className="w-full xs:w-auto sm:w-auto text-red-600 hover:text-red-700 hover:bg-red-50"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

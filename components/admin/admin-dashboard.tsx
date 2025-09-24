@@ -88,7 +88,7 @@ export default function AdminDashboard({ initialPosts }: AdminDashboardProps) {
 
       <div className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:grid-cols-6">
+          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-4 md:grid-cols-6 overflow-x-auto whitespace-nowrap">
             <TabsTrigger value="dashboard" className="flex items-center space-x-2">
               <BarChart3 className="w-4 h-4" />
               <span>Dashboard</span>
