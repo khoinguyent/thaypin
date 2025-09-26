@@ -23,6 +23,14 @@ export const metadata: Metadata = {
   description:
     "Dịch vụ thay pin iPhone chuyên nghiệp tại Việt Nam. Thay pin nhanh chóng, chất lượng cao cho tất cả các dòng iPhone.",
   generator: "v0.app",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/favicon-32x32.png",
+  },
 }
 
 export default function RootLayout({
