@@ -61,16 +61,16 @@ export default function HeroSection() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <ContactButton>
-                Đặt lịch thay pin ngay
+                Liên hệ ngay
               </ContactButton>
-              <Button
+              {/* <Button
                 size="lg"
                 variant="outline"
                 className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
                 onClick={scrollToPricing}
               >
                 Xem bảng giá
-              </Button>
+              </Button> */}
             </div>
           </div>
 

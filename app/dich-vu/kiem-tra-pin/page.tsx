@@ -100,7 +100,7 @@ export default function BatteryCheckPage() {
               <div className="space-y-6">
                 <div className="flex items-center space-x-2">
                   <Zap className="w-8 h-8 text-primary" />
-                  <Badge className="bg-green-100 text-green-800 border-green-200">Miễn phí 100%</Badge>
+                  <Badge className="bg-primary text-primary-foreground">Miễn phí 100%</Badge>
                 </div>
                 <h1 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground leading-tight">
                   Kiểm Tra Pin iPhone

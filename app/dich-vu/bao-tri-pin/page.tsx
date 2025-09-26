@@ -67,7 +67,7 @@ export default function BatteryMaintenancePage() {
               <div className="space-y-6">
                 <div className="flex items-center space-x-2">
                   <Settings className="w-8 h-8 text-primary" />
-                  <Badge className="bg-blue-100 text-blue-800 border-blue-200">Dịch vụ chuyên biệt</Badge>
+                  <Badge className="bg-primary text-primary-foreground">Dịch vụ chuyên biệt</Badge>
                 </div>
                 <h1 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground leading-tight">
                   Bảo Trì Pin iPhone
