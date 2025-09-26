@@ -13,12 +13,15 @@ export default async function BlogPage({
   searchParams: Promise<{ category?: string; search?: string }>
 }) {
   const resolvedSearchParams = await searchParams
-  
+
   const [allPosts] = await Promise.all([getBlogPosts()])
 
+  const selectedCategory = resolvedSearchParams.category?.toLowerCase().trim()
+
   const filteredPosts = allPosts.filter((post) => {
+    const postCategory = (post.category || "").toLowerCase().trim()
     const matchesCategory =
-      !resolvedSearchParams.category || resolvedSearchParams.category === "all" || post.category === resolvedSearchParams.category
+      !selectedCategory || selectedCategory === "all" || postCategory === selectedCategory
     const matchesSearch =
       !resolvedSearchParams.search ||
       post.title.toLowerCase().includes(resolvedSearchParams.search.toLowerCase()) ||
@@ -27,7 +30,16 @@ export default async function BlogPage({
     return matchesCategory && matchesSearch
   })
 
-  const categories = ["all", ...Array.from(new Set(allPosts.map((post) => post.category)))]
+  const categories = [
+    "all",
+    ...Array.from(
+      new Set(
+        allPosts
+          .map((post) => (post.category || "").toLowerCase().trim())
+          .filter((c) => c.length > 0)
+      )
+    ),
+  ]
 
   return (
     <div className="min-h-screen bg-background">
