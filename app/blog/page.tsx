@@ -3,9 +3,8 @@ import Link from "next/link"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import BlogCard from "@/components/blog-card"
-import FeaturedPosts from "@/components/featured-posts"
 import BlogSearch from "@/components/blog-search"
-import { getBlogPosts, getFeaturedPosts } from "@/lib/blog-actions"
+import { getBlogPosts } from "@/lib/blog-actions"
 import { BookOpen } from "lucide-react"
 
 export default async function BlogPage({
@@ -15,7 +14,7 @@ export default async function BlogPage({
 }) {
   const resolvedSearchParams = await searchParams
   
-  const [allPosts, featuredPosts] = await Promise.all([getBlogPosts(), getFeaturedPosts()])
+  const [allPosts] = await Promise.all([getBlogPosts()])
 
   const filteredPosts = allPosts.filter((post) => {
     const matchesCategory =
@@ -58,18 +57,7 @@ export default async function BlogPage({
           </div>
         </section>
 
-        {/* Featured Posts */}
-        {featuredPosts.length > 0 && (
-          <section className="py-16 bg-background">
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-12">
-                <h2 className="font-bold text-3xl text-foreground mb-4">Bài Viết Nổi Bật</h2>
-                <p className="text-muted-foreground text-lg">Những bài viết được đọc nhiều nhất và có giá trị cao</p>
-              </div>
-              <FeaturedPosts posts={featuredPosts} />
-            </div>
-          </section>
-        )}
+        {/* Featured Posts moved to homepage */}
 
         {/* Search and Filter */}
         <section className="py-12 bg-muted/30">
