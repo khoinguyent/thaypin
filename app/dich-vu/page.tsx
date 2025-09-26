@@ -105,7 +105,7 @@ export default function ServicesPage() {
               {services.map((service) => (
                 <Card
                   key={service.id}
-                  className={`bg-card border-border hover:shadow-lg transition-all duration-300 relative ${service.popular ? "ring-2 ring-primary" : ""}`}
+                  className={`bg-card border-border hover:shadow-lg transition-all duration-300 relative h-full flex flex-col ${service.popular ? "ring-2 ring-primary" : ""}`}
                 >
                   {service.popular && (
                     <Badge className="absolute -top-2 left-6 bg-primary text-primary-foreground">Phổ biến nhất</Badge>
@@ -126,7 +126,7 @@ export default function ServicesPage() {
                     <CardDescription className="text-muted-foreground mt-3">{service.description}</CardDescription>
                   </CardHeader>
 
-                  <CardContent className="space-y-6">
+                  <CardContent className="space-y-6 flex-1 flex flex-col">
                     {/* Service Info */}
                     <div className="grid grid-cols-3 gap-4 text-center">
                       <div className="space-y-1">
@@ -160,7 +160,7 @@ export default function ServicesPage() {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3 mt-auto">
                       <Button asChild className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground">
                         <Link href={service.id === "thay-pin" ? "/dich-vu/thay-pin#bang-gia" : `/dich-vu/${service.id}`}>Xem chi tiết</Link>
                       </Button>
