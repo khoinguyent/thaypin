@@ -1,20 +1,11 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import ContactButton from "@/components/contact-button"
 import { Card } from "@/components/ui/card"
 import { Battery, BatteryFull, CheckCircle, Clock, Shield, Wrench } from "lucide-react"
 
 export default function HeroSection() {
-  const scrollToPricing = () => {
-    const pricingSection = document.getElementById('bang-gia')
-    if (pricingSection) {
-      pricingSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
-  }
+  
 
   return (
     <section className="bg-gradient-to-br from-background to-muted py-20">
@@ -63,14 +54,7 @@ export default function HeroSection() {
               <ContactButton>
                 Liên hệ ngay
               </ContactButton>
-              {/* <Button
-                size="lg"
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
-                onClick={scrollToPricing}
-              >
-                Xem bảng giá
-              </Button> */}
+              {/* CTA button kept for future use */}
             </div>
           </div>
 

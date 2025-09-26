@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import testimonials from "@/data/testimonials.json"
 
 type Testimonial = {
