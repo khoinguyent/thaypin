@@ -8,8 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Battery, Shield, Star, Phone, Calendar } from "lucide-react"
 import BatteryImageSlider from "@/components/battery-image-slider"
 import { getBatteryImagesBySet } from "@/lib/battery-images-actions"
-import { getActiveServicesServer } from "@/lib/service-actions-server"
-import ServicesSection from "@/components/services-section"
+import PricingSection from "@/components/pricing-section"
 
 const processSteps = [
   {
@@ -37,8 +36,7 @@ const processSteps = [
 export default async function BatteryReplacementPage() {
   // Fetch battery images for the slider
   const batteryImages = await getBatteryImagesBySet('battery-images-set')
-  // Fetch active services from database
-  const services = await getActiveServicesServer()
+  // Pricing is static section; no server fetch needed here
   
   return (
     <div className="min-h-screen bg-background">
@@ -140,7 +138,7 @@ export default async function BatteryReplacementPage() {
         </section>
 
         {/* Pricing Section */}
-        <ServicesSection services={services} />
+        <PricingSection />
 
         {/* Battery Images Section */}
         <section className="py-20 bg-background">

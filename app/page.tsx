@@ -2,7 +2,6 @@ import Header from "@/components/header"
 import HeroSection from "@/components/hero-section"
 import BenefitsSection from "@/components/benefits-section"
 import ServicesSection from "@/components/services-section"
-import PricingSection from "@/components/pricing-section"
 import FeaturedPosts from "@/components/featured-posts"
 import { getFeaturedPosts } from "@/lib/blog-actions"
 import Footer from "@/components/footer"
@@ -16,7 +15,6 @@ export default async function HomePage() {
         <HeroSection />
         <BenefitsSection />
         <ServicesSection />
-        <PricingSection />
         {featuredPosts.length > 0 && (
           <section className="py-16 bg-background">
             <div className="container mx-auto px-4">
