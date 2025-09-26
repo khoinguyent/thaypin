@@ -2,6 +2,7 @@ import Header from "@/components/header"
 import HeroSection from "@/components/hero-section"
 import BenefitsSection from "@/components/benefits-section"
 import ServicesSection from "@/components/services-section"
+import TestimonialsSection from "@/components/testimonials-section"
 import FeaturedPosts from "@/components/featured-posts"
 import { getFeaturedPosts } from "@/lib/blog-actions"
 import Footer from "@/components/footer"
@@ -26,6 +27,7 @@ export default async function HomePage() {
             </div>
           </section>
         )}
+        <TestimonialsSection />
       </main>
       <Footer />
     </div>

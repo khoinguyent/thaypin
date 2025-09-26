@@ -1,0 +1,27 @@
+[
+  {
+    "id": "minh",
+    "name": "Anh Minh",
+    "location": "Quận 1, TP.HCM",
+    "rating": 5,
+    "avatarUrl": "/avatar/minh.png",
+    "quote": "Dịch vụ siêu nhanh, ngồi đợi cafe 30 phút là xong. Pin dùng trâu như lúc mới mua. Sẽ giới thiệu bạn bè."
+  },
+  {
+    "id": "lan",
+    "name": "Chị Lan",
+    "location": "Gò Vấp, TP.HCM",
+    "rating": 5,
+    "avatarUrl": "/avatar/lan.png",
+    "quote": "Nhân viên tư vấn rất nhiệt tình, giải thích rõ ràng các loại pin để chọn. Được xem trực tiếp nên rất tin tưởng."
+  },
+  {
+    "id": "thong",
+    "name": "Anh Thông",
+    "location": "Thủ Đức, TP.HCM",
+    "rating": 5,
+    "avatarUrl": "/avatar/thong.png",
+    "quote": "Giá tốt, thay nhanh, bảo hành rõ ràng. Rất hài lòng với trải nghiệm tại cửa hàng."
+  }
+]
+
