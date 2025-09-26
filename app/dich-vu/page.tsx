@@ -162,7 +162,7 @@ export default function ServicesPage() {
                     {/* Actions */}
                     <div className="flex flex-col sm:flex-row gap-3">
                       <Button asChild className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground">
-                        <Link href={`/dich-vu/${service.id}`}>Xem chi tiết</Link>
+                        <Link href={service.id === "thay-pin" ? "/dich-vu/thay-pin#bang-gia" : `/dich-vu/${service.id}`}>Xem chi tiết</Link>
                       </Button>
                       <ContactButton className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground">
                         Đặt lịch ngay
