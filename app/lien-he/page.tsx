@@ -482,20 +482,34 @@ export default function ContactPage() {
                       </div>
                     </div>
 
-                    <Button
-                      variant="outline"
-                      className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent h-12 text-base font-semibold transition-all duration-300 transform hover:scale-105"
-                      asChild
-                    >
-                      <a 
-                        href="https://maps.google.com/?q=465/32+Đường+Nguyễn+Văn+Công,+Phường+3,+Quận+Gò+Vấp,+TP.HCM"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <div className="space-y-4">
+                      <div className="w-full h-64 rounded-lg overflow-hidden border border-border">
+                        <iframe 
+                          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7837.69032481567!2d106.6682617!3d10.8231589!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752946c7a8604b%3A0x17d0b3fd55910e20!2sICFix%20Team!5e0!3m2!1svi!2s!4v1759043917416!5m2!1svi!2s" 
+                          width="100%" 
+                          height="100%" 
+                          style={{border: 0}} 
+                          allowFullScreen 
+                          loading="lazy" 
+                          referrerPolicy="no-referrer-when-downgrade"
+                          title="Vị trí cửa hàng thaypin.vn"
+                        />
+                      </div>
+                      <Button
+                        variant="outline"
+                        className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent h-12 text-base font-semibold transition-all duration-300 transform hover:scale-105"
+                        asChild
                       >
-                        <Navigation className="w-5 h-5 mr-2" />
-                        Xem bản đồ
-                      </a>
-                    </Button>
+                        <a 
+                          href="https://maps.google.com/?q=465/32+Đường+Nguyễn+Văn+Công,+Phường+3,+Quận+Gò+Vấp,+TP.HCM"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Navigation className="w-5 h-5 mr-2" />
+                          Mở Google Maps
+                        </a>
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
 
