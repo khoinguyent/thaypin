@@ -7,7 +7,7 @@ import Image from "next/image"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useToast } from "@/components/ui/toast-provider"
-import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -19,7 +19,6 @@ import {
   MessageCircle,
   Send,
   CheckCircle,
-  Calendar,
   Smartphone,
   Navigation,
   Zap,
