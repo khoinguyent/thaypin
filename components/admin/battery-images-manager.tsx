@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -457,15 +458,18 @@ export default function BatteryImagesManager() {
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
                   {/* Image Preview */}
-                  <div className="w-20 h-20 bg-muted rounded-lg overflow-hidden flex-shrink-0">
-                    <img
+                  <div className="w-20 h-20 bg-muted rounded-lg overflow-hidden flex-shrink-0 relative" data-image-id={image.id}>
+                    <Image
                       src={image.url}
                       alt={image.alt_text || image.caption}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.style.display = 'none'
-                        target.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center text-muted-foreground"><ImageIcon class="w-8 h-8" /></div>'
+                      fill
+                      className="object-cover"
+                      onError={() => {
+                        // Handle error by hiding the image
+                        const container = document.querySelector(`[data-image-id="${image.id}"]`) as HTMLElement
+                        if (container) {
+                          container.innerHTML = '<div class="w-full h-full flex items-center justify-center text-muted-foreground"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>'
+                        }
                       }}
                     />
                   </div>
@@ -529,7 +533,7 @@ export default function BatteryImagesManager() {
 
         const generatePageNumbers = () => {
           const pages = []
-          const { totalPages, startItem, endItem } = paginationInfo
+          const { totalPages } = paginationInfo
           
           // Show first page
           if (currentPage > 3) {
