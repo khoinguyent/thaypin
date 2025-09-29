@@ -3,7 +3,7 @@ import Footer from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Smartphone, Clock, Shield, CheckCircle, Star, Phone, Calendar, Wrench, Eye, Camera, Smartphone as PhoneIcon } from "lucide-react"
+import { Smartphone, Clock, Shield, CheckCircle, Star, Phone, Wrench, Eye, Camera, Smartphone as PhoneIcon } from "lucide-react"
 
 const repairServices = [
   {

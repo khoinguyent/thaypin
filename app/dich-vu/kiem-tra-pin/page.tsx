@@ -1,7 +1,6 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import ContactButton from "@/components/contact-button"
 import { Badge } from "@/components/ui/badge"
 import { Zap, AlertTriangle, Battery, Smartphone } from "lucide-react"
