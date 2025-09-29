@@ -275,40 +275,60 @@ export default function ContactPage() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {contactMethods.map((method, index) => (
-                <Card key={index} className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-white">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${method.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
-                  <CardHeader className="relative pb-6 text-center">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${method.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <method.icon className="w-8 h-8 text-white" />
+                <Card key={index} className="relative overflow-hidden border-0 shadow-lg bg-white rounded-3xl">
+                  <div className={`${method.bgColor} p-8 rounded-t-3xl`}>
+                    <div className={`w-20 h-20 bg-gradient-to-br ${method.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg`}>
+                      <method.icon className="w-10 h-10 text-white" />
                     </div>
-                    <CardTitle className="text-xl font-space-grotesk text-foreground">{method.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="relative space-y-6 flex-1 flex flex-col">
-                    <div className="space-y-4 flex-1">
-                      <div className="font-semibold text-foreground text-lg leading-relaxed">{method.value}</div>
-                      <CardDescription className="text-muted-foreground text-base leading-relaxed">{method.description}</CardDescription>
-                      
-                      {/* Tags */}
-                      <div className="flex flex-wrap justify-center gap-2">
-                        {method.tags.map((tag, tagIndex) => (
-                          <Badge key={tagIndex} variant="secondary" className="text-xs px-2 py-1 bg-slate-100 text-slate-700">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                      
-                      <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
-                        <Clock className="w-4 h-4" />
-                        <span>{method.available}</span>
-                      </div>
+                    <CardTitle className="text-2xl font-space-grotesk text-foreground text-center mb-6">{method.title}</CardTitle>
+                  </div>
+                  
+                  <CardContent className="p-8 space-y-6">
+                    {/* Phone numbers or contact info */}
+                    <div className="space-y-3">
+                      {method.title === "Điện thoại" ? (
+                        <>
+                          <a 
+                            href="tel:0969674679" 
+                            className="block text-center text-xl font-semibold text-foreground hover:text-primary transition-colors duration-200"
+                          >
+                            0969 674 679 (Thông)
+                          </a>
+                          <a 
+                            href="tel:0908693138" 
+                            className="block text-center text-xl font-semibold text-foreground hover:text-primary transition-colors duration-200"
+                          >
+                            0908 69 31 38 (Nhật Hãn)
+                          </a>
+                        </>
+                      ) : (
+                        <div className="text-center text-xl font-semibold text-foreground mb-4">{method.value}</div>
+                      )}
                     </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap justify-center gap-2">
+                      {method.tags.map((tag, tagIndex) => (
+                        <Badge key={tagIndex} variant="secondary" className="text-xs px-3 py-1 bg-slate-100 text-slate-700 rounded-full">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+
+                    {/* Availability */}
+                    <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground bg-slate-50 rounded-lg py-3">
+                      <Clock className="w-4 h-4" />
+                      <span>{method.available}</span>
+                    </div>
+
+                    {/* Call button for phone */}
                     {method.title === "Điện thoại" && (
                       <Button 
                         asChild 
-                        className={`w-full bg-gradient-to-r ${method.color} hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
+                        className={`w-full bg-gradient-to-r ${method.color} hover:opacity-90 text-white shadow-lg transition-colors duration-300`}
                         size="lg"
                       >
-                        <a href={method.action}>
+                        <a href="tel:0969674679">
                           <Phone className="w-4 h-4 mr-2" />
                           Gọi ngay
                         </a>
