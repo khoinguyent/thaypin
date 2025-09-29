@@ -247,7 +247,7 @@ export default function ContactPage() {
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {additionalFeatures.map((feature, index) => (
-                <div key={index} className="text-center p-6 bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl border border-slate-200/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div key={index} className="text-center p-6 bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl border border-slate-200/50">
                   <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <feature.icon className="w-8 h-8 text-primary" />
                   </div>
@@ -291,7 +291,7 @@ export default function ContactPage() {
                       {/* Tags */}
                       <div className="flex flex-wrap justify-center gap-2">
                         {method.tags.map((tag, tagIndex) => (
-                          <Badge key={tagIndex} variant="secondary" className="text-xs px-2 py-1 bg-slate-100 text-slate-700 hover:bg-slate-200">
+                          <Badge key={tagIndex} variant="secondary" className="text-xs px-2 py-1 bg-slate-100 text-slate-700">
                             {tag}
                           </Badge>
                         ))}
@@ -421,7 +421,7 @@ export default function ContactPage() {
                         <Button
                           type="submit"
                           disabled={isSubmitting}
-                          className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                          className="w-full bg-gradient-to-r from-primary to-primary/90 text-primary-foreground h-14 text-lg font-semibold shadow-lg transition-colors duration-300"
                           size="lg"
                         >
                           {isSubmitting ? (
@@ -525,7 +525,7 @@ export default function ContactPage() {
                   <CardContent className="p-6">
                     <div className="grid grid-cols-1 gap-3">
                       {serviceAreas.map((area, index) => (
-                        <div key={index} className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors duration-200">
+                        <div key={index} className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
                           <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
                           <span className="text-muted-foreground text-sm font-medium">{area}</span>
                         </div>
