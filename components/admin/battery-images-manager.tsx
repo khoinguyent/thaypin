@@ -249,7 +249,11 @@ export default function BatteryImagesManager() {
     }
   }
 
-  const removeSelectedFile = () => {
+  const removeSelectedFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const removeAllSelectedFiles = () => {
     setSelectedFiles([])
   }
 
