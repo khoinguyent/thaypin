@@ -20,7 +20,11 @@ import {
   Search,
   ArrowUpDown,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight
 } from 'lucide-react'
 import { 
   BatteryImage, 
@@ -41,6 +45,8 @@ export default function BatteryImagesManager() {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | 'none'>('desc')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
   const { showSuccess, showError } = useToast()
   const [formData, setFormData] = useState({
     set_name: 'battery-images-set',
@@ -292,6 +298,32 @@ export default function BatteryImagesManager() {
     return filtered
   }
 
+  // Get paginated images
+  const getPaginatedImages = () => {
+    const filteredImages = getFilteredAndSortedImages()
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return filteredImages.slice(startIndex, endIndex)
+  }
+
+  // Get pagination info
+  const getPaginationInfo = () => {
+    const filteredImages = getFilteredAndSortedImages()
+    const totalItems = filteredImages.length
+    const totalPages = Math.ceil(totalItems / itemsPerPage)
+    const startItem = (currentPage - 1) * itemsPerPage + 1
+    const endItem = Math.min(currentPage * itemsPerPage, totalItems)
+
+    return {
+      totalItems,
+      totalPages,
+      startItem,
+      endItem,
+      hasNextPage: currentPage < totalPages,
+      hasPrevPage: currentPage > 1
+    }
+  }
+
   const handleSortToggle = () => {
     if (sortOrder === 'desc') {
       setSortOrder('asc')
@@ -313,6 +345,24 @@ export default function BatteryImagesManager() {
     }
   }
 
+  // Pagination handlers
+  const goToFirstPage = () => setCurrentPage(1)
+  const goToPrevPage = () => setCurrentPage(prev => Math.max(1, prev - 1))
+  const goToNextPage = () => {
+    const { totalPages } = getPaginationInfo()
+    setCurrentPage(prev => Math.min(totalPages, prev + 1))
+  }
+  const goToLastPage = () => {
+    const { totalPages } = getPaginationInfo()
+    setCurrentPage(totalPages)
+  }
+  const goToPage = (page: number) => setCurrentPage(page)
+
+  // Reset to first page when search or sort changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, sortOrder, itemsPerPage])
+
   if (loading) {
     return <div className="text-center py-8">Đang tải...</div>
   }
@@ -325,8 +375,13 @@ export default function BatteryImagesManager() {
           <div>
             <h3 className="text-lg font-semibold">Danh sách hình ảnh pin</h3>
             <p className="text-sm text-muted-foreground">
-              Tổng cộng {images.length} hình ảnh
-              {searchTerm && ` (${getFilteredAndSortedImages().length} kết quả tìm kiếm)`}
+              {(() => {
+                const paginationInfo = getPaginationInfo()
+                if (paginationInfo.totalItems === 0) {
+                  return 'Không có hình ảnh nào'
+                }
+                return `Hiển thị ${paginationInfo.startItem}-${paginationInfo.endItem} trong tổng số ${paginationInfo.totalItems} hình ảnh`
+              })()}
             </p>
           </div>
           <Button onClick={openAddModal} className="bg-primary hover:bg-primary/90">
@@ -348,6 +403,18 @@ export default function BatteryImagesManager() {
             />
           </div>
 
+          {/* Items Per Page Selector */}
+          <select
+            value={itemsPerPage}
+            onChange={(e) => setItemsPerPage(Number(e.target.value))}
+            className="px-3 py-2 border border-border rounded-md bg-background text-foreground"
+          >
+            <option value={5}>5 / trang</option>
+            <option value={10}>10 / trang</option>
+            <option value={20}>20 / trang</option>
+            <option value={50}>50 / trang</option>
+          </select>
+
           {/* Sort Button */}
           <Button
             variant="outline"
@@ -356,8 +423,8 @@ export default function BatteryImagesManager() {
           >
             {getSortIcon()}
             <span>
-              {sortOrder === 'asc' && 'Mới nhất'}
-              {sortOrder === 'desc' && 'Cũ nhất'}
+              {sortOrder === 'asc' && 'Cũ nhất'}
+              {sortOrder === 'desc' && 'Mới nhất'}
               {sortOrder === 'none' && 'Sắp xếp'}
             </span>
           </Button>
@@ -385,7 +452,7 @@ export default function BatteryImagesManager() {
             </CardContent>
           </Card>
         ) : (
-          getFilteredAndSortedImages().map((image) => (
+          getPaginatedImages().map((image) => (
             <Card key={image.id} className="hover:shadow-md transition-shadow">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
@@ -454,6 +521,114 @@ export default function BatteryImagesManager() {
           ))
         )}
       </div>
+
+      {/* Pagination Controls */}
+      {(() => {
+        const paginationInfo = getPaginationInfo()
+        if (paginationInfo.totalPages <= 1) return null
+
+        const generatePageNumbers = () => {
+          const pages = []
+          const { totalPages, startItem, endItem } = paginationInfo
+          
+          // Show first page
+          if (currentPage > 3) {
+            pages.push(1)
+            if (currentPage > 4) pages.push('...')
+          }
+          
+          // Show pages around current page
+          const start = Math.max(1, currentPage - 2)
+          const end = Math.min(totalPages, currentPage + 2)
+          
+          for (let i = start; i <= end; i++) {
+            pages.push(i)
+          }
+          
+          // Show last page
+          if (currentPage < totalPages - 2) {
+            if (currentPage < totalPages - 3) pages.push('...')
+            pages.push(totalPages)
+          }
+          
+          return pages
+        }
+
+        return (
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-6 border-t border-border">
+            {/* Pagination Info */}
+            <div className="text-sm text-muted-foreground">
+              Hiển thị {startItem}-{endItem} trong tổng số {paginationInfo.totalItems} kết quả
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex items-center space-x-2">
+              {/* First Page */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={goToFirstPage}
+                disabled={!paginationInfo.hasPrevPage}
+                className="p-2"
+              >
+                <ChevronsLeft className="w-4 h-4" />
+              </Button>
+
+              {/* Previous Page */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={goToPrevPage}
+                disabled={!paginationInfo.hasPrevPage}
+                className="p-2"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+
+              {/* Page Numbers */}
+              <div className="flex items-center space-x-1">
+                {generatePageNumbers().map((page, index) => (
+                  page === '...' ? (
+                    <span key={index} className="px-2 py-1 text-muted-foreground">...</span>
+                  ) : (
+                    <Button
+                      key={page}
+                      variant={currentPage === page ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => goToPage(page as number)}
+                      className="w-8 h-8 p-0"
+                    >
+                      {page}
+                    </Button>
+                  )
+                ))}
+              </div>
+
+              {/* Next Page */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={goToNextPage}
+                disabled={!paginationInfo.hasNextPage}
+                className="p-2"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+
+              {/* Last Page */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={goToLastPage}
+                disabled={!paginationInfo.hasNextPage}
+                className="p-2"
+              >
+                <ChevronsRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Add/Edit Modal */}
       {showModal && (
