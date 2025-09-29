@@ -21,7 +21,7 @@ export default function TestimonialsSection() {
           <h2 className="font-space-grotesk font-bold text-3xl lg:text-4xl text-foreground mb-2">
             Khách Hàng Nói Gì Về ThayPin.vn?
           </h2>
-          <p className="text-muted-foreground">Được đánh giá 4.9/5 trên Google</p>
+          {/* <p className="text-muted-foreground">Được đánh giá 4.9/5 trên Google</p> */}
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">

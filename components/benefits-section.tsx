@@ -1,12 +1,12 @@
-import { ShieldCheck, Check, Zap, Eye } from "lucide-react"
+import { ShieldCheck, Check, Zap, Handshake } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
 const ITEMS = [
   {
-    id: "warranty",
-    icon: ShieldCheck,
-    title: "Bảo Hành 12 Tháng",
-    description: "Bảo hành dài hạn cho tất cả dịch vụ thay pin",
+    id: "fast",
+    icon: Zap,
+    title: "Thay Lấy Ngay (30')",
+    description: "Hoàn tất nhanh chóng, tiết kiệm thời gian của bạn",
   },
   {
     id: "genuine",
@@ -15,15 +15,15 @@ const ITEMS = [
     description: "Chỉ sử dụng linh kiện đạt chuẩn, nguồn gốc rõ ràng",
   },
   {
-    id: "fast",
-    icon: Zap,
-    title: "Thay Lấy Ngay (30')",
-    description: "Hoàn tất nhanh chóng, tiết kiệm thời gian của bạn",
+    id: "warranty",
+    icon: ShieldCheck,
+    title: "Bảo Hành 12 Tháng",
+    description: "Bảo hành dài hạn cho tất cả dịch vụ thay pin",
   },
   {
-    id: "watch",
-    icon: Eye,
-    title: "Xem Trực Tiếp",
+    id: "expert",
+    icon: Handshake,
+    title: "Kỹ thuật viên chuyên nghiệp",
     description: "Theo dõi toàn bộ quy trình thay pin minh bạch",
   },
 ]
