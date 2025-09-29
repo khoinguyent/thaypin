@@ -562,7 +562,7 @@ export default function BatteryImagesManager() {
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-6 border-t border-border">
             {/* Pagination Info */}
             <div className="text-sm text-muted-foreground">
-              Hiển thị {startItem}-{endItem} trong tổng số {paginationInfo.totalItems} kết quả
+              Hiển thị {paginationInfo.startItem}-{paginationInfo.endItem} trong tổng số {paginationInfo.totalItems} kết quả
             </div>
 
             {/* Pagination Controls */}
