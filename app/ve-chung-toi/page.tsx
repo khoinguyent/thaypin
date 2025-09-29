@@ -108,7 +108,7 @@ export default function AboutPage() {
                   Với hơn 8 năm kinh nghiệm trong ngành sửa chữa iPhone, thaypin.vn tự hào là địa chỉ tin cậy hàng đầu
                   cho dịch vụ thay pin iPhone tại Việt Nam.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
+                {/* <div className="flex flex-col sm:flex-row gap-4">
                   <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                     <Phone className="w-4 h-4 mr-2" />
                     Liên hệ ngay
@@ -120,7 +120,7 @@ export default function AboutPage() {
                     <Calendar className="w-4 h-4 mr-2" />
                     Đặt lịch hẹn
                   </Button>
-                </div>
+                </div> */}
               </div>
 
               <div className="relative">
@@ -245,18 +245,16 @@ export default function AboutPage() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {teamMembers.map((member, index) => (
-                <Card key={index} className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 bg-white/80 backdrop-blur-sm">
-                  {/* Hover background effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <Card key={index} className="relative overflow-hidden border-0 shadow-lg bg-white/80 backdrop-blur-sm h-full flex flex-col">
                   
                   {/* Profile image with enhanced styling */}
                   <CardHeader className="relative pb-6 text-center">
                     <div className="relative mx-auto mb-6">
-                      <div className="w-32 h-32 mx-auto overflow-hidden rounded-2xl ring-4 ring-white shadow-2xl group-hover:ring-primary/20 transition-all duration-500">
+                      <div className="w-32 h-32 mx-auto overflow-hidden rounded-2xl ring-4 ring-white shadow-2xl">
                         <img
                           src={member.image || "/placeholder.svg"}
                           alt={member.name}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                       {/* Experience badge overlay */}
@@ -271,8 +269,8 @@ export default function AboutPage() {
                     <div className="text-primary font-semibold text-lg mb-3">{member.role}</div>
                   </CardHeader>
                   
-                  <CardContent className="relative space-y-4">
-                    <CardDescription className="text-muted-foreground text-base leading-relaxed text-center">
+                  <CardContent className="relative space-y-4 flex-1 flex flex-col">
+                    <CardDescription className="text-muted-foreground text-base leading-relaxed text-center flex-1">
                       {member.description}
                     </CardDescription>
                     
@@ -326,10 +324,10 @@ export default function AboutPage() {
                     </div>
                     
                     {/* Contact button */}
-                    <div className="pt-4">
+                    <div className="pt-4 mt-auto">
                       <Button 
                         variant="outline" 
-                        className="w-full border-primary/30 text-primary hover:bg-primary hover:text-white transition-all duration-300 transform hover:scale-105"
+                        className="w-full border-primary/30 text-primary hover:bg-primary hover:text-white transition-colors duration-300"
                         size="sm"
                       >
                         <Phone className="w-4 h-4 mr-2" />
@@ -338,8 +336,6 @@ export default function AboutPage() {
                     </div>
                   </CardContent>
                   
-                  {/* Decorative corner accent */}
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 </Card>
               ))}
             </div>
