@@ -275,62 +275,65 @@ export default function ContactPage() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {contactMethods.map((method, index) => (
-                <Card key={index} className="relative overflow-hidden border-0 shadow-lg bg-white rounded-3xl">
-                  <div className={`${method.bgColor} p-8 rounded-t-3xl`}>
-                    <div className={`w-20 h-20 bg-gradient-to-br ${method.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg`}>
-                      <method.icon className="w-10 h-10 text-white" />
-                    </div>
-                    <CardTitle className="text-2xl font-space-grotesk text-foreground text-center mb-6">{method.title}</CardTitle>
-                  </div>
-                  
+                <Card key={index} className="relative border shadow-lg bg-white rounded-2xl overflow-hidden">
                   <CardContent className="p-8 space-y-6">
-                    {/* Phone numbers or contact info */}
-                    <div className="space-y-3">
-                      {method.title === "Điện thoại" ? (
-                        <>
-                          <a 
-                            href="tel:0969674679" 
-                            className="block text-center text-xl font-semibold text-foreground hover:text-primary transition-colors duration-200"
-                          >
-                            0969 674 679 (Thông)
-                          </a>
-                          <a 
-                            href="tel:0908693138" 
-                            className="block text-center text-xl font-semibold text-foreground hover:text-primary transition-colors duration-200"
-                          >
-                            0908 69 31 38 (Nhật Hãn)
-                          </a>
-                        </>
-                      ) : (
-                        <div className="text-center text-xl font-semibold text-foreground mb-4">{method.value}</div>
-                      )}
+                    {/* Top section with icon and contact info */}
+                    <div className="flex items-start space-x-4">
+                      <div className={`w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0`}>
+                        <method.icon className={`w-8 h-8 ${method.iconColor}`} />
+                      </div>
+                      
+                      <div className="flex-1 space-y-2">
+                        {method.title === "Điện thoại" ? (
+                          <>
+                            <a 
+                              href="tel:0969674679" 
+                              className="block text-lg font-semibold text-foreground hover:text-primary transition-colors duration-200"
+                            >
+                              0969 674 679 (Thông)
+                            </a>
+                            <a 
+                              href="tel:0908693138" 
+                              className="block text-lg font-semibold text-foreground hover:text-primary transition-colors duration-200"
+                            >
+                              0908 69 31 38 (Nhật Hãn)
+                            </a>
+                          </>
+                        ) : (
+                          <div className="text-lg font-semibold text-foreground">{method.value}</div>
+                        )}
+                      </div>
                     </div>
 
                     {/* Tags */}
-                    <div className="flex flex-wrap justify-center gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {method.tags.map((tag, tagIndex) => (
-                        <Badge key={tagIndex} variant="secondary" className="text-xs px-3 py-1 bg-slate-100 text-slate-700 rounded-full">
+                        <Badge key={tagIndex} variant="outline" className="text-xs px-3 py-1 border-border text-muted-foreground">
                           {tag}
                         </Badge>
                       ))}
                     </div>
 
                     {/* Availability */}
-                    <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground bg-slate-50 rounded-lg py-3">
+                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                       <Clock className="w-4 h-4" />
                       <span>{method.available}</span>
                     </div>
+
+                    {/* Description */}
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {method.description}
+                    </p>
 
                     {/* Call button for phone */}
                     {method.title === "Điện thoại" && (
                       <Button 
                         asChild 
-                        className={`w-full bg-gradient-to-r ${method.color} hover:opacity-90 text-white shadow-lg transition-colors duration-300`}
-                        size="lg"
+                        className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-300`}
                       >
                         <a href="tel:0969674679">
                           <Phone className="w-4 h-4 mr-2" />
-                          Gọi ngay
+                          Gọi trực tiếp để được tư vấn nhanh nhất
                         </a>
                       </Button>
                     )}
