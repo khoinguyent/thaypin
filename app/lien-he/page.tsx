@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import Image from "next/image"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useToast } from "@/components/ui/toast-provider"
@@ -280,7 +281,11 @@ export default function ContactPage() {
                     {/* Top section with icon and contact info */}
                     <div className="flex items-start space-x-4">
                       <div className={`w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0`}>
-                        <method.icon className={`w-8 h-8 ${method.iconColor}`} />
+                        {method.title === "Zalo" ? (
+                          <Image src="/zalo-logo.svg" alt="Zalo" width={32} height={32} className="w-8 h-8" />
+                        ) : (
+                          <method.icon className={`w-8 h-8 ${method.iconColor}`} />
+                        )}
                       </div>
                       
                       <div className="flex-1 space-y-2">
@@ -325,18 +330,7 @@ export default function ContactPage() {
                       {method.description}
                     </p>
 
-                    {/* Call button for phone */}
-                    {method.title === "Điện thoại" && (
-                      <Button 
-                        asChild 
-                        className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-300`}
-                      >
-                        <a href="tel:0969674679">
-                          <Phone className="w-4 h-4 mr-2" />
-                          Gọi trực tiếp để được tư vấn nhanh nhất
-                        </a>
-                      </Button>
-                    )}
+                    {/* No call button for phone card as requested */}
                   </CardContent>
                 </Card>
               ))}
