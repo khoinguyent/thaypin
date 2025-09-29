@@ -49,7 +49,7 @@ export default async function BatteryReplacementPage() {
               <div className="space-y-6">
                 <div className="flex items-center space-x-2">
                   <Battery className="w-8 h-8 text-primary" />
-                  <Badge className="bg-primary text-primary-foreground">Dịch vụ #1</Badge>
+                  <Badge className="bg-primary text-primary-foreground">Dịch vụ thay pin</Badge>
                 </div>
                 <h1 className="font-space-grotesk font-bold text-4xl lg:text-5xl text-foreground leading-tight">
                   Thay Pin iPhone
@@ -75,20 +75,6 @@ export default async function BatteryReplacementPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <ContactButton className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Đặt lịch ngay
-                  </ContactButton>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
-                  >
-                    <Phone className="w-4 h-4 mr-2" />
-                    Gọi tư vấn: 0969674679 - 0908693138
-                  </Button>
-                </div>
               </div>
 
               <div className="relative">

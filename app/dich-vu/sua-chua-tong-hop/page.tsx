@@ -144,20 +144,6 @@ export default function GeneralRepairPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Đặt lịch ngay
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
-                  >
-                    <Phone className="w-4 h-4 mr-2" />
-                    Gọi tư vấn: 0969 674 679
-                  </Button>
-                </div>
               </div>
 
               <div className="relative">

@@ -126,18 +126,6 @@ export default function BatteryCheckPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                    Kiểm tra ngay
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
-                  >
-                    Tìm hiểu thêm
-                  </Button>
-                </div>
               </div>
 
               <div className="relative">

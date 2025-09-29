@@ -93,18 +93,6 @@ export default function BatteryMaintenancePage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                    Đặt lịch bảo trì
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
-                  >
-                    Tư vấn miễn phí
-                  </Button>
-                </div>
               </div>
 
               <div className="relative">
