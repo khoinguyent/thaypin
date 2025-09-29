@@ -43,7 +43,7 @@ const contactMethods = [
     color: "from-blue-500 to-blue-600",
     bgColor: "bg-blue-50",
     iconColor: "text-blue-600",
-    tags: ["Hỗ trợ 24/7", "Tư vấn miễn phí", "Phản hồi nhanh"],
+    tags: ["Hỗ trợ 24/7", "Tư vấn miễn phí"],
   },
   {
     icon: MessageCircle,
@@ -55,7 +55,7 @@ const contactMethods = [
     color: "from-green-500 to-green-600",
     bgColor: "bg-green-50",
     iconColor: "text-green-600",
-    tags: ["Chat trực tiếp", "Gửi ảnh", "Phản hồi tức thì"],
+    tags: ["Chat trực tiếp", "Gửi ảnh"],
   },
   {
     icon: Navigation,
@@ -67,18 +67,18 @@ const contactMethods = [
     color: "from-purple-500 to-purple-600",
     bgColor: "bg-purple-50",
     iconColor: "text-purple-600",
-    tags: ["Kiểm tra miễn phí", "Tư vấn trực tiếp", "Bảo hành chính hãng"],
+    tags: ["Kiểm tra miễn phí", "Tư vấn trực tiếp"],
   },
 ]
 
-const serviceAreas = [
-  "Quận 1, Quận 3, Quận 5",
-  "Quận Bình Thạnh, Quận Phú Nhuận",
-  "Quận Tân Bình, Quận 10",
-  "Quận Gò Vấp, Quận 12",
-  "Thủ Đức, Quận 2, Quận 9",
-  "Các quận khác (phí di chuyển)",
-]
+// const serviceAreas = [
+//   "Quận 1, Quận 3, Quận 5",
+//   "Quận Bình Thạnh, Quận Phú Nhuận",
+//   "Quận Tân Bình, Quận 10",
+//   "Quận Gò Vấp, Quận 12",
+//   "Thủ Đức, Quận 2, Quận 9",
+//   "Các quận khác (phí di chuyển)",
+// ]
 
 const features = [
   {
@@ -531,7 +531,7 @@ export default function ContactPage() {
                 </Card>
 
                 {/* Service Areas */}
-                <Card className="bg-white border-0 shadow-xl overflow-hidden">
+                {/* <Card className="bg-white border-0 shadow-xl overflow-hidden">
                   <div className="bg-gradient-to-r from-blue-500/5 to-blue-600/10 p-6">
                     <CardTitle className="font-space-grotesk flex items-center text-xl">
                       <Calendar className="w-6 h-6 mr-3 text-blue-600" />
@@ -549,7 +549,7 @@ export default function ContactPage() {
                       ))}
                     </div>
                   </CardContent>
-                </Card>
+                </Card> */}
 
                 {/* Emergency Contact */}
                 <Card className="bg-gradient-to-br from-red-500/5 to-red-600/10 border-red-200/50 shadow-xl overflow-hidden">
