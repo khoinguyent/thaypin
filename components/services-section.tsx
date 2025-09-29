@@ -128,7 +128,7 @@ export default function ServicesSection() {
 
               <CardContent className="relative space-y-6 flex-1 flex flex-col">
                 <div className="space-y-4 flex-1">
-                  <p className="text-muted-foreground text-sm leading-relaxed text-center">
+                  <p className="text-muted-foreground text-sm leading-relaxed text-center min-h-[3rem] flex items-center justify-center">
                     {service.description}
                   </p>
                   
