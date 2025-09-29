@@ -276,8 +276,8 @@ export default function ContactPage() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {contactMethods.map((method, index) => (
-                <Card key={index} className="relative border shadow-lg bg-white rounded-2xl overflow-hidden">
-                  <CardContent className="p-8 space-y-6">
+                <Card key={index} className="relative border shadow-lg bg-white rounded-2xl overflow-hidden h-full flex flex-col">
+                  <CardContent className="p-8 space-y-6 flex-1 flex flex-col">
                     {/* Top section with icon and contact info */}
                     <div className="flex items-start space-x-4">
                       <div className={`w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0`}>
@@ -311,7 +311,7 @@ export default function ContactPage() {
                     </div>
 
                     {/* Tags */}
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 min-h-[40px] items-start">
                       {method.tags.map((tag, tagIndex) => (
                         <Badge key={tagIndex} variant="outline" className="text-xs px-3 py-1 border-border text-muted-foreground">
                           {tag}
@@ -326,7 +326,7 @@ export default function ContactPage() {
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-sm text-muted-foreground leading-relaxed min-h-[44px]">
                       {method.description}
                     </p>
 
