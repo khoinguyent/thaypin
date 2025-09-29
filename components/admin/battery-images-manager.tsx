@@ -16,7 +16,11 @@ import {
   EyeOff, 
   Image as ImageIcon,
   Upload,
-  X
+  X,
+  Search,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown
 } from 'lucide-react'
 import { 
   BatteryImage, 
@@ -35,6 +39,8 @@ export default function BatteryImagesManager() {
   const [editingImage, setEditingImage] = useState<BatteryImage | null>(null)
   const [uploading, setUploading] = useState(false)
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | 'none'>('desc')
   const { showSuccess, showError } = useToast()
   const [formData, setFormData] = useState({
     set_name: 'battery-images-set',
@@ -257,24 +263,105 @@ export default function BatteryImagesManager() {
     setSelectedFiles([])
   }
 
+  // Filter and sort images
+  const getFilteredAndSortedImages = () => {
+    let filtered = images
+
+    // Filter by search term (search in caption and alt_text)
+    if (searchTerm.trim()) {
+      filtered = images.filter(image => 
+        image.caption.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (image.alt_text && image.alt_text.toLowerCase().includes(searchTerm.toLowerCase()))
+      )
+    }
+
+    // Sort by created date
+    if (sortOrder !== 'none') {
+      filtered = [...filtered].sort((a, b) => {
+        const dateA = new Date(a.created_at || 0).getTime()
+        const dateB = new Date(b.created_at || 0).getTime()
+        
+        if (sortOrder === 'asc') {
+          return dateA - dateB
+        } else {
+          return dateB - dateA
+        }
+      })
+    }
+
+    return filtered
+  }
+
+  const handleSortToggle = () => {
+    if (sortOrder === 'desc') {
+      setSortOrder('asc')
+    } else if (sortOrder === 'asc') {
+      setSortOrder('none')
+    } else {
+      setSortOrder('desc')
+    }
+  }
+
+  const getSortIcon = () => {
+    switch (sortOrder) {
+      case 'asc':
+        return <ArrowUp className="w-4 h-4" />
+      case 'desc':
+        return <ArrowDown className="w-4 h-4" />
+      default:
+        return <ArrowUpDown className="w-4 h-4" />
+    }
+  }
+
   if (loading) {
     return <div className="text-center py-8">Đang tải...</div>
   }
 
   return (
     <div className="space-y-6">
-      {/* Header with Add Button */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-lg font-semibold">Danh sách hình ảnh pin</h3>
-          <p className="text-sm text-muted-foreground">
-            Tổng cộng {images.length} hình ảnh
-          </p>
+      {/* Header with Search, Sort, and Add Button */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <div>
+            <h3 className="text-lg font-semibold">Danh sách hình ảnh pin</h3>
+            <p className="text-sm text-muted-foreground">
+              Tổng cộng {images.length} hình ảnh
+              {searchTerm && ` (${getFilteredAndSortedImages().length} kết quả tìm kiếm)`}
+            </p>
+          </div>
+          <Button onClick={openAddModal} className="bg-primary hover:bg-primary/90">
+            <Plus className="w-4 h-4 mr-2" />
+            Thêm hình ảnh
+          </Button>
         </div>
-        <Button onClick={openAddModal} className="bg-primary hover:bg-primary/90">
-          <Plus className="w-4 h-4 mr-2" />
-          Thêm hình ảnh
-        </Button>
+
+        {/* Search and Sort Controls */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          {/* Search Input */}
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Input
+              placeholder="Tìm kiếm theo mô tả..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+
+          {/* Sort Button */}
+          <Button
+            variant="outline"
+            onClick={handleSortToggle}
+            className="flex items-center space-x-2"
+          >
+            {getSortIcon()}
+            <span>
+              {sortOrder === 'asc' && 'Mới nhất'}
+              {sortOrder === 'desc' && 'Cũ nhất'}
+              {sortOrder === 'none' && 'Sắp xếp'}
+            </span>
+          </Button>
+        </div>
       </div>
 
       {/* Images List */}
@@ -289,8 +376,16 @@ export default function BatteryImagesManager() {
               </Button>
             </CardContent>
           </Card>
+        ) : getFilteredAndSortedImages().length === 0 ? (
+          <Card>
+            <CardContent className="text-center py-8 text-muted-foreground">
+              <Search className="w-12 h-12 mx-auto mb-4 opacity-50" />
+              <p>Không tìm thấy hình ảnh nào</p>
+              <p className="text-sm mt-2">Thử thay đổi từ khóa tìm kiếm</p>
+            </CardContent>
+          </Card>
         ) : (
-          images.map((image) => (
+          getFilteredAndSortedImages().map((image) => (
             <Card key={image.id} className="hover:shadow-md transition-shadow">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
@@ -330,6 +425,8 @@ export default function BatteryImagesManager() {
                       <span>Thứ tự: {image.order_index}</span>
                       <span>•</span>
                       <span>Trạng thái: {image.is_active ? 'Hoạt động' : 'Không hoạt động'}</span>
+                      <span>•</span>
+                      <span>Tạo: {new Date(image.created_at || '').toLocaleDateString('vi-VN')}</span>
                     </div>
                   </div>
 
