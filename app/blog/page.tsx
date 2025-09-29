@@ -4,7 +4,8 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import BlogCard from "@/components/blog-card"
 import BlogSearch from "@/components/blog-search"
-import { getBlogPosts } from "@/lib/blog-actions"
+import FeaturedPostsSlider from "@/components/featured-posts-slider"
+import { getBlogPosts, getFeaturedPosts } from "@/lib/blog-actions"
 import { BookOpen } from "lucide-react"
 
 export default async function BlogPage({
@@ -14,7 +15,7 @@ export default async function BlogPage({
 }) {
   const resolvedSearchParams = await searchParams
 
-  const [allPosts] = await Promise.all([getBlogPosts()])
+  const [allPosts, featuredPosts] = await Promise.all([getBlogPosts(), getFeaturedPosts()])
 
   const selectedCategory = resolvedSearchParams.category?.toLowerCase().trim()
 
@@ -69,7 +70,10 @@ export default async function BlogPage({
           </div>
         </section>
 
-        {/* Featured Posts moved to homepage */}
+        {/* Featured Posts Slider */}
+        {featuredPosts.length > 0 && (
+          <FeaturedPostsSlider posts={featuredPosts} />
+        )}
 
         {/* Search and Filter */}
         <section className="py-12 bg-muted/30">

@@ -312,7 +312,7 @@ export async function getFeaturedPosts(): Promise<BlogPost[]> {
   const dbAvailable = await isDatabaseAvailable()
   if (!dbAvailable) {
     console.log("[v0] Database not available, returning sample featured posts")
-    return SAMPLE_BLOG_POSTS.filter((post) => post.featured)
+    return SAMPLE_BLOG_POSTS.filter((post) => post.featured).slice(0, 5)
   }
 
   const supabase = await createClient()
@@ -322,11 +322,12 @@ export async function getFeaturedPosts(): Promise<BlogPost[]> {
     .select("*")
     .eq("published", true)
     .eq("featured", true)
-    .order("created_at", { ascending: false })
+    .order("updated_at", { ascending: false })
+    .limit(5)
 
   if (error) {
     console.error("Error fetching featured posts:", error)
-    return SAMPLE_BLOG_POSTS.filter((post) => post.featured) // Return sample featured posts
+    return SAMPLE_BLOG_POSTS.filter((post) => post.featured).slice(0, 5) // Return sample featured posts
   }
 
   return data || []
