@@ -34,7 +34,7 @@ export default function BatteryImagesManager() {
   const [showModal, setShowModal] = useState(false)
   const [editingImage, setEditingImage] = useState<BatteryImage | null>(null)
   const [uploading, setUploading] = useState(false)
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const { showSuccess, showError } = useToast()
   const [formData, setFormData] = useState({
     set_name: 'battery-images-set',
@@ -68,12 +68,12 @@ export default function BatteryImagesManager() {
     try {
       let finalUrl = formData.url
       
-      // If there's a selected file, upload it first
-      if (selectedFile) {
+      // If there are selected files, upload the first one
+      if (selectedFiles.length > 0) {
         setUploading(true)
         
         const uploadFormData = new FormData()
-        uploadFormData.append('image', selectedFile)
+        uploadFormData.append('image', selectedFiles[0])
         
         const uploadResponse = await fetch('/api/upload-image?type=battery', {
           method: 'POST',
@@ -89,8 +89,8 @@ export default function BatteryImagesManager() {
         finalUrl = uploadResult.url
         setUploading(false)
         
-        // Clear the selected file after successful upload
-        setSelectedFile(null)
+        // Clear the selected files after successful upload
+        setSelectedFiles([])
       } else if (!finalUrl) {
         showError('Vui lòng chọn hình ảnh để upload')
         return
@@ -166,38 +166,55 @@ export default function BatteryImagesManager() {
       is_active: true,
       visible: true
     })
-    setSelectedFile(null)
+    setSelectedFiles([])
   }
 
   const openAddModal = () => {
     setEditingImage(null)
     resetForm()
-    setSelectedFile(null)
+    setSelectedFiles([])
     setFormData(prev => ({ ...prev, order_index: images.length }))
     setShowModal(true)
   }
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
+    const files = Array.from(event.target.files || [])
+    if (files.length === 0) return
+
+    // Validate number of files (max 10)
+    if (files.length > 10) {
+      showError('Quá nhiều file', 'Vui lòng chọn tối đa 10 file')
+      return
+    }
+
+    const validFiles: File[] = []
+    
+    for (const file of files) {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        showError('Vui lòng chọn file hình ảnh')
-        return
+        showError('Vui lòng chọn file hình ảnh', `File "${file.name}" không phải là hình ảnh`)
+        continue
       }
       
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        showError('File quá lớn', 'Vui lòng chọn file nhỏ hơn 5MB')
-        return
+        showError('File quá lớn', `File "${file.name}" quá lớn. Vui lòng chọn file nhỏ hơn 5MB`)
+        continue
       }
       
-      setSelectedFile(file)
+      validFiles.push(file)
+    }
+    
+    if (validFiles.length > 0) {
+      setSelectedFiles(validFiles)
+      if (validFiles.length !== files.length) {
+        showError('Một số file không hợp lệ', `${validFiles.length}/${files.length} file đã được chọn`)
+      }
     }
   }
 
   const handleUpload = async () => {
-    if (!selectedFile) {
+    if (selectedFiles.length === 0) {
       showError('Vui lòng chọn file để upload')
       return
     }
@@ -206,7 +223,7 @@ export default function BatteryImagesManager() {
     
     try {
       const formData = new FormData()
-      formData.append('image', selectedFile)
+      formData.append('image', selectedFiles[0])
       
       const response = await fetch('/api/upload-image?type=battery', {
         method: 'POST',
@@ -221,7 +238,7 @@ export default function BatteryImagesManager() {
       
       // Update the URL field with the uploaded image URL
       setFormData(prev => ({ ...prev, url: result.url }))
-      setSelectedFile(null)
+      setSelectedFiles([])
       
       showSuccess('Upload thành công!')
     } catch (error) {
@@ -233,7 +250,7 @@ export default function BatteryImagesManager() {
   }
 
   const removeSelectedFile = () => {
-    setSelectedFile(null)
+    setSelectedFiles([])
   }
 
   if (loading) {
@@ -372,7 +389,7 @@ export default function BatteryImagesManager() {
                     <div className="text-center space-y-2">
                       <Upload className="w-8 h-8 mx-auto text-muted-foreground" />
                       <p className="text-sm text-muted-foreground">
-                        Chọn hình ảnh từ máy tính để upload
+                        Chọn hình ảnh từ máy tính để upload (tối đa 10 file cùng lúc)
                       </p>
                       
                       {formData.url ? (
@@ -390,28 +407,45 @@ export default function BatteryImagesManager() {
                             Chọn hình ảnh khác
                           </Button>
                         </div>
-                      ) : selectedFile ? (
+                      ) : selectedFiles.length > 0 ? (
                         <div className="space-y-2">
-                          <div className="flex items-center justify-between bg-muted p-2 rounded">
-                            <span className="text-sm truncate">{selectedFile.name}</span>
+                          <div className="space-y-2">
+                            {selectedFiles.map((file, index) => (
+                              <div key={index} className="flex items-center justify-between bg-muted p-2 rounded">
+                                <span className="text-sm truncate">{file.name}</span>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => removeSelectedFile(index)}
+                                  className="text-red-600 hover:text-red-700"
+                                >
+                                  <X className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex space-x-2">
                             <Button
                               type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={removeSelectedFile}
-                              className="text-red-600 hover:text-red-700"
+                              variant="outline"
+                              onClick={removeAllSelectedFiles}
+                              className="flex-1"
                             >
-                              <X className="w-4 h-4" />
+                              Xóa tất cả
+                            </Button>
+                            <Button
+                              type="button"
+                              onClick={handleUpload}
+                              disabled={uploading}
+                              className="flex-1"
+                            >
+                              {uploading ? 'Đang upload...' : 'Upload hình ảnh đầu tiên'}
                             </Button>
                           </div>
-                          <Button
-                            type="button"
-                            onClick={handleUpload}
-                            disabled={uploading}
-                            className="w-full"
-                          >
-                            {uploading ? 'Đang upload...' : 'Upload hình ảnh'}
-                          </Button>
+                          <p className="text-xs text-muted-foreground text-center">
+                            Chỉ upload hình ảnh đầu tiên. Để upload nhiều hình, hãy thêm từng hình một.
+                          </p>
                         </div>
                       ) : (
                         <div className="space-y-2">
@@ -419,6 +453,7 @@ export default function BatteryImagesManager() {
                             ref={fileInputRef}
                             type="file"
                             accept="image/*"
+                            multiple
                             onChange={handleFileSelect}
                             className="hidden"
                           />
@@ -428,7 +463,7 @@ export default function BatteryImagesManager() {
                             className="w-full cursor-pointer"
                             onClick={() => fileInputRef.current?.click()}
                           >
-                            Chọn file
+                            Chọn file (tối đa 10)
                           </Button>
                         </div>
                       )}
