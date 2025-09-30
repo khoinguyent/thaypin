@@ -58,7 +58,6 @@ export default function ServicesManager() {
     is_active: true,
     display_order: 0
   })
-  const [newAppliedFor, setNewAppliedFor] = useState('')
   const [newOption, setNewOption] = useState('')
   const [newHighlight, setNewHighlight] = useState('')
 
@@ -152,7 +151,6 @@ export default function ServicesManager() {
       is_active: service.is_active,
       display_order: service.display_order
     })
-    setNewAppliedFor('')
     setNewOption('')
     setNewHighlight('')
     setShowModal(true)
@@ -200,7 +198,6 @@ export default function ServicesManager() {
       is_active: true,
       display_order: services.length
     })
-    setNewAppliedFor('')
     setNewOption('')
     setNewHighlight('')
   }
@@ -211,22 +208,6 @@ export default function ServicesManager() {
     setShowModal(true)
   }
 
-  const addAppliedFor = () => {
-    if (newAppliedFor.trim() && !formData.applied_for.includes(newAppliedFor.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        applied_for: [...prev.applied_for, newAppliedFor.trim()]
-      }))
-      setNewAppliedFor('')
-    }
-  }
-
-  const removeAppliedFor = (item: string) => {
-    setFormData(prev => ({
-      ...prev,
-      applied_for: prev.applied_for.filter(applied => applied !== item)
-    }))
-  }
 
   const addOption = () => {
     if (newOption.trim() && formData.options.length < 3 && !formData.options.includes(newOption.trim())) {
