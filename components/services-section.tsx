@@ -102,23 +102,23 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 pt-6">
           {services.map((service) => (
             <Card
               key={service.id}
-              className={`group relative overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-2 bg-white border-border ${
+              className={`group relative overflow-visible h-full flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-2 bg-white border-border ${
                 service.popular ? "ring-2 ring-primary shadow-lg" : ""
               }`}
             >
               {service.popular && (
-                <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground z-10 shadow-lg">
+                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground z-20 shadow-lg px-3 py-1 text-sm font-medium">
                   Phổ biến nhất
                 </Badge>
               )}
               
               <div className={`absolute inset-0 bg-gradient-to-br ${service.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
               
-              <CardHeader className="relative text-center pb-4">
+              <CardHeader className={`relative text-center pb-4 ${service.popular ? 'pt-6' : 'pt-6'}`}>
                 <div className={`w-16 h-16 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                   <service.icon className="w-8 h-8 text-white" />
                 </div>
