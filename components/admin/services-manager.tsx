@@ -482,10 +482,17 @@ export default function ServicesManager() {
                   {formData.options.map((item, index) => (
                     <Badge key={index} variant="secondary" className="flex items-center space-x-1">
                       <span>{item}</span>
-                      <X 
-                        className="w-3 h-3 cursor-pointer hover:text-red-500" 
-                        onClick={() => removeOption(item)}
-                      />
+                      <button
+                        type="button"
+                        className="ml-1 hover:text-red-500 transition-colors"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          removeOption(item)
+                        }}
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
                     </Badge>
                   ))}
                 </div>
@@ -516,10 +523,17 @@ export default function ServicesManager() {
                   {formData.highlights.map((item, index) => (
                     <Badge key={index} variant="secondary" className="flex items-center space-x-1">
                       <span>{item}</span>
-                      <X 
-                        className="w-3 h-3 cursor-pointer hover:text-red-500" 
-                        onClick={() => removeHighlight(item)}
-                      />
+                      <button
+                        type="button"
+                        className="ml-1 hover:text-red-500 transition-colors"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          removeHighlight(item)
+                        }}
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
                     </Badge>
                   ))}
                 </div>
