@@ -39,6 +39,11 @@ export default function ServicesManager() {
   const { showSuccess, showError } = useToast()
   const [formData, setFormData] = useState<CreateServiceData>({
     title: '',
+    icon: 'Battery',
+    price: 'Từ 500.000₫',
+    description: '',
+    options: ['30 phút', '12 tháng bảo hành', 'Chất lượng đảm bảo'],
+    highlights: ['Linh kiện chính hãng', 'Bảo hành 12 tháng', 'Thay trong 30 phút', 'Kiểm tra miễn phí'],
     header_tag: '',
     price_min: 0,
     price_max: 0,
@@ -54,6 +59,8 @@ export default function ServicesManager() {
     display_order: 0
   })
   const [newAppliedFor, setNewAppliedFor] = useState('')
+  const [newOption, setNewOption] = useState('')
+  const [newHighlight, setNewHighlight] = useState('')
 
   useEffect(() => {
     loadServices()
@@ -73,6 +80,28 @@ export default function ServicesManager() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validate new required fields
+    if (!formData.icon.trim()) {
+      showError('Vui lòng nhập icon cho dịch vụ')
+      return
+    }
+    if (!formData.price.trim()) {
+      showError('Vui lòng nhập giá hiển thị cho dịch vụ')
+      return
+    }
+    if (!formData.description.trim()) {
+      showError('Vui lòng nhập mô tả cho dịch vụ')
+      return
+    }
+    if (formData.options.length === 0) {
+      showError('Vui lòng thêm ít nhất 1 tùy chọn dịch vụ')
+      return
+    }
+    if (formData.highlights.length === 0) {
+      showError('Vui lòng thêm ít nhất 1 đặc điểm nổi bật')
+      return
+    }
     
     try {
       if (editingService) {
@@ -104,6 +133,11 @@ export default function ServicesManager() {
     setEditingService(service)
     setFormData({
       title: service.title,
+      icon: service.icon || 'Battery',
+      price: service.price || 'Từ 500.000₫',
+      description: service.description || '',
+      options: service.options || ['30 phút', '12 tháng bảo hành', 'Chất lượng đảm bảo'],
+      highlights: service.highlights || ['Linh kiện chính hãng', 'Bảo hành 12 tháng', 'Thay trong 30 phút', 'Kiểm tra miễn phí'],
       header_tag: service.header_tag || '',
       price_min: service.price_min,
       price_max: service.price_max,
@@ -118,6 +152,9 @@ export default function ServicesManager() {
       is_active: service.is_active,
       display_order: service.display_order
     })
+    setNewAppliedFor('')
+    setNewOption('')
+    setNewHighlight('')
     setShowModal(true)
   }
 
@@ -144,6 +181,11 @@ export default function ServicesManager() {
   const resetForm = () => {
     setFormData({
       title: '',
+      icon: 'Battery',
+      price: 'Từ 500.000₫',
+      description: '',
+      options: ['30 phút', '12 tháng bảo hành', 'Chất lượng đảm bảo'],
+      highlights: ['Linh kiện chính hãng', 'Bảo hành 12 tháng', 'Thay trong 30 phút', 'Kiểm tra miễn phí'],
       header_tag: '',
       price_min: 0,
       price_max: 0,
@@ -159,6 +201,8 @@ export default function ServicesManager() {
       display_order: services.length
     })
     setNewAppliedFor('')
+    setNewOption('')
+    setNewHighlight('')
   }
 
   const openAddModal = () => {
@@ -181,6 +225,40 @@ export default function ServicesManager() {
     setFormData(prev => ({
       ...prev,
       applied_for: prev.applied_for.filter(applied => applied !== item)
+    }))
+  }
+
+  const addOption = () => {
+    if (newOption.trim() && formData.options.length < 3 && !formData.options.includes(newOption.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        options: [...prev.options, newOption.trim()]
+      }))
+      setNewOption('')
+    }
+  }
+
+  const removeOption = (item: string) => {
+    setFormData(prev => ({
+      ...prev,
+      options: prev.options.filter(option => option !== item)
+    }))
+  }
+
+  const addHighlight = () => {
+    if (newHighlight.trim() && formData.highlights.length < 4 && !formData.highlights.includes(newHighlight.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        highlights: [...prev.highlights, newHighlight.trim()]
+      }))
+      setNewHighlight('')
+    }
+  }
+
+  const removeHighlight = (item: string) => {
+    setFormData(prev => ({
+      ...prev,
+      highlights: prev.highlights.filter(highlight => highlight !== item)
     }))
   }
 
@@ -291,9 +369,14 @@ export default function ServicesManager() {
                         )}
                       </div>
                       <div className="text-sm text-muted-foreground space-y-1">
-                        <p>Giá: {service.price_min.toLocaleString('vi-VN')}₫ - {service.price_max.toLocaleString('vi-VN')}₫</p>
-                        <p>Áp dụng cho: {service.applied_for.join(', ')}</p>
-                        <p>Thứ tự: {service.display_order}</p>
+                        <p><strong>Icon:</strong> {service.icon || 'N/A'}</p>
+                        <p><strong>Giá hiển thị:</strong> {service.price || 'N/A'}</p>
+                        <p><strong>Mô tả:</strong> {service.description ? (service.description.length > 50 ? service.description.substring(0, 50) + '...' : service.description) : 'N/A'}</p>
+                        <p><strong>Tùy chọn:</strong> {service.options ? service.options.join(', ') : 'N/A'}</p>
+                        <p><strong>Đặc điểm nổi bật:</strong> {service.highlights ? service.highlights.join(', ') : 'N/A'}</p>
+                        <p><strong>Giá:</strong> {service.price_min.toLocaleString('vi-VN')}₫ - {service.price_max.toLocaleString('vi-VN')}₫</p>
+                        <p><strong>Áp dụng cho:</strong> {service.applied_for.join(', ')}</p>
+                        <p><strong>Thứ tự:</strong> {service.display_order}</p>
                       </div>
                     </div>
                   </div>
@@ -361,6 +444,41 @@ export default function ServicesManager() {
                 </div>
               </div>
 
+              {/* New Fields */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="icon">Icon (Lucide React) *</Label>
+                  <Input
+                    id="icon"
+                    value={formData.icon}
+                    onChange={(e) => setFormData(prev => ({ ...prev, icon: e.target.value }))}
+                    placeholder="Battery, Zap, Wrench, Smartphone"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="price">Giá hiển thị *</Label>
+                  <Input
+                    id="price"
+                    value={formData.price}
+                    onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
+                    placeholder="Từ 500.000₫, Miễn phí, 200.000₫"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="description">Mô tả dịch vụ *</Label>
+                <Input
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  placeholder="Thay pin chính hãng cho tất cả các dòng iPhone..."
+                  required
+                />
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="price_min">Giá tối thiểu (₫) *</Label>
@@ -412,6 +530,74 @@ export default function ServicesManager() {
                     ))}
                   </div>
                 </div>
+              </div>
+
+              {/* Options Section (Max 3 items) */}
+              <div>
+                <Label>3 Tùy chọn dịch vụ (tối đa 3 mục) *</Label>
+                <div className="flex space-x-2 mb-2">
+                  <Input
+                    value={newOption}
+                    onChange={(e) => setNewOption(e.target.value)}
+                    placeholder="30 phút, 12 tháng bảo hành, Chất lượng đảm bảo"
+                    disabled={formData.options.length >= 3}
+                  />
+                  <Button 
+                    type="button" 
+                    onClick={addOption}
+                    disabled={formData.options.length >= 3 || !newOption.trim()}
+                  >
+                    Thêm
+                  </Button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {formData.options.map((item, index) => (
+                    <Badge key={index} variant="secondary" className="flex items-center space-x-1">
+                      <span>{item}</span>
+                      <X 
+                        className="w-3 h-3 cursor-pointer" 
+                        onClick={() => removeOption(item)}
+                      />
+                    </Badge>
+                  ))}
+                </div>
+                {formData.options.length === 0 && (
+                  <p className="text-sm text-muted-foreground mt-1">Vui lòng thêm ít nhất 1 tùy chọn</p>
+                )}
+              </div>
+
+              {/* Highlights Section (Max 4 items) */}
+              <div>
+                <Label>4 Đặc điểm nổi bật (tối đa 4 mục) *</Label>
+                <div className="flex space-x-2 mb-2">
+                  <Input
+                    value={newHighlight}
+                    onChange={(e) => setNewHighlight(e.target.value)}
+                    placeholder="Linh kiện chính hãng, Bảo hành 12 tháng, Thay trong 30 phút, Kiểm tra miễn phí"
+                    disabled={formData.highlights.length >= 4}
+                  />
+                  <Button 
+                    type="button" 
+                    onClick={addHighlight}
+                    disabled={formData.highlights.length >= 4 || !newHighlight.trim()}
+                  >
+                    Thêm
+                  </Button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {formData.highlights.map((item, index) => (
+                    <Badge key={index} variant="secondary" className="flex items-center space-x-1">
+                      <span>{item}</span>
+                      <X 
+                        className="w-3 h-3 cursor-pointer" 
+                        onClick={() => removeHighlight(item)}
+                      />
+                    </Badge>
+                  ))}
+                </div>
+                {formData.highlights.length === 0 && (
+                  <p className="text-sm text-muted-foreground mt-1">Vui lòng thêm ít nhất 1 đặc điểm nổi bật</p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

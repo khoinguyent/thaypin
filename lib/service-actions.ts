@@ -3,6 +3,11 @@ import { createClient } from '@/lib/supabase/client'
 export interface Service {
   id: number
   title: string
+  icon: string
+  price: string
+  description: string
+  options: string[] // max 3 items: time, warranty, quality
+  highlights: string[] // max 4 items: special features
   header_tag?: string
   price_min: number
   price_max: number
@@ -22,6 +27,11 @@ export interface Service {
 
 export interface CreateServiceData {
   title: string
+  icon: string
+  price: string
+  description: string
+  options: string[] // max 3 items
+  highlights: string[] // max 4 items
   header_tag?: string
   price_min: number
   price_max: number
