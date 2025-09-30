@@ -54,7 +54,7 @@ export default function ServicesManager() {
     option_2_default: true,
     option_3: 'Thay trong 30 phút',
     option_3_default: true,
-    button_text: 'Đặt lịch thay pin',
+    button_text: 'Đặt lịch ngay',
     is_active: true,
     display_order: 0
   })
@@ -148,7 +148,7 @@ export default function ServicesManager() {
       option_2_default: service.option_2_default,
       option_3: service.option_3,
       option_3_default: service.option_3_default,
-      button_text: service.button_text,
+      button_text: service.button_text || 'Đặt lịch ngay',
       is_active: service.is_active,
       display_order: service.display_order
     })
@@ -196,7 +196,7 @@ export default function ServicesManager() {
       option_2_default: true,
       option_3: 'Thay trong 30 phút',
       option_3_default: true,
-      button_text: 'Đặt lịch thay pin',
+      button_text: 'Đặt lịch ngay',
       is_active: true,
       display_order: services.length
     })
@@ -374,8 +374,6 @@ export default function ServicesManager() {
                         <p><strong>Mô tả:</strong> {service.description ? (service.description.length > 50 ? service.description.substring(0, 50) + '...' : service.description) : 'N/A'}</p>
                         <p><strong>Tùy chọn:</strong> {service.options ? service.options.join(', ') : 'N/A'}</p>
                         <p><strong>Đặc điểm nổi bật:</strong> {service.highlights ? service.highlights.join(', ') : 'N/A'}</p>
-                        <p><strong>Giá:</strong> {service.price_min.toLocaleString('vi-VN')}₫ - {service.price_max.toLocaleString('vi-VN')}₫</p>
-                        <p><strong>Áp dụng cho:</strong> {service.applied_for.join(', ')}</p>
                         <p><strong>Thứ tự:</strong> {service.display_order}</p>
                       </div>
                     </div>
@@ -479,58 +477,7 @@ export default function ServicesManager() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="price_min">Giá tối thiểu (₫) *</Label>
-                  <Input
-                    id="price_min"
-                    type="number"
-                    value={formData.price_min}
-                    onChange={(e) => setFormData(prev => ({ ...prev, price_min: parseInt(e.target.value) }))}
-                    placeholder="900000"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="price_max">Giá tối đa (₫) *</Label>
-                  <Input
-                    id="price_max"
-                    type="number"
-                    value={formData.price_max}
-                    onChange={(e) => setFormData(prev => ({ ...prev, price_max: parseInt(e.target.value) }))}
-                    placeholder="1200000"
-                    required
-                  />
-                </div>
-              </div>
 
-              <div>
-                <Label>Áp dụng cho *</Label>
-                <div className="space-y-2">
-                  <div className="flex space-x-2">
-                    <Input
-                      value={newAppliedFor}
-                      onChange={(e) => setNewAppliedFor(e.target.value)}
-                      placeholder="iPhone 15"
-                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addAppliedFor())}
-                    />
-                    <Button type="button" onClick={addAppliedFor}>
-                      Thêm
-                    </Button>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {formData.applied_for.map((item, index) => (
-                      <Badge key={index} variant="secondary" className="flex items-center space-x-1">
-                        <span>{item}</span>
-                        <X 
-                          className="w-3 h-3 cursor-pointer" 
-                          onClick={() => removeAppliedFor(item)}
-                        />
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </div>
 
               {/* Options Section (Max 3 items) */}
               <div>
@@ -555,7 +502,7 @@ export default function ServicesManager() {
                     <Badge key={index} variant="secondary" className="flex items-center space-x-1">
                       <span>{item}</span>
                       <X 
-                        className="w-3 h-3 cursor-pointer" 
+                        className="w-3 h-3 cursor-pointer hover:text-red-500" 
                         onClick={() => removeOption(item)}
                       />
                     </Badge>
@@ -589,7 +536,7 @@ export default function ServicesManager() {
                     <Badge key={index} variant="secondary" className="flex items-center space-x-1">
                       <span>{item}</span>
                       <X 
-                        className="w-3 h-3 cursor-pointer" 
+                        className="w-3 h-3 cursor-pointer hover:text-red-500" 
                         onClick={() => removeHighlight(item)}
                       />
                     </Badge>
@@ -600,45 +547,7 @@ export default function ServicesManager() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="option_1">Tùy chọn 1</Label>
-                  <Input
-                    id="option_1"
-                    value={formData.option_1}
-                    onChange={(e) => setFormData(prev => ({ ...prev, option_1: e.target.value }))}
-                    placeholder="Linh kiện chính hãng"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="option_2">Tùy chọn 2</Label>
-                  <Input
-                    id="option_2"
-                    value={formData.option_2}
-                    onChange={(e) => setFormData(prev => ({ ...prev, option_2: e.target.value }))}
-                    placeholder="Bảo hành 12 tháng"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="option_3">Tùy chọn 3</Label>
-                  <Input
-                    id="option_3"
-                    value={formData.option_3}
-                    onChange={(e) => setFormData(prev => ({ ...prev, option_3: e.target.value }))}
-                    placeholder="Thay trong 30 phút"
-                  />
-                </div>
-              </div>
 
-              <div>
-                <Label htmlFor="button_text">Text nút</Label>
-                <Input
-                  id="button_text"
-                  value={formData.button_text}
-                  onChange={(e) => setFormData(prev => ({ ...prev, button_text: e.target.value }))}
-                  placeholder="Đặt lịch thay pin"
-                />
-              </div>
 
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
