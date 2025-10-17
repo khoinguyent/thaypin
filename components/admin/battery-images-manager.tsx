@@ -767,7 +767,7 @@ export default function BatteryImagesManager() {
                             </Button>
                           </div>
                           <p className="text-xs text-muted-foreground text-center">
-                            Nhấn "Thêm" để upload tất cả {selectedFiles.length} hình ảnh đã chọn.
+                            Nhấn &quot;Thêm&quot; để upload tất cả {selectedFiles.length} hình ảnh đã chọn.
                           </p>
                         </div>
                       ) : (
