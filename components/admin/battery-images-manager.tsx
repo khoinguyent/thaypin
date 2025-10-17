@@ -25,7 +25,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
-  ChevronsRight
+  ChevronsRight,
+  Copy
 } from 'lucide-react'
 import { 
   BatteryImage, 
@@ -79,43 +80,111 @@ export default function BatteryImagesManager() {
     e.preventDefault()
     
     try {
-      let finalUrl = formData.url
-      
-      // If there are selected files, upload the first one
-      if (selectedFiles.length > 0) {
-        setUploading(true)
+      // If editing, handle single image update
+      if (editingImage) {
+        let finalUrl = formData.url
         
-        const uploadFormData = new FormData()
-        uploadFormData.append('image', selectedFiles[0])
-        
-        const uploadResponse = await fetch('/api/upload-image?type=battery', {
-          method: 'POST',
-          body: uploadFormData,
-        })
-        
-        if (!uploadResponse.ok) {
-          const errorData = await uploadResponse.json()
-          throw new Error(`Upload failed: ${errorData.details || errorData.error || 'Unknown error'}`)
+        // If there's a new file selected, upload it
+        if (selectedFiles.length > 0) {
+          setUploading(true)
+          
+          const uploadFormData = new FormData()
+          uploadFormData.append('image', selectedFiles[0])
+          
+          const uploadResponse = await fetch('/api/upload-image?type=battery', {
+            method: 'POST',
+            body: uploadFormData,
+          })
+          
+          if (!uploadResponse.ok) {
+            const errorData = await uploadResponse.json()
+            throw new Error(`Upload failed: ${errorData.details || errorData.error || 'Unknown error'}`)
+          }
+          
+          const uploadResult = await uploadResponse.json()
+          finalUrl = uploadResult.url
+          setUploading(false)
+          setSelectedFiles([])
         }
         
-        const uploadResult = await uploadResponse.json()
-        finalUrl = uploadResult.url
-        setUploading(false)
+        await updateBatteryImage(editingImage.id, { ...formData, url: finalUrl })
+        showSuccess('Hình ảnh đã được cập nhật thành công!')
         
-        // Clear the selected files after successful upload
-        setSelectedFiles([])
-      } else if (!finalUrl) {
+        // Reset form and close modal
+        setFormData({
+          set_name: 'battery-images-set',
+          url: '',
+          caption: '',
+          alt_text: '',
+          order_index: 0,
+          is_active: true,
+          visible: true
+        })
+        setShowModal(false)
+        setEditingImage(null)
+        loadImages()
+        return
+      }
+      
+      // For new images, upload all selected files
+      if (selectedFiles.length === 0) {
         showError('Vui lòng chọn hình ảnh để upload')
         return
       }
       
-      // Now insert/update in database with the final URL
-      if (editingImage) {
-        await updateBatteryImage(editingImage.id, { ...formData, url: finalUrl })
-        showSuccess('Hình ảnh đã được cập nhật thành công!')
+      setUploading(true)
+      let successCount = 0
+      let failCount = 0
+      
+      // Upload all selected files
+      for (let i = 0; i < selectedFiles.length; i++) {
+        try {
+          const file = selectedFiles[i]
+          
+          // Upload the file
+          const uploadFormData = new FormData()
+          uploadFormData.append('image', file)
+          
+          const uploadResponse = await fetch('/api/upload-image?type=battery', {
+            method: 'POST',
+            body: uploadFormData,
+          })
+          
+          if (!uploadResponse.ok) {
+            const errorData = await uploadResponse.json()
+            throw new Error(`Upload failed: ${errorData.details || errorData.error || 'Unknown error'}`)
+          }
+          
+          const uploadResult = await uploadResponse.json()
+          
+          // Create database entry for this image
+          await createBatteryImage({
+            set_name: formData.set_name,
+            url: uploadResult.url,
+            caption: formData.caption || file.name.replace(/\.[^/.]+$/, ''),
+            alt_text: formData.alt_text || file.name.replace(/\.[^/.]+$/, ''),
+            order_index: formData.order_index + i,
+            is_active: formData.is_active,
+            visible: formData.visible
+          })
+          
+          successCount++
+        } catch (error) {
+          console.error(`Error uploading file ${selectedFiles[i].name}:`, error)
+          failCount++
+        }
+      }
+      
+      setUploading(false)
+      setSelectedFiles([])
+      
+      // Show result message
+      if (successCount > 0 && failCount === 0) {
+        showSuccess(`Đã thêm thành công ${successCount} hình ảnh!`)
+      } else if (successCount > 0 && failCount > 0) {
+        showError(`Đã thêm ${successCount} hình ảnh, ${failCount} hình ảnh thất bại`)
       } else {
-        await createBatteryImage({ ...formData, url: finalUrl })
-        showSuccess('Hình ảnh đã được thêm thành công!')
+        showError('Không thể upload hình ảnh', 'Vui lòng thử lại sau.')
       }
       
       // Reset form and close modal
@@ -129,7 +198,6 @@ export default function BatteryImagesManager() {
         visible: true
       })
       setShowModal(false)
-      setEditingImage(null)
       
       // Refresh the list
       loadImages()
@@ -226,48 +294,22 @@ export default function BatteryImagesManager() {
     }
   }
 
-  const handleUpload = async () => {
-    if (selectedFiles.length === 0) {
-      showError('Vui lòng chọn file để upload')
-      return
-    }
-
-    setUploading(true)
-    
-    try {
-      const formData = new FormData()
-      formData.append('image', selectedFiles[0])
-      
-      const response = await fetch('/api/upload-image?type=battery', {
-        method: 'POST',
-        body: formData,
-      })
-      
-      if (!response.ok) {
-        throw new Error('Upload failed')
-      }
-      
-      const result = await response.json()
-      
-      // Update the URL field with the uploaded image URL
-      setFormData(prev => ({ ...prev, url: result.url }))
-      setSelectedFiles([])
-      
-      showSuccess('Upload thành công!')
-    } catch (error) {
-      console.error('Upload error:', error)
-      showError('Upload thất bại', 'Vui lòng thử lại.')
-    } finally {
-      setUploading(false)
-    }
-  }
-
   const removeSelectedFile = (index: number) => {
     setSelectedFiles(prev => prev.filter((_, i) => i !== index))
   }
 
   const removeAllSelectedFiles = () => {
     setSelectedFiles([])
+  }
+
+  const copyImageUrl = async (url: string) => {
+    try {
+      await navigator.clipboard.writeText(url)
+      showSuccess('Đã copy URL hình ảnh!')
+    } catch (error) {
+      console.error('Failed to copy URL:', error)
+      showError('Không thể copy URL', 'Vui lòng thử lại.')
+    }
   }
 
   // Filter and sort images
@@ -506,6 +548,15 @@ export default function BatteryImagesManager() {
                     <Button
                       variant="outline"
                       size="sm"
+                      onClick={() => copyImageUrl(image.url)}
+                      className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                      title="Copy URL"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
                       onClick={() => handleEdit(image)}
                     >
                       <Edit className="w-4 h-4" />
@@ -714,17 +765,9 @@ export default function BatteryImagesManager() {
                             >
                               Xóa tất cả
                             </Button>
-                            <Button
-                              type="button"
-                              onClick={handleUpload}
-                              disabled={uploading}
-                              className="flex-1"
-                            >
-                              {uploading ? 'Đang upload...' : 'Upload hình ảnh đầu tiên'}
-                            </Button>
                           </div>
                           <p className="text-xs text-muted-foreground text-center">
-                            Chỉ upload hình ảnh đầu tiên. Để upload nhiều hình, hãy thêm từng hình một.
+                            Nhấn "Thêm" để upload tất cả {selectedFiles.length} hình ảnh đã chọn.
                           </p>
                         </div>
                       ) : (
@@ -759,8 +802,13 @@ export default function BatteryImagesManager() {
                   value={formData.caption}
                   onChange={(e) => setFormData(prev => ({ ...prev, caption: e.target.value }))}
                   placeholder="iPhone 15 Series - Pin Li-ion 3.87V 3349mAh"
-                  required
+                  required={!editingImage && selectedFiles.length === 0}
                 />
+                {!editingImage && selectedFiles.length > 1 && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Nếu để trống, sẽ tự động dùng tên file làm chú thích
+                  </p>
+                )}
               </div>
 
               <div>
@@ -771,6 +819,11 @@ export default function BatteryImagesManager() {
                   onChange={(e) => setFormData(prev => ({ ...prev, alt_text: e.target.value }))}
                   placeholder="iPhone 15 battery replacement"
                 />
+                {!editingImage && selectedFiles.length > 1 && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Nếu để trống, sẽ tự động dùng tên file làm alt text
+                  </p>
+                )}
               </div>
 
               <div>
@@ -814,11 +867,14 @@ export default function BatteryImagesManager() {
                     setEditingImage(null)
                     resetForm()
                   }}
+                  disabled={uploading}
                 >
                   Hủy
                 </Button>
-                <Button type="submit" className="bg-primary hover:bg-primary/90">
-                  {editingImage ? 'Cập nhật' : 'Thêm'}
+                <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={uploading}>
+                  {uploading 
+                    ? (editingImage ? 'Đang cập nhật...' : `Đang upload...`)
+                    : (editingImage ? 'Cập nhật' : `Thêm ${selectedFiles.length > 0 ? `(${selectedFiles.length} hình)` : ''}`)}
                 </Button>
               </div>
             </form>
